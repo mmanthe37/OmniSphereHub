@@ -5,13 +5,19 @@ import {
   cryptoPrices, 
   stakingPools, 
   aiTrades,
+  nftCollections,
+  contentStats,
+  creatorBadges,
   type User, 
   type InsertUser,
   type SocialPost,
   type PortfolioData,
   type CryptoPrice,
   type StakingPool,
-  type AITrade
+  type AITrade,
+  type NFTCollection,
+  type ContentStats,
+  type CreatorBadge
 } from "@shared/schema";
 
 export interface IStorage {
@@ -24,6 +30,9 @@ export interface IStorage {
   getStakingPools(): Promise<StakingPool[]>;
   getAITrades(): Promise<AITrade[]>;
   updateCryptoPrice(symbol: string, price: number, change24h: number): Promise<void>;
+  getNFTCollections(): Promise<NFTCollection[]>;
+  getContentStats(userId: number): Promise<ContentStats | undefined>;
+  getCreatorBadges(userId: number): Promise<CreatorBadge[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -33,9 +42,14 @@ export class MemStorage implements IStorage {
   private cryptoPrices: Map<string, CryptoPrice>;
   private stakingPools: Map<number, StakingPool>;
   private aiTrades: Map<number, AITrade>;
+  private nftCollections: Map<number, NFTCollection>;
+  private contentStats: Map<number, ContentStats>;
+  private creatorBadges: Map<number, CreatorBadge[]>;
   private currentId: number;
   private currentPostId: number;
   private currentTradeId: number;
+  private currentNFTId: number;
+  private currentBadgeId: number;
 
   constructor() {
     this.users = new Map();
@@ -44,9 +58,14 @@ export class MemStorage implements IStorage {
     this.cryptoPrices = new Map();
     this.stakingPools = new Map();
     this.aiTrades = new Map();
+    this.nftCollections = new Map();
+    this.contentStats = new Map();
+    this.creatorBadges = new Map();
     this.currentId = 1;
     this.currentPostId = 1;
     this.currentTradeId = 1;
+    this.currentNFTId = 1;
+    this.currentBadgeId = 1;
     this.initializeMockData();
   }
 
@@ -125,6 +144,37 @@ export class MemStorage implements IStorage {
       { id: 3, pair: "BTC/USDT", strategy: "Momentum Trading", profit: -234.56, status: "completed", createdAt: new Date(Date.now() - 60 * 60 * 1000) },
     ];
     mockTrades.forEach(trade => this.aiTrades.set(trade.id, trade));
+
+    // Initialize mock NFT collections
+    const mockNFTs: NFTCollection[] = [
+      { id: 1, name: "Bored Ape Yacht Club", symbol: "BAYC", floorPrice: 28.5, volume24h: 2847.32, change24h: 5.2, totalSupply: 10000, owners: 6547, imageUrl: "https://images.unsplash.com/photo-1635322966219-b75ed372eb01?ixlib=rb-4.0.3&w=150&h=150", updatedAt: new Date() },
+      { id: 2, name: "CryptoPunks", symbol: "PUNKS", floorPrice: 65.8, volume24h: 1923.45, change24h: -2.1, totalSupply: 10000, owners: 3482, imageUrl: "https://images.unsplash.com/photo-1620321023374-d1a68fbc720d?ixlib=rb-4.0.3&w=150&h=150", updatedAt: new Date() },
+      { id: 3, name: "Azuki", symbol: "AZUKI", floorPrice: 12.3, volume24h: 3456.78, change24h: 8.7, totalSupply: 10000, owners: 5234, imageUrl: "https://images.unsplash.com/photo-1634736797842-8d692e5cb73e?ixlib=rb-4.0.3&w=150&h=150", updatedAt: new Date() },
+      { id: 4, name: "Doodles", symbol: "DOODLES", floorPrice: 8.7, volume24h: 1234.56, change24h: 12.4, totalSupply: 10000, owners: 4567, imageUrl: "https://images.unsplash.com/photo-1636955816868-fcb881e57954?ixlib=rb-4.0.3&w=150&h=150", updatedAt: new Date() },
+    ];
+    mockNFTs.forEach(nft => this.nftCollections.set(nft.id, nft));
+
+    // Initialize mock content stats
+    const mockContentStats: ContentStats = {
+      id: 1,
+      userId: 1,
+      totalPosts: 247,
+      totalLikes: 18943,
+      totalFollowers: 5847,
+      totalViews: 247892,
+      monthlyEarnings: 3247.89,
+      contentRating: 4.8,
+      updatedAt: new Date(),
+    };
+    this.contentStats.set(1, mockContentStats);
+
+    // Initialize mock creator badges
+    const mockBadges: CreatorBadge[] = [
+      { id: 1, userId: 1, badgeType: "engagement", badgeName: "Community Leader", description: "Gained 1000+ followers in a month", earnedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+      { id: 2, userId: 1, badgeType: "content", badgeName: "Viral Creator", description: "Post reached 50k+ views", earnedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000) },
+      { id: 3, userId: 1, badgeType: "trading", badgeName: "Alpha Caller", description: "Trading signals with 80%+ accuracy", earnedAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000) },
+    ];
+    this.creatorBadges.set(1, mockBadges);
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -142,6 +192,8 @@ export class MemStorage implements IStorage {
     const user: User = { 
       ...insertUser, 
       id,
+      tier: insertUser.tier || "Beginner",
+      avatar: insertUser.avatar || null,
       createdAt: new Date(),
     };
     this.users.set(id, user);

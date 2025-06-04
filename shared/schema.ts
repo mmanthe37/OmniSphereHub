@@ -64,6 +64,40 @@ export const aiTrades = pgTable("ai_trades", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const nftCollections = pgTable("nft_collections", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  symbol: text("symbol").notNull(),
+  floorPrice: real("floor_price").notNull(),
+  volume24h: real("volume_24h").notNull(),
+  change24h: real("change_24h").notNull(),
+  totalSupply: integer("total_supply").notNull(),
+  owners: integer("owners").notNull(),
+  imageUrl: text("image_url"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const contentStats = pgTable("content_stats", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  totalPosts: integer("total_posts").default(0),
+  totalLikes: integer("total_likes").default(0),
+  totalFollowers: integer("total_followers").default(0),
+  totalViews: integer("total_views").default(0),
+  monthlyEarnings: real("monthly_earnings").default(0),
+  contentRating: real("content_rating").default(0),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const creatorBadges = pgTable("creator_badges", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  badgeType: text("badge_type").notNull(),
+  badgeName: text("badge_name").notNull(),
+  description: text("description").notNull(),
+  earnedAt: timestamp("earned_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -92,3 +126,6 @@ export type PortfolioData = typeof portfolioData.$inferSelect;
 export type CryptoPrice = typeof cryptoPrices.$inferSelect;
 export type StakingPool = typeof stakingPools.$inferSelect;
 export type AITrade = typeof aiTrades.$inferSelect;
+export type NFTCollection = typeof nftCollections.$inferSelect;
+export type ContentStats = typeof contentStats.$inferSelect;
+export type CreatorBadge = typeof creatorBadges.$inferSelect;
