@@ -166,6 +166,42 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
 
   return (
     <div className="space-y-8">
+      {/* OmniSphere Banner */}
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900 border border-purple-500/30">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-cyan-500/20 to-purple-600/20 animate-pulse"></div>
+        <div className="relative p-8 text-center">
+          <div className="flex items-center justify-center mb-4">
+            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center mr-4">
+              <Star className="w-6 h-6 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold font-orbitron bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent">
+              OmniSphere
+            </h1>
+          </div>
+          <p className="text-lg text-gray-300 font-inter mb-6 max-w-2xl mx-auto">
+            The Ultimate Web3 Ecosystem - Unifying SocialFi, Trading, AI Analytics, and Staking in One Platform
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <div className="flex items-center px-3 py-1 bg-purple-500/20 rounded-full">
+              <Wallet className="w-4 h-4 mr-2 text-purple-400" />
+              <span className="text-purple-200">Portfolio Management</span>
+            </div>
+            <div className="flex items-center px-3 py-1 bg-cyan-500/20 rounded-full">
+              <TrendingUp className="w-4 h-4 mr-2 text-cyan-400" />
+              <span className="text-cyan-200">Advanced Trading</span>
+            </div>
+            <div className="flex items-center px-3 py-1 bg-green-500/20 rounded-full">
+              <Bot className="w-4 h-4 mr-2 text-green-400" />
+              <span className="text-green-200">AI Analytics</span>
+            </div>
+            <div className="flex items-center px-3 py-1 bg-pink-500/20 rounded-full">
+              <Star className="w-4 h-4 mr-2 text-pink-400" />
+              <span className="text-pink-200">Creator Economy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Enhanced Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 group cursor-pointer" onClick={handlePortfolioCardClick}>
@@ -199,7 +235,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-900/20 to-emerald-900/20 border-green-500/30 hover:border-green-400/50 transition-all duration-300">
+        <Card className="bg-gradient-to-br from-green-900/20 to-emerald-900/20 border-green-500/30 hover:border-green-400/50 transition-all duration-300 cursor-pointer" onClick={handlePnLCardClick}>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -216,7 +252,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-purple-500/30 hover:border-purple-400/50 transition-all duration-300">
+        <Card className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 cursor-pointer" onClick={handleStakingCardClick}>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -233,7 +269,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-cyan-900/20 to-teal-900/20 border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300">
+        <Card className="bg-gradient-to-br from-cyan-900/20 to-teal-900/20 border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300 cursor-pointer" onClick={handleContentCardClick}>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
