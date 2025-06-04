@@ -14,6 +14,7 @@ const breadcrumbMap: Record<TabType, { label: string; parent?: TabType }> = {
   nfts: { label: "NFT Market", parent: "trading" },
   aibot: { label: "AI Bot", parent: "dashboard" },
   staking: { label: "Staking", parent: "dashboard" },
+  wallet: { label: "Wallet", parent: "dashboard" },
   learn: { label: "Learn", parent: "dashboard" },
 };
 
@@ -21,6 +22,12 @@ export function Breadcrumb({ activeTab, onNavigate }: BreadcrumbProps) {
   const buildBreadcrumbs = (tab: TabType): Array<{ tab: TabType; label: string }> => {
     const current = breadcrumbMap[tab];
     const breadcrumbs: Array<{ tab: TabType; label: string }> = [];
+    
+    if (!current) {
+      // Fallback for undefined tabs
+      breadcrumbs.push({ tab, label: tab.charAt(0).toUpperCase() + tab.slice(1) });
+      return breadcrumbs;
+    }
     
     if (current.parent) {
       breadcrumbs.push(...buildBreadcrumbs(current.parent));
