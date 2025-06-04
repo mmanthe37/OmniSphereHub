@@ -7,7 +7,7 @@ import { SocialFiContent } from "@/components/SocialFiContent";
 import { AIBotContent } from "@/components/AIBotContent";
 import { NFTCreatorHub } from "@/components/NFTCreatorHub";
 import { OmniTradeHub } from "@/components/OmniTradeHub";
-import { DeFiDappHub } from "@/components/DeFiDappHub";
+import { OmniLearnHub } from "@/components/OmniLearnHub";
 import { StakingContent } from "@/components/StakingContent";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
@@ -69,7 +69,7 @@ export default function Dashboard() {
       case 'creator':
         return <NFTCreatorHub />;
       case 'learn':
-        return <DeFiDappHub />;
+        return <OmniLearnHub />;
       default:
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
     }

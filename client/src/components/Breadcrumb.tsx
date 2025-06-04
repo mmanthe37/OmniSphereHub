@@ -40,7 +40,7 @@ export function Breadcrumb({ activeTab, onNavigate }: BreadcrumbProps) {
   return (
     <nav className="flex items-center space-x-2 text-sm font-inter mb-4">
       <button
-        onClick={() => onNavigate("dashboard")}
+        onClick={() => onNavigate("sphere")}
         className="flex items-center text-gray-400 hover:text-white transition-colors"
       >
         <Home className="w-4 h-4" />
