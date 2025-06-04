@@ -46,7 +46,7 @@ export function useWebSocket(url: string) {
     };
 
     return () => {
-      if (ws.current) {
+      if (ws.current && ws.current.readyState === WebSocket.OPEN) {
         ws.current.close();
       }
     };

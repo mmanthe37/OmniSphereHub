@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
-import { Wallet, TrendingUp, Coins, Bot, Star, Image, ArrowUp, ArrowDown } from "lucide-react";
+import { Wallet, TrendingUp, TrendingDown, Coins, Bot, Star, Image, DollarSign, ArrowUp, ArrowDown } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { formatDistanceToNow } from "date-fns";
 import type { CryptoPrice, PortfolioData } from "@/types";
@@ -97,7 +97,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
                 <p className="text-neon-green text-sm">Active trades: 12</p>
               </div>
               <div className="w-12 h-12 bg-neon-green bg-opacity-20 rounded-full flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-neon-green" />
+                <DollarSign className="w-6 h-6 text-neon-green" />
               </div>
             </div>
           </CardContent>
