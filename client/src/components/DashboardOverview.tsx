@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Wallet, TrendingUp, TrendingDown, Coins, Bot, Star, Image, DollarSign, ArrowUp, ArrowDown, Eye, ExternalLink, Zap, Activity, Layers, RefreshCw } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from "recharts";
-import { formatDistanceToNow } from "date-fns";
+import { Wallet, TrendingUp, TrendingDown, Coins, Bot, Star, DollarSign, ArrowUp, Eye, ExternalLink, Layers, RefreshCw, Activity } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import type { CryptoPrice, PortfolioData } from "@/types";
 
 interface DashboardOverviewProps {
@@ -119,7 +118,6 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
   };
 
   const handleRefreshPortfolio = () => {
-    // This would trigger a portfolio refresh in a real implementation
     console.log('Refreshing portfolio...');
   };
 
