@@ -9,6 +9,7 @@ import { TradingContent } from "@/components/TradingContent";
 import { NFTContent } from "@/components/NFTContent";
 import { AIBotContent } from "@/components/AIBotContent";
 import { StakingContent } from "@/components/StakingContent";
+import { LearnContent } from "@/components/LearnContent";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import type { TabType, User, CryptoPrice } from "@/types";
 

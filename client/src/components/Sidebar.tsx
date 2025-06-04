@@ -7,6 +7,7 @@ import {
   Coins,
   Image,
   Star,
+  GraduationCap,
   Circle
 } from "lucide-react";
 import type { TabType } from "@/types";
@@ -26,6 +27,7 @@ const navigationItems = [
   { id: 'nfts' as TabType, label: 'NFT Market', icon: Image, color: 'text-neon-purple' },
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot, color: 'text-neon-cyan' },
   { id: 'staking' as TabType, label: 'Staking', icon: Coins, color: 'text-neon-green' },
+  { id: 'learn' as TabType, label: 'Learn (Crypto/DeFi School 🎓)', icon: GraduationCap, color: 'text-neon-purple' },
 ];
 
 export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
