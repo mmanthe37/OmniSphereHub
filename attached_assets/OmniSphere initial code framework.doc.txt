@@ -1,0 +1,331 @@
+
+OmniSphere Project Structure
+
+Frontend Structure
+Sample Code for Frontend Structure:
+	⁃	/omniSphere/frontEnd/src/index.js
+├── /omniFi          # Frontend for OmniFi Hub
+│   ├── /src
+│   │   ├── /components  # React components
+│   │   ├── /pages       # Page views for different routes
+│   │   ├── /styles      # CSS or styling files
+│   │   ├── /services    # API services for backend interaction
+│   │   └── App.js       # Main app file
+│   ├── package.json     # Dependencies and scripts
+│   └── .env             # Environment variables
+│
+├── /omniTrade         # Frontend for OmniTrade Hub
+│   ├── /src
+│   │   ├── /components
+│   │   ├── /pages
+│   │   ├── /styles
+│   │   ├── /services
+│   │   └── App.js
+│   ├── package.json
+│   └── .env
+│
+├── /omniAgent         # Frontend for OmniAgent
+│   ├── /src
+│   │   ├── /components
+│   │   ├── /pages
+│   │   ├── /styles
+│   │   ├── /services
+│   │   └── App.js
+│   ├── package.json
+│   └── .env
+│
+├── /omniPool          # Frontend for OmniPool
+│   ├── /src
+│   │   ├── /components
+│   │   ├── /pages
+│   │   ├── /styles
+│   │   ├── /services
+│   │   └── App.js
+│   ├── package.json
+│   └── .env
+│
+├── /backend           # Common backend services
+│   ├── /src
+│   │   ├── /controllers     # API controller logic
+│   │   ├── /models          # Mongoose models for MongoDB
+│   │   ├── /routes          # API endpoint routes
+│   │   ├── /services        # Business logic services
+│   │   ├── index.js         # Entry point for the server
+│   ├── package.json
+│   └── .env
+│
+├── /docs                # Documentation for developers
+│   ├── api_spec.md       # Documentation for API endpoints
+│   ├── setup.md          # Setup instructions
+│   └── architecture.md    # System architecture overview
+└── README.md            # Main project overview
+
+Sample code snippets:
+OmniFi Sample Code:
+	⁃	/omniFi/src/services/apiService.js
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+export const fetchContent = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/content`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch content:", error);
+        throw error;
+    }
+};
+
+export const createNFT = async (nftData) => {
+    try {
+        const response = await axios.post(`${API_URL}/nft`, nftData);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to create NFT:", error);
+        throw error;
+    }
+};
+
+	⁃	/omniFi/src/app.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import CreateNFTPage from './pages/CreateNFTPage';
+
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact component={HomePage} />
+                <Route path="/create-nft" component={CreateNFTPage} />
+            </Switch>
+        </Router>
+    );
+}
+
+export default App;
+
+Sample Code for OmniTrade:
+
+	⁃	/omniTrade/src/services/tradeService.je
+
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+export const getMarketData = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/market`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching market data:", error);
+        throw error;
+    }
+};
+
+export const executeTrade = async (tradeDetails) => {
+    try {
+        const response = await axios.post(`${API_URL}/trade`, tradeDetails);
+        return response.data;
+    } catch (error) {
+        console.error("Trade execution failed:", error);
+        throw error;
+    }
+};
+	⁃	/omniTrade/src/App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import MarketPage from './pages/MarketPage';
+import TradePage from './pages/TradePage';
+
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact component={MarketPage} />
+                <Route path="/trade" component={TradePage} />
+            </Switch>
+        </Router>
+    );
+}
+
+export default App;
+
+Sample Code for OmniAgent:
+	⁃	/omniAgent/src/services/agentService.js
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+export const fetchStrategies = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/strategies`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch trading strategies:", error);
+        throw error;
+    }
+};
+
+export const runAgent = async (strategyId) => {
+    try {
+        const response = await axios.post(`${API_URL}/agent/run`, { strategyId });
+        return response.data;
+    } catch (error) {
+        console.error("Running agent failed:", error);
+        throw error;
+    }
+};
+	⁃	/omniTrade/src/App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import MarketPage from './pages/MarketPage';
+import TradePage from './pages/TradePage';
+
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact component={MarketPage} />
+                <Route path="/trade" component={TradePage} />
+            </Switch>
+        </Router>
+    );
+}
+
+export default App;
+
+Sample Code for OmniAgent:
+	⁃	/omni/src/services/agentService.js
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+export const fetchStrategies = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/strategies`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch trading strategies:", error);
+        throw error;
+    }
+};
+
+export const runAgent = async (strategyId) => {
+    try {
+        const response = await axios.post(`${API_URL}/agent/run`, { strategyId });
+        return response.data;
+    } catch (error) {
+        console.error("Running agent failed:", error);
+        throw error;
+    }
+};
+	⁃	/omniAgent/src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import AgentDashboard from './pages/AgentDashboard';
+
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact component={AgentDashboard} />
+            </Switch>
+        </Router>
+    );
+}
+
+export default App;
+
+Sample Code for OmniPool:
+	⁃	/omniPool/src/services/poolService.js
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+export const fetchPools = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/pools`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to fetch liquidity pools:", error);
+        throw error;
+    }
+};
+
+export const stakeTokens = async (stakeData) => {
+    try {
+        const response = await axios.post(`${API_URL}/pool/stake`, stakeData);
+        return response.data;
+    } catch (error) {
+        console.error("Staking failed:", error);
+        throw error;
+    }
+};
+
+	⁃	/omniPool/src/App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import PoolDashboard from './pages/PoolDashboard';
+
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/" exact component={PoolDashboard} />
+            </Switch>
+        </Router>
+    );
+}
+
+export default App;
+
+Backend Structure:
+Sample Code for Backend Structure:
+	⁃	/backEnd/src/index.js
+
+import express from 'express';
+import mongoose from 'mongoose';
+import { json } from 'body-parser';
+import routes from './routes';
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(json());
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Routes
+app.use('/api', routes);
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+Sample Code for API Routing:
+	⁃	/backend/src/routes/index.js
+
+import { Router } from 'express';
+import contentRoutes from './contentRoutes';
+import tradeRoutes from './tradeRoutes';
+import poolRoutes from './poolRoutes';
+import agentRoutes from './agentRoutes';
+
+const router = Router();
+
+router.use('/content', contentRoutes);
+router.use('/trade', tradeRoutes);
+router.use('/pool', poolRoutes);
+router.use('/agent', agentRoutes);
+
+export default router;
+
