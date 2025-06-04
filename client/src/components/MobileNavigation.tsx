@@ -9,6 +9,7 @@ import {
   Image,
   Star,
   GraduationCap,
+  Wallet,
   Menu,
   X
 } from "lucide-react";
@@ -27,6 +28,7 @@ const navigationItems = [
   { id: 'nfts' as TabType, label: 'NFTs', icon: Image },
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot },
   { id: 'staking' as TabType, label: 'Staking', icon: Coins },
+  { id: 'wallet' as TabType, label: 'Wallet', icon: Wallet },
   { id: 'learn' as TabType, label: 'Learn', icon: GraduationCap },
 ];
 

@@ -72,6 +72,8 @@ export default function Dashboard() {
         return <AIBotContent />;
       case 'staking':
         return <StakingContent />;
+      case 'wallet':
+        return <WalletDashboard />;
       case 'learn':
         return <LearnContent />;
       default:
