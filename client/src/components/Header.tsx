@@ -27,7 +27,7 @@ export function Header({ activeTab, user }: HeaderProps) {
 
   return (
     <>
-      <header className="bg-gradient-to-r from-gray-700 via-gray-600 to-purple-700 border-b border-purple-500/30 p-4 shadow-lg">
+      <header className="bg-gradient-to-r from-gray-800 to-purple-900 border-b border-purple-500/30 p-4 shadow-lg">
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold font-orbitron bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent tracking-tight">{title}</h2>
