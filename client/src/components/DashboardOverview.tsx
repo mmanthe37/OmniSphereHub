@@ -113,8 +113,8 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
                 </p>
                 <p className="text-neon-purple text-sm">APY: 18.5%</p>
               </div>
-              <div className="w-12 h-12 bg-neon-purple bg-opacity-20 rounded-full flex items-center justify-center">
-                <Coins className="w-6 h-6 text-neon-purple" />
+              <div className="w-12 h-12 bg-purple-500 bg-opacity-20 rounded-full flex items-center justify-center">
+                <Coins className="w-6 h-6 text-purple-400" />
               </div>
             </div>
           </CardContent>
@@ -125,11 +125,11 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-text-secondary text-sm">Content Earnings</p>
-                <p className="text-2xl font-bold font-mono text-neon-cyan">$3,247</p>
-                <p className="text-neon-cyan text-sm">Creator rating: 4.8★</p>
+                <p className="text-2xl font-bold font-mono text-cyan-400">$3,247</p>
+                <p className="text-cyan-400 text-sm">Creator rating: 4.8★</p>
               </div>
-              <div className="w-12 h-12 bg-neon-cyan bg-opacity-20 rounded-full flex items-center justify-center">
-                <Star className="w-6 h-6 text-neon-cyan" />
+              <div className="w-12 h-12 bg-cyan-500 bg-opacity-20 rounded-full flex items-center justify-center">
+                <Star className="w-6 h-6 text-cyan-400" />
               </div>
             </div>
           </CardContent>

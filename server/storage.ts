@@ -246,4 +246,5 @@ export class MemStorage implements IStorage {
   }
 }
 
+// Keep using MemStorage for now
 export const storage = new MemStorage();
