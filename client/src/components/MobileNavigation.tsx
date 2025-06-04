@@ -21,14 +21,12 @@ interface MobileNavigationProps {
 }
 
 const navigationItems = [
-  { id: 'dashboard' as TabType, label: 'Dashboard', icon: ChartLine },
-  { id: 'socialfi' as TabType, label: 'SocialFi', icon: Users },
-  { id: 'creator' as TabType, label: 'Creator', icon: Star },
-  { id: 'trading' as TabType, label: 'Trading', icon: ArrowLeftRight },
-  { id: 'nfts' as TabType, label: 'NFTs', icon: Image },
+  { id: 'sphere' as TabType, label: 'The Sphere', icon: ChartLine },
+  { id: 'omnifi' as TabType, label: 'OmniFi', icon: Users },
+  { id: 'omnitrade' as TabType, label: 'OmniTrade', icon: ArrowLeftRight },
+  { id: 'omniyield' as TabType, label: 'OmniYield', icon: Coins },
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot },
-  { id: 'staking' as TabType, label: 'Staking', icon: Coins },
-  { id: 'wallet' as TabType, label: 'Wallet', icon: Wallet },
+  { id: 'creator' as TabType, label: 'Creator Hub', icon: Star },
   { id: 'learn' as TabType, label: 'Learn', icon: GraduationCap },
 ];
 

@@ -7,15 +7,13 @@ interface BreadcrumbProps {
 }
 
 const breadcrumbMap: Record<TabType, { label: string; parent?: TabType }> = {
-  dashboard: { label: "Dashboard" },
-  socialfi: { label: "SocialFi", parent: "dashboard" },
-  creator: { label: "Creator Hub", parent: "socialfi" },
-  trading: { label: "Trading", parent: "dashboard" },
-  nfts: { label: "NFT Market", parent: "trading" },
-  aibot: { label: "AI Bot", parent: "dashboard" },
-  staking: { label: "Staking", parent: "dashboard" },
-  wallet: { label: "Wallet", parent: "dashboard" },
-  learn: { label: "Learn", parent: "dashboard" },
+  sphere: { label: "The Sphere" },
+  omnifi: { label: "OmniFi", parent: "sphere" },
+  omnitrade: { label: "OmniTrade", parent: "sphere" },
+  omniyield: { label: "OmniYield", parent: "sphere" },
+  aibot: { label: "AI Bot", parent: "sphere" },
+  creator: { label: "Creator Hub", parent: "omnifi" },
+  learn: { label: "DeFi Academy", parent: "sphere" },
 };
 
 export function Breadcrumb({ activeTab, onNavigate }: BreadcrumbProps) {

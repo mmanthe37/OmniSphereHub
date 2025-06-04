@@ -10,15 +10,13 @@ interface HeaderProps {
 }
 
 const tabTitles: Record<TabType, { title: string; subtitle: string }> = {
-  dashboard: { title: "Dashboard", subtitle: "Welcome back, manage your Web3 portfolio" },
-  socialfi: { title: "SocialFi", subtitle: "Connect with the crypto community" },
-  creator: { title: "Creator Hub", subtitle: "Track your content performance and earnings" },
-  trading: { title: "Trading", subtitle: "Advanced DEX trading and analysis" },
-  nfts: { title: "NFT Market", subtitle: "Discover and trade digital collectibles" },
+  sphere: { title: "The Sphere", subtitle: "Your unified Web3 ecosystem hub" },
+  omnifi: { title: "OmniFi", subtitle: "Social finance and creator economy platform" },
+  omnitrade: { title: "OmniTrade", subtitle: "Advanced trading with integrated wallet management" },
+  omniyield: { title: "OmniYield", subtitle: "Staking and yield farming opportunities" },
   aibot: { title: "AI Bot", subtitle: "Automated trading with artificial intelligence" },
-  staking: { title: "Staking", subtitle: "Earn rewards by staking your assets" },
-  wallet: { title: "Wallet", subtitle: "Connect and manage your Web3 wallet" },
-  learn: { title: "Learn", subtitle: "Master crypto and DeFi fundamentals" },
+  creator: { title: "Creator Hub", subtitle: "NFT creation and monetization tools" },
+  learn: { title: "DeFi Academy", subtitle: "Learn Web3, DeFi, and NFT fundamentals" },
 };
 
 export function Header({ activeTab, user }: HeaderProps) {

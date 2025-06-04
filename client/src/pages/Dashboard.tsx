@@ -4,13 +4,11 @@ import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DashboardOverview } from "@/components/DashboardOverview";
 import { SocialFiContent } from "@/components/SocialFiContent";
-import { CreatorContent } from "@/components/CreatorContent";
-import { TradingContent } from "@/components/TradingContent";
-import { NFTContent } from "@/components/NFTContent";
 import { AIBotContent } from "@/components/AIBotContent";
+import { NFTCreatorHub } from "@/components/NFTCreatorHub";
+import { OmniTradeHub } from "@/components/OmniTradeHub";
+import { DeFiDappHub } from "@/components/DeFiDappHub";
 import { StakingContent } from "@/components/StakingContent";
-import { LearnContent } from "@/components/LearnContent";
-import { WalletDashboard } from "@/components/WalletDashboard";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -20,7 +18,7 @@ import { useWebSocket } from "@/hooks/useWebSocket";
 import type { TabType, User, CryptoPrice } from "@/types";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState<TabType>('dashboard');
+  const [activeTab, setActiveTab] = useState<TabType>('sphere');
   const [showLanding, setShowLanding] = useState(false);
   const { isConnected, cryptoPrices: livePrice } = useWebSocket('/ws');
 
@@ -44,8 +42,8 @@ export default function Dashboard() {
   const handleGetStarted = (goal: 'create' | 'trade' | 'pool' | 'learn') => {
     const goalToTabMap: Record<string, TabType> = {
       create: 'creator',
-      trade: 'trading',
-      pool: 'staking',
+      trade: 'omnitrade',
+      pool: 'omniyield',
       learn: 'learn'
     };
     
@@ -58,24 +56,20 @@ export default function Dashboard() {
       return <LandingPage onGetStarted={handleGetStarted} />;
     }
     switch (activeTab) {
-      case 'dashboard':
+      case 'sphere':
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
-      case 'socialfi':
+      case 'omnifi':
         return <SocialFiContent />;
-      case 'creator':
-        return <CreatorContent />;
-      case 'trading':
-        return <TradingContent cryptoPrices={cryptoPrices} />;
-      case 'nfts':
-        return <NFTContent />;
+      case 'omnitrade':
+        return <OmniTradeHub cryptoPrices={cryptoPrices} />;
+      case 'omniyield':
+        return <StakingContent />;
       case 'aibot':
         return <AIBotContent />;
-      case 'staking':
-        return <StakingContent />;
-      case 'wallet':
-        return <WalletDashboard />;
+      case 'creator':
+        return <NFTCreatorHub />;
       case 'learn':
-        return <LearnContent />;
+        return <DeFiDappHub />;
       default:
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
     }
