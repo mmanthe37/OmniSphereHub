@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Wallet, TrendingUp, TrendingDown, Coins, Bot, Star, DollarSign, ArrowUp, Eye, ExternalLink, Layers, RefreshCw, Activity } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { SocialHomeFeed } from "./SocialHomeFeed";
 import type { CryptoPrice, PortfolioData } from "@/types";
 
 interface DashboardOverviewProps {
@@ -166,41 +167,8 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
 
   return (
     <div className="space-y-8">
-      {/* OmniSphere Banner */}
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900 border border-purple-500/30">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-cyan-500/20 to-purple-600/20 animate-pulse"></div>
-        <div className="relative p-8 text-center">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full flex items-center justify-center mr-4">
-              <Star className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold font-orbitron bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent">
-              OmniSphere
-            </h1>
-          </div>
-          <p className="text-lg text-gray-300 font-inter mb-6 max-w-2xl mx-auto">
-            The Ultimate Web3 Ecosystem - Unifying SocialFi, Trading, AI Analytics, and Staking in One Platform
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 text-sm">
-            <div className="flex items-center px-3 py-1 bg-purple-500/20 rounded-full">
-              <Wallet className="w-4 h-4 mr-2 text-purple-400" />
-              <span className="text-purple-200">Portfolio Management</span>
-            </div>
-            <div className="flex items-center px-3 py-1 bg-cyan-500/20 rounded-full">
-              <TrendingUp className="w-4 h-4 mr-2 text-cyan-400" />
-              <span className="text-cyan-200">Advanced Trading</span>
-            </div>
-            <div className="flex items-center px-3 py-1 bg-green-500/20 rounded-full">
-              <Bot className="w-4 h-4 mr-2 text-green-400" />
-              <span className="text-green-200">AI Analytics</span>
-            </div>
-            <div className="flex items-center px-3 py-1 bg-pink-500/20 rounded-full">
-              <Star className="w-4 h-4 mr-2 text-pink-400" />
-              <span className="text-pink-200">Creator Economy</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Social-First Homepage */}
+      <SocialHomeFeed cryptoPrices={cryptoPrices} />
 
       {/* Enhanced Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
