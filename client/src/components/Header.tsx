@@ -20,11 +20,11 @@ export function Header({ activeTab }: HeaderProps) {
   const { title, subtitle } = tabTitles[activeTab];
 
   return (
-    <header className="bg-gradient-to-r from-gray-700 via-gray-600 to-purple-700 border-b border-purple-500/30 p-6 shadow-lg">
+    <header className="bg-gradient-to-r from-gray-700 via-gray-600 to-purple-700 border-b border-purple-500/30 p-4 shadow-lg">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-3xl font-bold font-orbitron bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent tracking-tight">{title}</h2>
-          <p className="text-gray-300 text-lg font-inter font-medium mt-1">{subtitle}</p>
+          <h2 className="text-2xl font-bold font-orbitron bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent tracking-tight">{title}</h2>
+          <p className="text-gray-300 text-base font-inter font-medium mt-1">{subtitle}</p>
         </div>
         <div className="flex items-center space-x-4">
           <Button variant="outline" size="icon" className="bg-gray-800/50 border-purple-400/50 hover:bg-purple-600/30 hover:border-purple-300 transition-all duration-300">

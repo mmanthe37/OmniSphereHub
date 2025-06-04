@@ -71,7 +71,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">Total Portfolio</p>
-                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                <p className="text-2xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
                   ${portfolio?.totalValue.toLocaleString() || "127,582.45"}
                 </p>
                 <p className="text-emerald-400 text-sm font-medium flex items-center">
@@ -91,7 +91,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">24h PnL</p>
-                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                <p className="text-2xl font-bold font-orbitron bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                   +${portfolio?.dailyPnl.toLocaleString() || "2,847.33"}
                 </p>
                 <p className="text-green-400 text-sm font-inter font-medium">Active trades: 12</p>
@@ -108,7 +108,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">Staking Rewards</p>
-                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <p className="text-2xl font-bold font-orbitron bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                   ${portfolio?.stakingRewards.toLocaleString() || "1,247.89"}
                 </p>
                 <p className="text-purple-400 text-sm font-inter font-medium">APY: 18.5%</p>
@@ -125,7 +125,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">Content Earnings</p>
-                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">$3,247</p>
+                <p className="text-2xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">$3,247</p>
                 <p className="text-cyan-400 text-sm font-inter font-medium">Creator rating: 4.8★</p>
               </div>
               <div className="w-12 h-12 bg-cyan-500 bg-opacity-20 rounded-full flex items-center justify-center">

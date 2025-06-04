@@ -30,7 +30,7 @@ const navigationItems = [
 
 export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
   return (
-    <div className="w-64 bg-gradient-to-b from-gray-800 via-gray-900 to-purple-900 border-r border-dark-border p-6 fixed h-full z-10">
+    <div className="w-52 bg-gradient-to-b from-gray-800 via-gray-900 to-purple-900 border-r border-dark-border p-4 fixed h-full z-10">
       <div className="flex items-center space-x-3 mb-8">
         <img 
           src={omniSphereLogo} 

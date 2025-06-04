@@ -56,7 +56,7 @@ export default function Dashboard() {
         user={user}
       />
       
-      <div className="flex-1 ml-64">
+      <div className="flex-1 ml-52">
         <Header activeTab={activeTab} />
         
         <main className="p-6">
