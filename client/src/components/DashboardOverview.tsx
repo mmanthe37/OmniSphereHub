@@ -118,14 +118,57 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
   };
 
   const handleRefreshPortfolio = () => {
-    console.log('Refreshing portfolio...');
+    // Simulate portfolio refresh with visual feedback
+    const refreshButton = document.querySelector('[data-refresh="portfolio"]') as HTMLElement;
+    if (refreshButton) {
+      refreshButton.style.transform = 'rotate(360deg)';
+      refreshButton.style.transition = 'transform 0.5s ease';
+      setTimeout(() => {
+        refreshButton.style.transform = 'rotate(0deg)';
+      }, 500);
+    }
+    
+    // In a real app, this would trigger a refetch of portfolio data
+    window.location.reload();
+  };
+
+  const handleViewAllHoldings = () => {
+    // Navigate to detailed holdings view
+    console.log('Navigating to holdings page...');
+    alert('Holdings view would open here - showing detailed portfolio breakdown with buy/sell options');
+  };
+
+  const handleRebalancePortfolio = () => {
+    console.log('Opening rebalance modal...');
+    alert('Portfolio rebalancing tool would open here - allowing you to adjust asset allocation');
+  };
+
+  const handleViewAllTransactions = () => {
+    console.log('Opening transaction history...');
+    alert('Full transaction history would open here - showing complete trading activity with filters');
+  };
+
+  const handlePortfolioCardClick = () => {
+    alert('Portfolio details would open here - showing complete asset breakdown, performance analytics, and portfolio management tools');
+  };
+
+  const handlePnLCardClick = () => {
+    alert('P&L analysis would open here - showing detailed profit/loss breakdown, trading performance metrics, and performance history');
+  };
+
+  const handleStakingCardClick = () => {
+    alert('Staking dashboard would open here - showing all active stakes, available pools, rewards history, and staking opportunities');
+  };
+
+  const handleContentCardClick = () => {
+    alert('Creator dashboard would open here - showing content performance, earnings breakdown, audience analytics, and monetization tools');
   };
 
   return (
     <div className="space-y-8">
       {/* Enhanced Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 group">
+        <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 group cursor-pointer" onClick={handlePortfolioCardClick}>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div className="flex-1">
@@ -142,6 +185,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
                     variant="ghost"
                     size="sm"
                     onClick={handleRefreshPortfolio}
+                    data-refresh="portfolio"
                     className="opacity-0 group-hover:opacity-100 transition-opacity p-1 h-auto"
                   >
                     <RefreshCw className="w-3 h-3" />
@@ -245,7 +289,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl font-bold font-rajdhani bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">Portfolio Allocation</CardTitle>
-              <Button variant="ghost" size="sm" onClick={() => console.log('Rebalance portfolio')}>
+              <Button variant="ghost" size="sm" onClick={handleRebalancePortfolio}>
                 <Layers className="w-4 h-4 mr-2" />
                 Rebalance
               </Button>
@@ -298,7 +342,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-xl font-bold font-rajdhani bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">Holdings Overview</CardTitle>
-            <Button variant="ghost" size="sm" onClick={() => console.log('View all holdings')}>
+            <Button variant="ghost" size="sm" onClick={handleViewAllHoldings}>
               <Eye className="w-4 h-4 mr-2" />
               View All
             </Button>
@@ -355,7 +399,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-xl font-bold font-rajdhani bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">Recent Transactions</CardTitle>
-            <Button variant="ghost" size="sm" onClick={() => console.log('View all transactions')}>
+            <Button variant="ghost" size="sm" onClick={handleViewAllTransactions}>
               <Activity className="w-4 h-4 mr-2" />
               View All
             </Button>
