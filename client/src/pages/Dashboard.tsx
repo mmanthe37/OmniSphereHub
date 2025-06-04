@@ -110,7 +110,7 @@ export default function Dashboard() {
         />
         
         <div className="flex-1 md:ml-52 pt-16 md:pt-0 pb-20 md:pb-0">
-          <Header activeTab={activeTab} />
+          <Header activeTab={activeTab} user={user} />
           
           <main className="p-4 md:p-6">
             {/* Breadcrumb Navigation */}
