@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeftRight, TrendingUp, TrendingDown, Wallet, ExternalLink, Zap, Shield, AlertTriangle, Settings, RefreshCw, Copy, Send, History, BarChart3, PieChart, DollarSign, Coins, Target, Activity } from "lucide-react";
 import type { CryptoPrice, PortfolioData } from "@/types";
+import omniSphereLogo from "@/assets/omnisphere-logo.jpg";
 
 // Trading pairs and DEX data
 const tradingPairs = [
@@ -211,11 +212,18 @@ export function OmniTradeHub({ cryptoPrices }: OmniTradeHubProps) {
       <Card className="bg-gradient-to-r from-green-900/30 via-blue-900/30 to-purple-900/30 border border-green-500/30">
         <CardContent className="p-8">
           <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-3xl font-bold font-orbitron bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
-                OmniTrade
-              </h1>
-              <p className="text-gray-300">Advanced trading with integrated wallet management</p>
+            <div className="flex items-center space-x-4">
+              <img 
+                src={omniSphereLogo} 
+                alt="OmniSphere" 
+                className="w-10 h-10 rounded-lg object-cover border border-green-400/50"
+              />
+              <div>
+                <h1 className="text-3xl font-bold font-orbitron bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
+                  OmniTrade
+                </h1>
+                <p className="text-gray-300">Advanced trading with integrated wallet management</p>
+              </div>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-center">

@@ -33,6 +33,7 @@ import {
   Share2,
   MessageCircle
 } from "lucide-react";
+import omniSphereLogo from "@/assets/omnisphere-logo.jpg";
 
 const learningPaths = [
   {
@@ -275,11 +276,18 @@ export function OmniLearnHub() {
       <Card className="bg-gradient-to-r from-purple-900/30 via-blue-900/30 to-green-900/30 border border-purple-500/30">
         <CardContent className="p-8">
           <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-4xl font-bold font-orbitron bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                OmniLearn
-              </h1>
-              <p className="text-gray-300 text-lg mt-2">Master Web3, DeFi, Content Creation & AI Trading</p>
+            <div className="flex items-center space-x-4">
+              <img 
+                src={omniSphereLogo} 
+                alt="OmniSphere" 
+                className="w-12 h-12 rounded-lg object-cover border border-purple-400/50"
+              />
+              <div>
+                <h1 className="text-4xl font-bold font-orbitron bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                  OmniLearn
+                </h1>
+                <p className="text-gray-300 text-lg mt-2">Master Web3, DeFi, Content Creation & AI Trading</p>
+              </div>
             </div>
             <div className="text-center">
               <div className="bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-lg p-4">

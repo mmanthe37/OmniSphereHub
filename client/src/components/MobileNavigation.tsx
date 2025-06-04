@@ -14,6 +14,7 @@ import {
   X
 } from "lucide-react";
 import type { TabType } from "@/types";
+import omniSphereLogo from "@/assets/omnisphere-logo.jpg";
 
 interface MobileNavigationProps {
   activeTab: TabType;
@@ -43,9 +44,16 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-800 to-purple-900 border-b border-purple-500/30 px-4 py-3">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-bold font-orbitron bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-            OmniSphere
-          </h1>
+          <div className="flex items-center space-x-2">
+            <img 
+              src={omniSphereLogo} 
+              alt="OmniSphere" 
+              className="w-8 h-8 rounded-lg object-cover"
+            />
+            <h1 className="text-lg font-bold font-orbitron bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+              OmniSphere
+            </h1>
+          </div>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors"

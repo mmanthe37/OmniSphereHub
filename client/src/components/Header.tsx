@@ -3,6 +3,7 @@ import { Bell, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import type { TabType } from "@/types";
+import omniSphereLogo from "@/assets/omnisphere-logo.jpg";
 
 interface HeaderProps {
   activeTab: TabType;
@@ -25,7 +26,30 @@ export function Header({ activeTab, user }: HeaderProps) {
 
   return (
     <>
-      <header className="bg-gradient-to-r from-gray-800 to-purple-900 border-b border-purple-500/30 p-4 shadow-lg">
+      <header className="bg-gradient-to-r from-gray-800 via-purple-900 to-gray-800 border-b border-purple-500/30 p-6 shadow-2xl">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center space-x-4">
+            <img 
+              src={omniSphereLogo} 
+              alt="OmniSphere" 
+              className="w-12 h-12 rounded-xl object-cover shadow-lg border-2 border-purple-400/50"
+            />
+            <div>
+              <h1 className="text-4xl font-black bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-transparent tracking-wider" 
+                  style={{ fontFamily: 'Orbitron, monospace', textShadow: '0 0 20px rgba(139, 69, 255, 0.5)' }}>
+                OMNISPHERE
+              </h1>
+              <p className="text-purple-200 text-sm font-light tracking-wide">The Ultimate Web3 Ecosystem</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4">
+            <img 
+              src={omniSphereLogo} 
+              alt="OmniSphere" 
+              className="w-8 h-8 rounded-lg object-cover opacity-60"
+            />
+          </div>
+        </div>
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold font-orbitron bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent tracking-tight">{title}</h2>
