@@ -27,6 +27,7 @@ const navigationItems = [
   { id: 'nfts' as TabType, label: 'NFT Market', icon: Image, color: 'text-neon-purple' },
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot, color: 'text-neon-cyan' },
   { id: 'staking' as TabType, label: 'Staking', icon: Coins, color: 'text-neon-green' },
+  { id: 'wallet' as TabType, label: 'Wallet', icon: Circle, color: 'text-neon-green' },
   { id: 'learn' as TabType, label: 'Learn (Crypto/DeFi School 🎓)', icon: GraduationCap, color: 'text-neon-purple' },
 ];
 

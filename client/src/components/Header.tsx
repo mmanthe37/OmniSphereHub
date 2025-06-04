@@ -17,6 +17,7 @@ const tabTitles: Record<TabType, { title: string; subtitle: string }> = {
   nfts: { title: "NFT Market", subtitle: "Discover and trade digital collectibles" },
   aibot: { title: "AI Bot", subtitle: "Automated trading with artificial intelligence" },
   staking: { title: "Staking", subtitle: "Earn rewards by staking your assets" },
+  wallet: { title: "Wallet", subtitle: "Connect and manage your Web3 wallet" },
   learn: { title: "Learn", subtitle: "Master crypto and DeFi fundamentals" },
 };
 

@@ -10,6 +10,7 @@ import { NFTContent } from "@/components/NFTContent";
 import { AIBotContent } from "@/components/AIBotContent";
 import { StakingContent } from "@/components/StakingContent";
 import { LearnContent } from "@/components/LearnContent";
+import { WalletDashboard } from "@/components/WalletDashboard";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
