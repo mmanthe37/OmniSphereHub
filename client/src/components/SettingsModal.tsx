@@ -205,11 +205,11 @@ export function SettingsModal({ isOpen, onClose, user }: SettingsModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] bg-gray-900 border-purple-500/30 overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-gray-800 to-purple-900 border-b border-purple-500/30">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-2 md:p-4">
+      <Card className="w-full max-w-4xl max-h-[95vh] md:max-h-[90vh] bg-gray-900 border-purple-500/30 overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-gray-800 to-purple-900 border-b border-purple-500/30 p-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-rajdhani text-white">Settings</CardTitle>
+            <CardTitle className="text-lg md:text-xl font-rajdhani text-white">Settings</CardTitle>
             <Button
               variant="ghost"
               size="icon"
@@ -221,9 +221,32 @@ export function SettingsModal({ isOpen, onClose, user }: SettingsModalProps) {
           </div>
         </CardHeader>
         
-        <div className="flex h-[600px]">
-          {/* Sidebar */}
-          <div className="w-64 bg-gray-800/50 border-r border-gray-700/50 p-4">
+        <div className="flex flex-col md:flex-row h-[calc(95vh-80px)] md:h-[600px]">
+          {/* Mobile Tabs */}
+          <div className="md:hidden border-b border-gray-700/50 p-2">
+            <div className="flex overflow-x-auto space-x-2 scrollbar-thin scrollbar-thumb-purple-600 scrollbar-track-gray-800">
+              {sections.map((section) => {
+                const IconComponent = section.icon;
+                return (
+                  <button
+                    key={section.id}
+                    onClick={() => setActiveSection(section.id)}
+                    className={`flex items-center space-x-2 p-2 rounded-lg transition-colors whitespace-nowrap ${
+                      activeSection === section.id
+                        ? 'bg-purple-600/20 text-white border border-purple-500/50'
+                        : 'text-gray-400 hover:text-white hover:bg-gray-700/30'
+                    }`}
+                  >
+                    <IconComponent className="w-4 h-4" />
+                    <span className="font-inter text-sm">{section.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Desktop Sidebar */}
+          <div className="hidden md:block w-64 bg-gray-800/50 border-r border-gray-700/50 p-4">
             <nav className="space-y-2">
               {sections.map((section) => {
                 const IconComponent = section.icon;
@@ -246,7 +269,7 @@ export function SettingsModal({ isOpen, onClose, user }: SettingsModalProps) {
           </div>
 
           {/* Content */}
-          <div className="flex-1 p-6 overflow-y-auto">
+          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             {renderContent()}
           </div>
         </div>

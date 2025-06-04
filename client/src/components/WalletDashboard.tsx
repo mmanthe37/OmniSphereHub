@@ -172,7 +172,7 @@ export function WalletDashboard() {
                   variant="ghost"
                   size="sm"
                   className="text-gray-400 hover:text-white"
-                  onClick={() => window.open(`https://etherscan.io/address/${address}`, '_blank')}
+                  onClick={() => window.open(`https://etherscan.io/address/${connectedAddress}`, '_blank')}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   View All

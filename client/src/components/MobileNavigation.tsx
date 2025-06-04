@@ -60,7 +60,7 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
       {/* Mobile Overlay Menu */}
       {isOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setIsOpen(false)}>
-          <div className="fixed top-16 left-0 right-0 bg-gradient-to-b from-gray-800 to-gray-900 border-b border-gray-700 p-4">
+          <div className="fixed top-16 left-0 right-0 bg-gradient-to-b from-gray-800 to-gray-900 border-b border-gray-700 p-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
             <nav className="space-y-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
@@ -78,7 +78,7 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
                     )}
                   >
                     <Icon className="w-5 h-5" />
-                    <span className="font-inter">{item.label}</span>
+                    <span className="font-inter text-sm">{item.label}</span>
                   </button>
                 );
               })}
@@ -89,15 +89,21 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
 
       {/* Bottom Navigation Bar */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-800 to-purple-900 border-t border-purple-500/30">
-        <div className="grid grid-cols-4 gap-1 p-2">
-          {navigationItems.slice(0, 4).map((item) => {
+        <div className="grid grid-cols-5 gap-1 p-2">
+          {[
+            { id: 'dashboard', icon: ChartLine, label: 'Home' },
+            { id: 'trading', icon: ArrowLeftRight, label: 'Trade' },
+            { id: 'wallet', icon: Wallet, label: 'Wallet' },
+            { id: 'socialfi', icon: Users, label: 'Social' },
+            { id: 'staking', icon: Coins, label: 'Stake' }
+          ].map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             
             return (
               <button
                 key={item.id}
-                onClick={() => handleTabChange(item.id)}
+                onClick={() => handleTabChange(item.id as TabType)}
                 className={cn(
                   "flex flex-col items-center p-2 rounded-lg transition-all duration-200",
                   isActive
@@ -105,7 +111,7 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
                     : "text-gray-400 hover:text-white"
                 )}
               >
-                <Icon className="w-5 h-5 mb-1" />
+                <Icon className="w-4 h-4 mb-1" />
                 <span className="text-xs font-inter">{item.label}</span>
               </button>
             );
