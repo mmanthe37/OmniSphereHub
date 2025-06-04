@@ -8,7 +8,9 @@ import type { SocialPost } from "@/types";
 
 const trendingTopics = [
   { hashtag: "#DeFi", posts: "2.4k", change: "+15%" },
-  { hashtag: "#Ethereum", posts: "1.8k", change: "+8%" },
+  { hashtag: "#ContentCreator", posts: "1.9k", change: "+32%" },
+  { hashtag: "#NFTAlpha", posts: "1.8k", change: "+28%" },
+  { hashtag: "#Ethereum", posts: "1.6k", change: "+8%" },
   { hashtag: "#AITrading", posts: "947", change: "+23%" },
 ];
 

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
-import { Wallet, TrendingUp, Coins, Bot, ArrowUp, ArrowDown } from "lucide-react";
+import { Wallet, TrendingUp, Coins, Bot, Star, Image, ArrowUp, ArrowDown } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { formatDistanceToNow } from "date-fns";
 import type { CryptoPrice, PortfolioData } from "@/types";
@@ -124,12 +124,12 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-text-secondary text-sm">AI Bot Status</p>
-                <p className="text-2xl font-bold font-mono text-neon-cyan">ACTIVE</p>
-                <p className="text-neon-cyan text-sm">Win rate: 73%</p>
+                <p className="text-text-secondary text-sm">Content Earnings</p>
+                <p className="text-2xl font-bold font-mono text-neon-cyan">$3,247</p>
+                <p className="text-neon-cyan text-sm">Creator rating: 4.8★</p>
               </div>
               <div className="w-12 h-12 bg-neon-cyan bg-opacity-20 rounded-full flex items-center justify-center">
-                <Bot className="w-6 h-6 text-neon-cyan" />
+                <Star className="w-6 h-6 text-neon-cyan" />
               </div>
             </div>
           </CardContent>

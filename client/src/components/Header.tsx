@@ -9,7 +9,9 @@ interface HeaderProps {
 const tabTitles: Record<TabType, { title: string; subtitle: string }> = {
   dashboard: { title: "Dashboard", subtitle: "Welcome back, manage your Web3 portfolio" },
   socialfi: { title: "SocialFi", subtitle: "Connect with the crypto community" },
+  creator: { title: "Creator Hub", subtitle: "Track your content performance and earnings" },
   trading: { title: "Trading", subtitle: "Advanced DEX trading and analysis" },
+  nfts: { title: "NFT Market", subtitle: "Discover and trade digital collectibles" },
   aibot: { title: "AI Bot", subtitle: "Automated trading with artificial intelligence" },
   staking: { title: "Staking", subtitle: "Earn rewards by staking your assets" },
 };

@@ -4,7 +4,9 @@ import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DashboardOverview } from "@/components/DashboardOverview";
 import { SocialFiContent } from "@/components/SocialFiContent";
+import { CreatorContent } from "@/components/CreatorContent";
 import { TradingContent } from "@/components/TradingContent";
+import { NFTContent } from "@/components/NFTContent";
 import { AIBotContent } from "@/components/AIBotContent";
 import { StakingContent } from "@/components/StakingContent";
 import { useWebSocket } from "@/hooks/useWebSocket";
@@ -31,8 +33,12 @@ export default function Dashboard() {
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
       case 'socialfi':
         return <SocialFiContent />;
+      case 'creator':
+        return <CreatorContent />;
       case 'trading':
         return <TradingContent cryptoPrices={cryptoPrices} />;
+      case 'nfts':
+        return <NFTContent />;
       case 'aibot':
         return <AIBotContent />;
       case 'staking':
