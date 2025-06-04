@@ -10,7 +10,7 @@ import {
   Circle
 } from "lucide-react";
 import type { TabType } from "@/types";
-// Using the OmniSphere logo design from your assets
+import omniSphereLogo from "../assets/omnisphere-logo.jpg";
 
 interface SidebarProps {
   activeTab: TabType;
@@ -32,9 +32,11 @@ export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
   return (
     <div className="w-64 bg-dark-secondary border-r border-dark-border p-6 fixed h-full z-10">
       <div className="flex items-center space-x-3 mb-8">
-        <div className="w-10 h-10 bg-gradient-to-br from-green-400 via-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-          <div className="w-6 h-6 bg-white rounded-full opacity-80"></div>
-        </div>
+        <img 
+          src={omniSphereLogo} 
+          alt="OmniSphere" 
+          className="w-10 h-10 rounded-xl object-cover shadow-lg"
+        />
         <h1 className="text-xl font-bold gradient-text">OmniSphere</h1>
       </div>
       

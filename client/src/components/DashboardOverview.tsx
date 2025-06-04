@@ -96,8 +96,8 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
                 </p>
                 <p className="text-neon-green text-sm">Active trades: 12</p>
               </div>
-              <div className="w-12 h-12 bg-neon-green bg-opacity-20 rounded-full flex items-center justify-center">
-                <DollarSign className="w-6 h-6 text-neon-green" />
+              <div className="w-12 h-12 bg-green-500 bg-opacity-20 rounded-full flex items-center justify-center">
+                <DollarSign className="w-6 h-6 text-green-400" />
               </div>
             </div>
           </CardContent>
