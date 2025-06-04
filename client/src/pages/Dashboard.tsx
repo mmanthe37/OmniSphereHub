@@ -22,6 +22,12 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [showLanding, setShowLanding] = useState(false);
   const { isConnected, cryptoPrices: livePrice } = useWebSocket('/ws');
+
+  useEffect(() => {
+    const handleShowLanding = () => setShowLanding(true);
+    window.addEventListener('showLanding', handleShowLanding);
+    return () => window.removeEventListener('showLanding', handleShowLanding);
+  }, []);
   
   const { data: user } = useQuery<User>({
     queryKey: ['/api/user/1'],

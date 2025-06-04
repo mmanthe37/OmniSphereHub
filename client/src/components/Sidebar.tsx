@@ -65,7 +65,15 @@ export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
         })}
       </nav>
       
-      <div className="mt-auto pt-8">
+      <div className="mt-auto pt-8 space-y-4">
+        {/* Landing Page Button */}
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent('showLanding'))}
+          className="w-full p-3 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-700 hover:to-cyan-700 text-white font-inter font-medium transition-all duration-300 text-sm"
+        >
+          View Landing Page
+        </button>
+
         <div className="bg-dark-card p-4 rounded-xl">
           <div className="flex items-center space-x-3">
             <img 

@@ -23,15 +23,25 @@ export function StatusBanner() {
     const checkHealth = async () => {
       try {
         const response = await fetch('/api/health');
-        const healthData = await response.json();
         
-        setStatus(prev => ({
-          ...prev,
-          api: response.ok ? 'healthy' : 'down',
-          database: healthData.database ? 'healthy' : 'down',
-          websocket: isConnected ? 'connected' : 'disconnected',
-          lastCheck: new Date()
-        }));
+        if (response.ok) {
+          const healthData = await response.json();
+          setStatus(prev => ({
+            ...prev,
+            api: 'healthy',
+            database: healthData.database ? 'healthy' : 'down',
+            websocket: isConnected ? 'connected' : 'disconnected',
+            lastCheck: new Date()
+          }));
+        } else {
+          setStatus(prev => ({
+            ...prev,
+            api: 'down',
+            database: 'down',
+            websocket: isConnected ? 'connected' : 'disconnected',
+            lastCheck: new Date()
+          }));
+        }
       } catch (error) {
         setStatus(prev => ({
           ...prev,

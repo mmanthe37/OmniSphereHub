@@ -100,6 +100,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Health check endpoint
+  app.get("/api/health", async (req, res) => {
+    try {
+      // Test database connectivity by attempting to get a user
+      await storage.getUser(1);
+      
+      res.json({
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        api: true,
+        database: true,
+        websocket: wss.clients.size > 0
+      });
+    } catch (error) {
+      res.status(503).json({
+        status: 'unhealthy',
+        timestamp: new Date().toISOString(),
+        api: true,
+        database: false,
+        websocket: wss.clients.size > 0,
+        error: 'Database connection failed'
+      });
+    }
+  });
+
   // WebSocket connection handling
   wss.on('connection', (ws) => {
     console.log('Client connected to WebSocket');
