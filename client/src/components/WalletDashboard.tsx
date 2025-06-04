@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { useAccount, useBalance, useEnsName } from 'wagmi';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { WalletConnect } from './WalletConnect';
+import { SimpleWalletConnect } from './SimpleWalletConnect';
 import { 
   Wallet, 
   Send, 
@@ -16,19 +15,12 @@ import {
 } from 'lucide-react';
 
 export function WalletDashboard() {
-  const { address, isConnected } = useAccount();
   const [connectedAddress, setConnectedAddress] = useState<string>('');
-
-  const { data: balance } = useBalance({
-    address: address,
-  });
-
-  const { data: ensName } = useEnsName({
-    address: address,
-  });
+  const [isConnected, setIsConnected] = useState(false);
 
   const handleWalletConnected = (addr: string) => {
     setConnectedAddress(addr);
+    setIsConnected(true);
   };
 
   if (!isConnected) {
@@ -44,7 +36,7 @@ export function WalletDashboard() {
         </div>
 
         <div className="max-w-md mx-auto">
-          <WalletConnect onConnected={handleWalletConnected} />
+          <SimpleWalletConnect onConnected={handleWalletConnected} />
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
@@ -96,7 +88,7 @@ export function WalletDashboard() {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Wallet Connection Status */}
         <div className="lg:col-span-1">
-          <WalletConnect onConnected={handleWalletConnected} />
+          <SimpleWalletConnect onConnected={handleWalletConnected} />
         </div>
 
         {/* Portfolio Overview */}
@@ -108,10 +100,10 @@ export function WalletDashboard() {
                   <div>
                     <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">Wallet Balance</p>
                     <p className="text-2xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                      {balance ? `${parseFloat(balance.formatted).toFixed(4)} ${balance.symbol}` : '0.0000 ETH'}
+                      0.0000 ETH
                     </p>
                     <p className="text-cyan-400 text-sm font-inter font-medium">
-                      {ensName || `${address?.slice(0, 6)}...${address?.slice(-4)}`}
+                      {connectedAddress ? `${connectedAddress.slice(0, 6)}...${connectedAddress.slice(-4)}` : 'No wallet connected'}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-cyan-500 bg-opacity-20 rounded-full flex items-center justify-center">
@@ -194,6 +186,17 @@ export function WalletDashboard() {
                 <p className="text-gray-500 text-sm font-inter mt-2">
                   Your transaction history will appear here once you start using OmniSphere
                 </p>
+                {connectedAddress && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-gray-400 hover:text-white mt-4"
+                    onClick={() => window.open(`https://etherscan.io/address/${connectedAddress}`, '_blank')}
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    View on Etherscan
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
