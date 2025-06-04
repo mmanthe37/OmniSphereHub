@@ -89,11 +89,11 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-800 to-purple-900 border-t border-purple-500/30">
         <div className="grid grid-cols-5 gap-1 p-2">
           {[
-            { id: 'dashboard', icon: ChartLine, label: 'Home' },
-            { id: 'trading', icon: ArrowLeftRight, label: 'Trade' },
-            { id: 'wallet', icon: Wallet, label: 'Wallet' },
-            { id: 'socialfi', icon: Users, label: 'Social' },
-            { id: 'staking', icon: Coins, label: 'Stake' }
+            { id: 'sphere', icon: ChartLine, label: 'Home' },
+            { id: 'omnitrade', icon: ArrowLeftRight, label: 'Trade' },
+            { id: 'omnitrade', icon: Wallet, label: 'Wallet' },
+            { id: 'omnifi', icon: Users, label: 'Social' },
+            { id: 'omniyield', icon: Coins, label: 'Stake' }
           ].map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
