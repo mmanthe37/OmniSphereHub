@@ -30,7 +30,7 @@ const navigationItems = [
 
 export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
   return (
-    <div className="w-64 bg-dark-secondary border-r border-dark-border p-6 fixed h-full z-10">
+    <div className="w-64 bg-gradient-to-b from-gray-800 via-gray-900 to-purple-900 border-r border-dark-border p-6 fixed h-full z-10">
       <div className="flex items-center space-x-3 mb-8">
         <img 
           src={omniSphereLogo} 
@@ -50,10 +50,10 @@ export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
               key={item.id}
               onClick={() => onTabChange(item.id)}
               className={cn(
-                "w-full flex items-center space-x-3 p-3 rounded-xl transition-all duration-200",
+                "w-full flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 border",
                 isActive
-                  ? "sidebar-nav-active text-white"
-                  : "hover:bg-dark-card text-muted-foreground hover:text-foreground"
+                  ? "sidebar-nav-active text-white border-purple-400"
+                  : "hover:bg-dark-card text-muted-foreground hover:text-foreground border-gray-700 hover:border-gray-600"
               )}
             >
               <Icon className={cn("w-5 h-5", isActive ? "text-white" : item.color)} />
