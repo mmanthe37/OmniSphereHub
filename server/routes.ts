@@ -70,6 +70,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/nft-collections", async (req, res) => {
+    try {
+      const collections = await storage.getNFTCollections();
+      res.json(collections);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.get("/api/content-stats/:userId", async (req, res) => {
+    try {
+      const stats = await storage.getContentStats(parseInt(req.params.userId));
+      if (!stats) {
+        return res.status(404).json({ message: "Content stats not found" });
+      }
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.get("/api/creator-badges/:userId", async (req, res) => {
+    try {
+      const badges = await storage.getCreatorBadges(parseInt(req.params.userId));
+      res.json(badges);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   // WebSocket connection handling
   wss.on('connection', (ws) => {
     console.log('Client connected to WebSocket');

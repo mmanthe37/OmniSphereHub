@@ -232,6 +232,18 @@ export class MemStorage implements IStorage {
       existing.updatedAt = new Date();
     }
   }
+
+  async getNFTCollections(): Promise<NFTCollection[]> {
+    return Array.from(this.nftCollections.values());
+  }
+
+  async getContentStats(userId: number): Promise<ContentStats | undefined> {
+    return this.contentStats.get(userId);
+  }
+
+  async getCreatorBadges(userId: number): Promise<CreatorBadge[]> {
+    return this.creatorBadges.get(userId) || [];
+  }
 }
 
 export const storage = new MemStorage();

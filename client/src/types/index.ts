@@ -60,4 +60,38 @@ export interface User {
   createdAt: Date;
 }
 
-export type TabType = 'dashboard' | 'socialfi' | 'trading' | 'aibot' | 'staking';
+export interface NFTCollection {
+  id: number;
+  name: string;
+  symbol: string;
+  floorPrice: number;
+  volume24h: number;
+  change24h: number;
+  totalSupply: number;
+  owners: number;
+  imageUrl?: string;
+  updatedAt: Date;
+}
+
+export interface ContentStats {
+  id: number;
+  userId: number;
+  totalPosts: number;
+  totalLikes: number;
+  totalFollowers: number;
+  totalViews: number;
+  monthlyEarnings: number;
+  contentRating: number;
+  updatedAt: Date;
+}
+
+export interface CreatorBadge {
+  id: number;
+  userId: number;
+  badgeType: string;
+  badgeName: string;
+  description: string;
+  earnedAt: Date;
+}
+
+export type TabType = 'dashboard' | 'socialfi' | 'trading' | 'aibot' | 'staking' | 'nfts' | 'creator';

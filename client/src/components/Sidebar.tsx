@@ -5,9 +5,12 @@ import {
   ArrowLeftRight, 
   Bot, 
   Coins,
+  Image,
+  Star,
   Circle
 } from "lucide-react";
 import type { TabType } from "@/types";
+// Using the OmniSphere logo design from your assets
 
 interface SidebarProps {
   activeTab: TabType;
@@ -18,17 +21,19 @@ interface SidebarProps {
 const navigationItems = [
   { id: 'dashboard' as TabType, label: 'Dashboard', icon: ChartLine, color: 'text-neon-cyan' },
   { id: 'socialfi' as TabType, label: 'SocialFi', icon: Users, color: 'text-neon-purple' },
+  { id: 'creator' as TabType, label: 'Creator Hub', icon: Star, color: 'text-neon-cyan' },
   { id: 'trading' as TabType, label: 'Trading', icon: ArrowLeftRight, color: 'text-neon-green' },
+  { id: 'nfts' as TabType, label: 'NFT Market', icon: Image, color: 'text-neon-purple' },
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot, color: 'text-neon-cyan' },
-  { id: 'staking' as TabType, label: 'Staking', icon: Coins, color: 'text-neon-purple' },
+  { id: 'staking' as TabType, label: 'Staking', icon: Coins, color: 'text-neon-green' },
 ];
 
 export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
   return (
     <div className="w-64 bg-dark-secondary border-r border-dark-border p-6 fixed h-full z-10">
       <div className="flex items-center space-x-3 mb-8">
-        <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center">
-          <Circle className="text-white text-xl" />
+        <div className="w-10 h-10 bg-gradient-to-br from-green-400 via-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+          <div className="w-6 h-6 bg-white rounded-full opacity-80"></div>
         </div>
         <h1 className="text-xl font-bold gradient-text">OmniSphere</h1>
       </div>
