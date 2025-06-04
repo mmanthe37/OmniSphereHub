@@ -44,6 +44,8 @@ export default function Dashboard() {
         return <AIBotContent />;
       case 'staking':
         return <StakingContent />;
+      case 'learn':
+        return <LearnContent />;
       default:
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
     }

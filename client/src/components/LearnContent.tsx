@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { 
   BookOpen, 
   Play, 
@@ -195,7 +194,12 @@ export function LearnContent() {
                           <span className="text-gray-400">Progress</span>
                           <span className="text-white">{course.progress}%</span>
                         </div>
-                        <Progress value={course.progress} className="h-2" />
+                        <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div 
+                            className="bg-gradient-to-r from-cyan-500 to-purple-500 h-2 rounded-full transition-all duration-300" 
+                            style={{ width: `${course.progress}%` }}
+                          />
+                        </div>
                       </div>
                     )}
 
