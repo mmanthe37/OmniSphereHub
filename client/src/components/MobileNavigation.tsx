@@ -89,18 +89,17 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-800 to-purple-900 border-t border-purple-500/30">
         <div className="grid grid-cols-5 gap-1 p-2">
           {[
-            { id: 'sphere', icon: ChartLine, label: 'Home' },
-            { id: 'omnitrade', icon: ArrowLeftRight, label: 'Trade' },
-            { id: 'omnitrade', icon: Wallet, label: 'Wallet' },
-            { id: 'omnifi', icon: Users, label: 'Social' },
-            { id: 'omniyield', icon: Coins, label: 'Stake' }
+            { id: 'sphere', icon: ChartLine, label: 'Home', key: 'home' },
+            { id: 'omnitrade', icon: ArrowLeftRight, label: 'Trade', key: 'trade' },
+            { id: 'omnifi', icon: Users, label: 'Social', key: 'social' },
+            { id: 'omniyield', icon: Coins, label: 'Stake', key: 'stake' }
           ].map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             
             return (
               <button
-                key={item.id}
+                key={item.key}
                 onClick={() => handleTabChange(item.id as TabType)}
                 className={cn(
                   "flex flex-col items-center p-2 rounded-lg transition-all duration-200",
@@ -114,6 +113,21 @@ export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationPro
               </button>
             );
           })}
+          
+          {/* Menu Button for All Sections */}
+          <button
+            key="menu"
+            onClick={() => setIsOpen(true)}
+            className={cn(
+              "flex flex-col items-center p-2 rounded-lg transition-all duration-200",
+              isOpen
+                ? "bg-purple-600/20 text-white"
+                : "text-gray-400 hover:text-white"
+            )}
+          >
+            <Menu className="w-4 h-4 mb-1" />
+            <span className="text-xs font-inter">More</span>
+          </button>
         </div>
       </div>
     </>
