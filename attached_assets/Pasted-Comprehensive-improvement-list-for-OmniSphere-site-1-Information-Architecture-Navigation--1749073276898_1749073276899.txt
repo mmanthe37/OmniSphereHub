@@ -1,0 +1,77 @@
+Comprehensive improvement list for OmniSphere site
+
+1. Information Architecture & Navigation  
+   • Consolidate four product pillars into a top-level mega menu with hover previews  
+   • Add breadcrumb trail on all inner pages for better orientation  
+   • Introduce “Get Started” wizard that routes users by goal (Create, Trade, Pool, Learn)
+
+2. Landing Page  
+   • Replace stock hero image with short WebGL animation illustrating modular stack  
+   • Add interactive KPI counters (TVL, creators, trades) fed via WebSocket  
+   • Insert one-scroll product tour carousel with autoplay video clips
+
+3. Performance & Core Web Vitals  
+   • Migrate heavy images to next-gen formats (AVIF / WebP) with responsive srcset  
+   • Enable HTTP/3 + server push for critical CSS  
+   • Add dynamic import chunk splitting for Ant Design icons set
+
+4. Accessibility & Internationalization  
+   • Provide aria-labels on all custom buttons, fix color-contrast on dark mode text (#BFBFBF → #E0E0E0)  
+   • Integrate i18next and preload EN / ES / FR bundles  
+   • Offer keyboard-navigable dropdowns and modal focus traps
+
+5. Trust & Social Proof  
+   • Embed real-time Lens feed widget showing creator posts collected via OmniFi  
+   • Display audit badges with clickable PDF links for each contract  
+   • Add rolling testimonial slider from alpha users
+
+6. Product Pages  
+   • OmniFi: live NFT mint demo with Metamask pop-up sandbox  
+   • OmniTrade: swap simulator pulling 0x quotes in read-only mode  
+   • OmniAgent: showcase strategy backtest chart with sharpe/max-dd stats  
+   • OmniPool: interactive yield calculator; TVL graph using Chart.js
+
+7. Docs & Developer Hub  
+   • Move technical whitepaper and API docs to /developers subdomain with Docusaurus  
+   • Auto-sync Swagger JSON from backend on each deploy  
+   • Provide copy-ready code snippets (cURL, JS, Python) via Tabs component
+
+8. SEO & Schema  
+   • Add JSON-LD structured data for Organization, SoftwareApplication, and FAQ  
+   • Implement static og:image generation per page with Vercel OG  
+   • Pre-render marketing pages using Static Site Generation
+
+9. Security & Compliance  
+   • Force HTTPS with HSTS preload header  
+   • Apply Content-Security-Policy limiting scripts to self & trusted CDN  
+   • Add ReCAPTCHA v3 on signup forms; rate-limit login endpoint (5/min)
+
+10. Analytics & Growth  
+   • Switch to Mixpanel for feature usage funnels; fire events from Redux middleware  
+   • Deploy PostHog self-hosted instance for privacy-focused session recordings  
+   • Insert deeplink tracking (utm_source) to attribute Lens mirrors
+
+11. Continuous Delivery  
+   • Enforce GitHub Actions workflow: lint → typecheck → test → build → preview  
+   • Enable preview deploy comments on PRs via Vercel bot  
+   • Add Canary channel flag in feature toggles for 5% traffic rollout
+
+12. Mobile & PWA  
+   • Audit Lighthouse PWA checklist, add service worker with stale-while-revalidate  
+   • Support biometric auth using WebAuthn on compatible devices  
+   • Implement bottom navigation bar on <=600 px viewports
+
+13. Content & Copy  
+   • Rewrite headers to outcome-oriented language (“Earn with your community” vs “Our Pools”)  
+   • Add glossary modal for crypto terms linked via tooltips  
+   • Localize legal pages and ensure plain-language summaries
+
+14. Error Handling & Observability  
+   • Replace generic 404/500 pages with branded error components and retry CTA  
+   • Integrate Sentry for front-end error capture; tie release version to commit SHA  
+   • Surface status banner when backend health check fails
+
+15. Community & Support  
+   • Embed Intercom chat with topic routing (Trading, Creator, Tech)  
+   • Link Discord invite plus auto-verify Lens handles via collab.land bot  
+   • Publish public roadmap board embedded from Linear

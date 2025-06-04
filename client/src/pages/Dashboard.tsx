@@ -10,11 +10,17 @@ import { NFTContent } from "@/components/NFTContent";
 import { AIBotContent } from "@/components/AIBotContent";
 import { StakingContent } from "@/components/StakingContent";
 import { LearnContent } from "@/components/LearnContent";
+import { LandingPage } from "@/components/LandingPage";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { StatusBanner } from "@/components/StatusBanner";
+import { MobileNavigation } from "@/components/MobileNavigation";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import type { TabType, User, CryptoPrice } from "@/types";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
+  const [showLanding, setShowLanding] = useState(false);
   const { isConnected, cryptoPrices: livePrice } = useWebSocket('/ws');
   
   const { data: user } = useQuery<User>({
@@ -28,7 +34,22 @@ export default function Dashboard() {
   // Use live prices from WebSocket if available, otherwise fall back to static data
   const cryptoPrices = livePrice.length > 0 ? livePrice : staticPrices;
 
+  const handleGetStarted = (goal: 'create' | 'trade' | 'pool' | 'learn') => {
+    const goalToTabMap: Record<string, TabType> = {
+      create: 'creator',
+      trade: 'trading',
+      pool: 'staking',
+      learn: 'learn'
+    };
+    
+    setActiveTab(goalToTabMap[goal]);
+    setShowLanding(false);
+  };
+
   const renderContent = () => {
+    if (showLanding) {
+      return <LandingPage onGetStarted={handleGetStarted} />;
+    }
     switch (activeTab) {
       case 'dashboard':
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
