@@ -70,8 +70,8 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-semibold tracking-wide uppercase">Total Portfolio</p>
-                <p className="text-3xl font-bold font-mono bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">Total Portfolio</p>
+                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
                   ${portfolio?.totalValue.toLocaleString() || "127,582.45"}
                 </p>
                 <p className="text-emerald-400 text-sm font-medium flex items-center">
@@ -90,11 +90,11 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-semibold tracking-wide uppercase">24h PnL</p>
-                <p className="text-3xl font-bold font-mono bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">24h PnL</p>
+                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                   +${portfolio?.dailyPnl.toLocaleString() || "2,847.33"}
                 </p>
-                <p className="text-green-400 text-sm font-medium">Active trades: 12</p>
+                <p className="text-green-400 text-sm font-inter font-medium">Active trades: 12</p>
               </div>
               <div className="w-12 h-12 bg-green-500 bg-opacity-20 rounded-full flex items-center justify-center">
                 <DollarSign className="w-6 h-6 text-green-400" />
@@ -107,11 +107,11 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-semibold tracking-wide uppercase">Staking Rewards</p>
-                <p className="text-3xl font-bold font-mono bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">Staking Rewards</p>
+                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                   ${portfolio?.stakingRewards.toLocaleString() || "1,247.89"}
                 </p>
-                <p className="text-purple-400 text-sm font-medium">APY: 18.5%</p>
+                <p className="text-purple-400 text-sm font-inter font-medium">APY: 18.5%</p>
               </div>
               <div className="w-12 h-12 bg-purple-500 bg-opacity-20 rounded-full flex items-center justify-center">
                 <Coins className="w-6 h-6 text-purple-400" />
@@ -124,9 +124,9 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-semibold tracking-wide uppercase">Content Earnings</p>
-                <p className="text-3xl font-bold font-mono bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">$3,247</p>
-                <p className="text-cyan-400 text-sm font-medium">Creator rating: 4.8★</p>
+                <p className="text-gray-400 text-sm font-inter font-medium tracking-wide uppercase">Content Earnings</p>
+                <p className="text-3xl font-bold font-orbitron bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">$3,247</p>
+                <p className="text-cyan-400 text-sm font-inter font-medium">Creator rating: 4.8★</p>
               </div>
               <div className="w-12 h-12 bg-cyan-500 bg-opacity-20 rounded-full flex items-center justify-center">
                 <Star className="w-6 h-6 text-cyan-400" />
@@ -141,7 +141,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
         {/* Portfolio Chart */}
         <Card className="lg:col-span-2 bg-dark-card border-dark-border">
           <CardContent className="p-6">
-            <h3 className="text-xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent mb-4 tracking-tight">Portfolio Performance</h3>
+            <h3 className="text-xl font-bold font-rajdhani bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent mb-4 tracking-tight">Portfolio Performance</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={portfolioChartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--dark-border))" />
@@ -170,7 +170,7 @@ export function DashboardOverview({ cryptoPrices }: DashboardOverviewProps) {
         {/* Top Holdings */}
         <Card className="bg-dark-card border-dark-border">
           <CardContent className="p-6">
-            <h3 className="text-xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent mb-4 tracking-tight">Top Holdings</h3>
+            <h3 className="text-xl font-bold font-rajdhani bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent mb-4 tracking-tight">Top Holdings</h3>
             <div className="space-y-4">
               {topHoldings.map((holding) => (
                 <div key={holding.symbol} className="flex items-center justify-between">
