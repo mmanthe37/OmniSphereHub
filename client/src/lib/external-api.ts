@@ -14,19 +14,28 @@ export class ExternalAPIService {
         body: JSON.stringify({
           url,
           method,
+          headers: {},
           params
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`External API request failed: ${response.statusText}`);
+        console.warn(`Xano External API returned ${response.status}: ${response.statusText}`);
+        return null; // Return null for failed requests to maintain data integrity
       }
 
       const data = await response.json();
-      return data.response;
+      
+      // Check if Xano returned an error
+      if (data.code === "ERROR_CODE_NOT_FOUND" || data.error) {
+        console.warn('Xano External API endpoint not properly configured');
+        return null;
+      }
+
+      return data.response?.result || data;
     } catch (error) {
-      console.error('External API request error:', error);
-      throw error;
+      console.warn('External API request failed:', error);
+      return null; // Return null instead of throwing to maintain app stability
     }
   }
 
