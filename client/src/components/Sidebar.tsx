@@ -27,13 +27,12 @@ interface SidebarProps {
 }
 
 const navigationItems = [
-  { id: 'sphere' as TabType, label: 'The Sphere', icon: ChartLine, color: 'text-neon-cyan' },
-  { id: 'omnifi' as TabType, label: 'OmniFi', icon: Users, color: 'text-neon-purple' },
-  { id: 'omnitrade' as TabType, label: 'OmniTrade', icon: ArrowLeftRight, color: 'text-neon-green' },
-  { id: 'omniyield' as TabType, label: 'OmniYield', icon: Coins, color: 'text-neon-green' },
+  { id: 'dashboard' as TabType, label: 'The Sphere', icon: ChartLine, color: 'text-neon-cyan' },
+  { id: 'socialfi' as TabType, label: 'SocialFi', icon: Users, color: 'text-neon-purple' },
+  { id: 'trading' as TabType, label: 'OmniTrade', icon: ArrowLeftRight, color: 'text-neon-green' },
+  { id: 'staking' as TabType, label: 'OmniYield', icon: Coins, color: 'text-neon-green' },
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot, color: 'text-neon-cyan' },
-  { id: 'creator' as TabType, label: 'Creator Hub', icon: Star, color: 'text-neon-cyan' },
-  { id: 'learn' as TabType, label: 'Learn (Crypto/DeFi School)', icon: GraduationCap, color: 'text-neon-purple' },
+  { id: 'nft' as TabType, label: 'Creator Hub', icon: Star, color: 'text-neon-cyan' },
   { id: 'account' as TabType, label: 'Account & Wallets', icon: Wallet, color: 'text-neon-blue' },
 ];
 

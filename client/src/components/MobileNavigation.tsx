@@ -22,13 +22,12 @@ interface MobileNavigationProps {
 }
 
 const navigationItems = [
-  { id: 'sphere' as TabType, label: 'The Sphere', icon: ChartLine },
-  { id: 'omnifi' as TabType, label: 'OmniFi', icon: Users },
-  { id: 'omnitrade' as TabType, label: 'OmniTrade', icon: ArrowLeftRight },
-  { id: 'omniyield' as TabType, label: 'OmniYield', icon: Coins },
+  { id: 'dashboard' as TabType, label: 'The Sphere', icon: ChartLine },
+  { id: 'socialfi' as TabType, label: 'SocialFi', icon: Users },
+  { id: 'trading' as TabType, label: 'OmniTrade', icon: ArrowLeftRight },
+  { id: 'staking' as TabType, label: 'OmniYield', icon: Coins },
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot },
-  { id: 'creator' as TabType, label: 'Creator Hub', icon: Star },
-  { id: 'learn' as TabType, label: 'Learn', icon: GraduationCap },
+  { id: 'nft' as TabType, label: 'Creator Hub', icon: Star },
   { id: 'account' as TabType, label: 'Account & Wallets', icon: Wallet },
 ];
 
