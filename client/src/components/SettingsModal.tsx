@@ -52,14 +52,14 @@ export function SettingsModal({ isOpen, onClose, user }: SettingsModalProps) {
         return (
           <div className="space-y-6">
             <div className="flex items-center space-x-4">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full flex items-center justify-center">
-                <User className="w-10 h-10 text-white" />
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                {user?.email ? user.email.charAt(0).toUpperCase() : 'G'}
               </div>
               <div>
-                <h3 className="text-xl font-rajdhani font-bold text-white">{user?.name || "Alex Chen"}</h3>
-                <p className="text-gray-400 font-inter">{user?.username || "@alex_chen"}</p>
+                <h3 className="text-xl font-rajdhani font-bold text-white">{user?.email || "Guest User"}</h3>
+                <p className="text-gray-400 font-inter">{user?.email ? `@${user.email.split('@')[0]}` : "@guest"}</p>
                 <Badge className="mt-2 bg-purple-600/20 text-purple-300 border-purple-500/30">
-                  {user?.tier || "Pro Trader"}
+                  {user ? "Account Member" : "Guest"}
                 </Badge>
               </div>
             </div>
@@ -67,11 +67,15 @@ export function SettingsModal({ isOpen, onClose, user }: SettingsModalProps) {
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-800/50 p-4 rounded-lg">
                 <p className="text-gray-400 text-sm font-inter">Total Portfolio</p>
-                <p className="text-2xl font-orbitron font-bold text-cyan-400">$127,582</p>
+                <p className="text-2xl font-orbitron font-bold text-cyan-400">
+                  {user ? "Connect Wallet" : "Login Required"}
+                </p>
               </div>
               <div className="bg-gray-800/50 p-4 rounded-lg">
                 <p className="text-gray-400 text-sm font-inter">Member Since</p>
-                <p className="text-lg font-inter font-medium text-white">March 2024</p>
+                <p className="text-lg font-inter font-medium text-white">
+                  {user?.created_at ? new Date(user.created_at).toLocaleDateString() : "Not Available"}
+                </p>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { TabType } from "@/pages/dashboard";
+import type { TabType } from "@/types";
 import { useAuth } from "@/contexts/AuthContext";
 import { 
   ChartLine, 
@@ -66,8 +66,7 @@ export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
             <div>
               <p className="font-medium">{user?.email || 'Guest User'}</p>
               <p className="text-sm text-text-secondary">
-                {user?.accountType === 'paid' ? 'Premium Member' : 
-                 user?.accountType === 'free' ? 'Free Account' : 'Guest'}
+                {user ? 'Account Member' : 'Guest'}
               </p>
             </div>
           </div>

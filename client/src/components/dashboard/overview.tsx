@@ -216,27 +216,7 @@ export default function DashboardOverview() {
               <p className="text-xs text-muted-foreground mt-1">Connect wallet to view transactions</p>
             </div>
 
-            {aiTrades && aiTrades.length > 0 && (
-              <div className="flex items-center justify-between p-4 bg-dark-primary rounded-lg">
-                <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-neon-cyan bg-opacity-20 rounded-full flex items-center justify-center">
-                    <Bot className="text-neon-cyan w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium">AI Bot Trade</p>
-                    <p className="text-sm text-text-secondary">
-                      {getTimeAgo(new Date(aiTrades[0].createdAt))}
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className={`font-mono font-medium ${parseFloat(aiTrades[0].profit) >= 0 ? 'text-neon-green' : 'text-red-400'}`}>
-                    {parseFloat(aiTrades[0].profit) >= 0 ? '+' : ''}{formatCurrency(aiTrades[0].profit)}
-                  </p>
-                  <p className="text-sm text-text-secondary">{aiTrades[0].symbol}</p>
-                </div>
-              </div>
-            )}
+            {/* AI trades display removed - awaiting authentic trading data */}
           </div>
         </CardContent>
       </Card>
