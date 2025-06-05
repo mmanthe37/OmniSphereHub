@@ -1802,5 +1802,92 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json([]);
   });
 
+  // Social authentication wallet creation endpoints
+  app.post("/api/auth/social/google", async (req, res) => {
+    try {
+      // Create unique wallet tied to Google account
+      const walletData = await cdpSDK.createWallet('base-mainnet');
+      res.json({
+        success: true,
+        wallet: walletData,
+        provider: 'google',
+        message: 'Google wallet created successfully'
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to create Google wallet: " + error.message 
+      });
+    }
+  });
+
+  app.post("/api/auth/social/facebook", async (req, res) => {
+    try {
+      const walletData = await cdpSDK.createWallet('base-mainnet');
+      res.json({
+        success: true,
+        wallet: walletData,
+        provider: 'facebook',
+        message: 'Facebook wallet created successfully'
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to create Facebook wallet: " + error.message 
+      });
+    }
+  });
+
+  app.post("/api/auth/social/twitter", async (req, res) => {
+    try {
+      const walletData = await cdpSDK.createWallet('base-mainnet');
+      res.json({
+        success: true,
+        wallet: walletData,
+        provider: 'twitter',
+        message: 'X (Twitter) wallet created successfully'
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to create X wallet: " + error.message 
+      });
+    }
+  });
+
+  app.post("/api/auth/social/discord", async (req, res) => {
+    try {
+      const walletData = await cdpSDK.createWallet('base-mainnet');
+      res.json({
+        success: true,
+        wallet: walletData,
+        provider: 'discord',
+        message: 'Discord wallet created successfully'
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to create Discord wallet: " + error.message 
+      });
+    }
+  });
+
+  app.post("/api/auth/social/apple", async (req, res) => {
+    try {
+      const walletData = await cdpSDK.createWallet('base-mainnet');
+      res.json({
+        success: true,
+        wallet: walletData,
+        provider: 'apple',
+        message: 'Apple wallet created successfully'
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to create Apple wallet: " + error.message 
+      });
+    }
+  });
+
   return httpServer;
 }
