@@ -20,7 +20,7 @@ import { PaymasterDashboard } from "@/components/PaymasterDashboard";
 import { WalletManagementHub } from "@/components/WalletManagementHub";
 import { PaymasterJSONRPCDashboard } from "@/components/PaymasterJSONRPCDashboard";
 import { SmartWalletIntegration } from "@/components/SmartWalletIntegration";
-import { MultiWalletConnector } from "@/components/MultiWalletConnector";
+import { WalletConnector } from "@/components/WalletConnector";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -89,7 +89,7 @@ export default function Dashboard() {
       case 'account':
         return (
           <div className="space-y-6">
-            <MultiWalletConnector />
+            <WalletConnector />
             <SmartWalletIntegration />
             <WalletManagementHub />
             <PaymasterJSONRPCDashboard />

@@ -54,67 +54,58 @@ export function MultiWalletConnector() {
   const detectWallets = () => {
     const wallets: WalletProvider[] = [];
 
-    // Coinbase Wallet detection
-    if (typeof window !== 'undefined' && window.ethereum?.isCoinbaseWallet) {
-      wallets.push({
-        name: "Coinbase Wallet",
-        id: "coinbase",
-        icon: "🟦", // Using emoji for now
-        detected: true,
-        description: "Smart Wallet with passkey authentication",
-        downloadUrl: "https://www.coinbase.com/wallet",
-        connect: () => connectWallet("coinbase")
-      });
-    }
+    // Check for multiple wallet providers
+    const hasMetaMask = typeof window !== 'undefined' && window.ethereum?.isMetaMask;
+    const hasCoinbase = typeof window !== 'undefined' && (
+      window.ethereum?.isCoinbaseWallet || 
+      window.ethereum?.providerMap?.get('CoinbaseWallet') ||
+      window.ethereum?.providers?.find((p: any) => p.isCoinbaseWallet)
+    );
+    const hasGenericWeb3 = typeof window !== 'undefined' && window.ethereum && !hasMetaMask && !hasCoinbase;
 
-    // MetaMask detection
-    if (typeof window !== 'undefined' && window.ethereum?.isMetaMask) {
-      wallets.push({
-        name: "MetaMask",
-        id: "metamask",
-        icon: "🦊",
-        detected: true,
-        description: "Popular Ethereum wallet",
-        downloadUrl: "https://metamask.io",
-        connect: () => connectWallet("metamask")
-      });
-    }
+    // Coinbase Wallet
+    wallets.push({
+      name: "Coinbase Wallet",
+      id: "coinbase",
+      icon: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBkPSJNMTYgMzJjOC44MzcgMCAxNi03LjE2MyAxNi0xNlMyNC44MzcgMCAxNiAwIDAgNy4xNjMgMCAxNnM3LjE2MyAxNiAxNiAxNnoiIGZpbGw9IiMwMDUyRkYiLz48cGF0aCBkPSJNMTIuMjUgMTZhMy43NSAzLjc1IDAgMTE3LjUgMCAzLjc1IDMuNzUgMCAwMS03LjUgMHoiIGZpbGw9IiNmZmYiLz48L2c+PGRlZnM+PGNsaXBQYXRoIGlkPSJhIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDMydjMySDR6Ii8+PC9jbGlwUGF0aD48L2RlZnM+PC9zdmc+",
+      detected: hasCoinbase,
+      description: "Smart Wallet with passkey authentication",
+      downloadUrl: "https://www.coinbase.com/wallet",
+      connect: () => connectWallet("coinbase")
+    });
 
-    // Generic Ethereum provider
-    if (typeof window !== 'undefined' && window.ethereum && !window.ethereum.isMetaMask && !window.ethereum.isCoinbaseWallet) {
+    // MetaMask
+    wallets.push({
+      name: "MetaMask",
+      id: "metamask", 
+      icon: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBkPSJNMzAuMTcgMS4yM0wyMS43IDE2LjE4bC0xLjU3LTMuNzIgMTAtNTUuMjd6IiBmaWxsPSIjRTI3NjFCIiBzdHJva2U9IiNFMjc2MUIiIHN0cm9rZS13aWR0aD0iLjI1Ii8+PHBhdGggZD0iTTEuODMgMS4yM2w4LjM5IDEyLjAzTDkuMSAxMi41NGwtOS4yNy00LjMxeiIgZmlsbD0iI0UyNzMzQyIgc3Ryb2tlPSIjRTI3MzNDIiBzdHJva2Utd2lkdGg9Ii4yNSIvPjxwYXRoIGQ9Im0yNS43IDE5LjczLTMuODQgNS45MS0xLjgxIDUuNzItMS44NyA1LjQzaC0yLjU1bC0xLjg3LTUuNDMtMS44MS01LjcyLTMuODQtNS45MSAyLjYxLS42OWgyLjU1bDQuMjQgNi4zyIgZmlsbD0iI0UyNzYxQiIgc3Ryb2tlPSIjRTI3NjFCIiBzdHJva2Utd2lkdGg9Ii4yNSIvPjwvZz48L3N2Zz4=",
+      detected: hasMetaMask,
+      description: "Popular Ethereum wallet",
+      downloadUrl: "https://metamask.io/download/",
+      connect: () => connectWallet("metamask")
+    });
+
+    // WalletConnect
+    wallets.push({
+      name: "WalletConnect",
+      id: "walletconnect",
+      icon: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBkPSJNMTYgMzJjOC44MzcgMCAxNi03LjE2MyAxNi0xNlMyNC44MzcgMCAxNiAwIDAgNy4xNjMgMCAxNnM3LjE2MyAxNiAxNiAxNnoiIGZpbGw9IiMzQjk5RkMiLz48cGF0aCBkPSJNMTAuMTMgMTIuNDJjMy4yNy0zLjI3IDguNTctMy4yNyAxMS44NCAwbDQuODggNC44OGMuMy4zLjMuNzkgMCAxLjA5bC0xLjczIDEuNzNjLS4xNS4xNS0uMzkuMTUtLjU0IDBsLTQuMDYtNC4wNmMtMi4yOS0yLjI5LTYuMDEtMi4yOS04LjMgMGwtNC4zNCA0LjM0Yy0uMTUuMTUtLjM5LjE1LS41NCAwbC0xLjczLTEuNzNjLS4zLS4zLS4zLS43OSAwLTEuMDlsNS41Mi01LjUyeiIgZmlsbD0iI2ZmZiIvPjwvZz48L3N2Zz4=",
+      detected: false,
+      description: "Connect with any wallet",
+      downloadUrl: "https://walletconnect.com/",
+      connect: () => connectWallet("walletconnect")
+    });
+
+    // Generic Web3 if detected
+    if (hasGenericWeb3) {
       wallets.push({
         name: "Web3 Wallet",
         id: "web3",
-        icon: "🔗",
+        icon: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgY2xpcC1wYXRoPSJ1cmwoI2EpIj48cGF0aCBkPSJNMTYgMzJjOC44MzcgMCAxNi03LjE2MyAxNi0xNlMyNC44MzcgMCAxNiAwIDAgNy4xNjMgMCAxNnM3LjE2MyAxNiAxNiAxNnoiIGZpbGw9IiMzMzMiLz48cGF0aCBkPSJNMTYgMjRjNC40MTggMCA4LTMuNTgyIDgtOHMtMy41ODItOC04LTgtOCAzLjU4Mi04IDggMy41ODIgOCA4IDh6IiBmaWxsPSIjZmZmIi8+PC9nPjwvc3ZnPg==",
         detected: true,
         description: "Detected Web3 wallet",
         downloadUrl: "#",
         connect: () => connectWallet("web3")
-      });
-    }
-
-    // Add undetected wallets
-    if (!wallets.find(w => w.id === "coinbase")) {
-      wallets.push({
-        name: "Coinbase Wallet",
-        id: "coinbase",
-        icon: "🟦",
-        detected: false,
-        description: "Smart Wallet with gasless transactions",
-        downloadUrl: "https://www.coinbase.com/wallet",
-        connect: () => Promise.reject(new Error("Coinbase Wallet not installed"))
-      });
-    }
-
-    if (!wallets.find(w => w.id === "metamask")) {
-      wallets.push({
-        name: "MetaMask",
-        id: "metamask",
-        icon: "🦊",
-        detected: false,
-        description: "Most popular Ethereum wallet",
-        downloadUrl: "https://metamask.io",
-        connect: () => Promise.reject(new Error("MetaMask not installed"))
       });
     }
 

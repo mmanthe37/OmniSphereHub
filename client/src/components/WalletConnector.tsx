@@ -12,22 +12,26 @@ import {
   Loader2,
   ExternalLink,
   AlertTriangle,
-  Copy
+  Copy,
+  Globe
 } from "lucide-react";
-
-// Wallet provider detection
-interface WalletProvider {
-  name: string;
-  icon: string;
-  detected: boolean;
-  connect: () => Promise<void>;
-}
 
 interface WalletInfo {
   address: string;
   chainId: number;
   balance: string;
   isConnected: boolean;
+  providerName: string;
+}
+
+interface WalletProvider {
+  name: string;
+  id: string;
+  icon: JSX.Element;
+  detected: boolean;
+  description: string;
+  downloadUrl: string;
+  connect: () => Promise<void>;
 }
 
 declare global {
@@ -36,39 +40,111 @@ declare global {
   }
 }
 
+const CoinbaseIcon = () => (
+  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+    <div className="w-4 h-4 bg-white rounded-full"></div>
+  </div>
+);
+
+const MetaMaskIcon = () => (
+  <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white text-xs font-bold">
+    M
+  </div>
+);
+
+const WalletConnectIcon = () => (
+  <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center text-white text-xs font-bold">
+    WC
+  </div>
+);
+
+const GenericWalletIcon = () => (
+  <div className="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center">
+    <Wallet className="w-4 h-4 text-white" />
+  </div>
+);
+
 export function WalletConnector() {
   const { toast } = useToast();
   const [walletInfo, setWalletInfo] = useState<WalletInfo | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
-  const [walletType, setWalletType] = useState<string>("");
+  const [availableWallets, setAvailableWallets] = useState<WalletProvider[]>([]);
 
   useEffect(() => {
-    checkWalletConnection();
-    setupEventListeners();
-    
-    return () => {
-      removeEventListeners();
-    };
+    detectWallets();
+    checkExistingConnection();
   }, []);
 
-  const checkWalletConnection = async () => {
+  const detectWallets = () => {
+    const wallets: WalletProvider[] = [];
+
+    // Check for wallet providers
+    const hasMetaMask = typeof window !== 'undefined' && window.ethereum?.isMetaMask;
+    const hasCoinbase = typeof window !== 'undefined' && (
+      window.ethereum?.isCoinbaseWallet || 
+      window.ethereum?.providerMap?.get('CoinbaseWallet') ||
+      window.ethereum?.providers?.find((p: any) => p.isCoinbaseWallet)
+    );
+    const hasGenericWeb3 = typeof window !== 'undefined' && window.ethereum && !hasMetaMask && !hasCoinbase;
+
+    // Coinbase Wallet
+    wallets.push({
+      name: "Coinbase Wallet",
+      id: "coinbase",
+      icon: <CoinbaseIcon />,
+      detected: hasCoinbase,
+      description: "Smart Wallet with gasless transactions",
+      downloadUrl: "https://www.coinbase.com/wallet",
+      connect: () => connectWallet("coinbase")
+    });
+
+    // MetaMask
+    wallets.push({
+      name: "MetaMask",
+      id: "metamask", 
+      icon: <MetaMaskIcon />,
+      detected: hasMetaMask,
+      description: "Popular Ethereum wallet",
+      downloadUrl: "https://metamask.io/download/",
+      connect: () => connectWallet("metamask")
+    });
+
+    // WalletConnect
+    wallets.push({
+      name: "WalletConnect",
+      id: "walletconnect",
+      icon: <WalletConnectIcon />,
+      detected: false,
+      description: "Connect with mobile wallets",
+      downloadUrl: "https://walletconnect.com/",
+      connect: () => connectWallet("walletconnect")
+    });
+
+    // Generic Web3 if detected
+    if (hasGenericWeb3) {
+      wallets.push({
+        name: "Web3 Wallet",
+        id: "web3",
+        icon: <GenericWalletIcon />,
+        detected: true,
+        description: "Detected Web3 wallet",
+        downloadUrl: "#",
+        connect: () => connectWallet("web3")
+      });
+    }
+
+    setAvailableWallets(wallets);
+  };
+
+  const checkExistingConnection = async () => {
     if (typeof window.ethereum !== 'undefined') {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
           await updateWalletInfo(accounts[0]);
         }
-        
-        // Detect wallet type
-        if (window.ethereum.isCoinbaseWallet) {
-          setWalletType("Coinbase Wallet");
-        } else if (window.ethereum.isMetaMask) {
-          setWalletType("MetaMask");
-        } else {
-          setWalletType("Web3 Wallet");
-        }
       } catch (error) {
-        console.error('Error checking wallet connection:', error);
+        console.error('Error checking existing connection:', error);
       }
     }
   };
@@ -81,60 +157,33 @@ export function WalletConnector() {
         params: [address, 'latest']
       });
 
+      let providerName = "Web3 Wallet";
+      if (window.ethereum?.isCoinbaseWallet) {
+        providerName = "Coinbase Wallet";
+      } else if (window.ethereum?.isMetaMask) {
+        providerName = "MetaMask";
+      }
+
       setWalletInfo({
         address,
         chainId: parseInt(chainId, 16),
         balance: (parseInt(balance, 16) / 1e18).toFixed(4),
-        isConnected: true
+        isConnected: true,
+        providerName
       });
     } catch (error) {
       console.error('Error updating wallet info:', error);
     }
   };
 
-  const setupEventListeners = () => {
-    if (typeof window.ethereum !== 'undefined') {
-      window.ethereum.on('accountsChanged', handleAccountsChanged);
-      window.ethereum.on('chainChanged', handleChainChanged);
-    }
-  };
-
-  const removeEventListeners = () => {
-    if (typeof window.ethereum !== 'undefined') {
-      window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-      window.ethereum.removeListener('chainChanged', handleChainChanged);
-    }
-  };
-
-  const handleAccountsChanged = (accounts: string[]) => {
-    if (accounts.length === 0) {
-      setWalletInfo(null);
-      toast({
-        title: "Wallet Disconnected",
-        description: "Your wallet has been disconnected",
-        variant: "destructive"
-      });
-    } else {
-      updateWalletInfo(accounts[0]);
-    }
-  };
-
-  const handleChainChanged = (chainId: string) => {
-    window.location.reload();
-  };
-
-  const connectWallet = async () => {
-    if (typeof window.ethereum === 'undefined') {
-      toast({
-        title: "No Wallet Found",
-        description: "Please install a Web3 wallet like Coinbase Wallet or MetaMask",
-        variant: "destructive"
-      });
-      return;
-    }
-
+  const connectWallet = async (walletId: string) => {
     setIsConnecting(true);
     try {
+      if (typeof window.ethereum === 'undefined') {
+        throw new Error("No Web3 wallet detected");
+      }
+
+      // Request account access
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts'
       });
@@ -148,9 +197,17 @@ export function WalletConnector() {
       }
     } catch (error: any) {
       console.error('Connection error:', error);
+      let errorMessage = "Failed to connect wallet";
+      
+      if (error.code === 4001) {
+        errorMessage = "Connection rejected by user";
+      } else if (error.code === -32002) {
+        errorMessage = "Connection request already pending";
+      }
+      
       toast({
         title: "Connection Failed",
-        description: error.message || "Failed to connect wallet",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {
@@ -167,7 +224,6 @@ export function WalletConnector() {
         params: [{ chainId: '0x2105' }], // Base mainnet
       });
     } catch (switchError: any) {
-      // This error code indicates that the chain has not been added to MetaMask
       if (switchError.code === 4902) {
         try {
           await window.ethereum.request({
@@ -193,6 +249,24 @@ export function WalletConnector() {
     }
   };
 
+  const copyAddress = () => {
+    if (walletInfo?.address) {
+      navigator.clipboard.writeText(walletInfo.address);
+      toast({
+        title: "Address Copied",
+        description: "Wallet address copied to clipboard"
+      });
+    }
+  };
+
+  const disconnect = () => {
+    setWalletInfo(null);
+    toast({
+      title: "Disconnected",
+      description: "Wallet disconnected from application"
+    });
+  };
+
   const isBaseNetwork = walletInfo?.chainId === 8453;
 
   return (
@@ -203,9 +277,9 @@ export function WalletConnector() {
             <Wallet className="h-5 w-5 text-blue-500" />
             <CardTitle>Wallet Connection</CardTitle>
           </div>
-          {walletType && (
+          {walletInfo && (
             <Badge variant="outline">
-              {walletType}
+              {walletInfo.providerName}
             </Badge>
           )}
         </div>
@@ -214,56 +288,69 @@ export function WalletConnector() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         {!walletInfo ? (
           <div className="space-y-4">
-            <Button 
-              onClick={connectWallet}
-              disabled={isConnecting}
-              className="w-full"
-              size="lg"
-            >
-              {isConnecting ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <Wallet className="h-4 w-4 mr-2" />
-              )}
-              Connect Wallet
-            </Button>
+            <div className="space-y-3">
+              {availableWallets.map((wallet) => (
+                <div key={wallet.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    {wallet.icon}
+                    <div>
+                      <div className="font-medium flex items-center space-x-2">
+                        <span>{wallet.name}</span>
+                        {wallet.detected ? (
+                          <Badge variant="secondary" className="text-xs">Detected</Badge>
+                        ) : (
+                          <Badge variant="outline" className="text-xs">Not Installed</Badge>
+                        )}
+                      </div>
+                      <div className="text-sm text-muted-foreground">{wallet.description}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex space-x-2">
+                    {wallet.detected ? (
+                      <Button 
+                        onClick={wallet.connect}
+                        disabled={isConnecting}
+                        size="sm"
+                      >
+                        {isConnecting ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          "Connect"
+                        )}
+                      </Button>
+                    ) : (
+                      <Button 
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open(wallet.downloadUrl, '_blank')}
+                      >
+                        <ExternalLink className="h-4 w-4 mr-1" />
+                        Install
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <Alert>
               <Shield className="h-4 w-4" />
               <AlertDescription>
-                Install Coinbase Wallet for the best Smart Wallet experience with passkey authentication and gasless transactions.
+                For Smart Wallet features with gasless transactions, use Coinbase Wallet on Base network.
               </AlertDescription>
             </Alert>
-
-            <div className="flex space-x-2">
-              <Button 
-                variant="outline" 
-                onClick={() => window.open('https://www.coinbase.com/wallet', '_blank')}
-                className="flex-1"
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Get Coinbase Wallet
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => window.open('https://metamask.io', '_blank')}
-                className="flex-1"
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Get MetaMask
-              </Button>
-            </div>
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex items-center justify-between p-4 border rounded-lg bg-green-50 dark:bg-green-900/20">
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span className="font-medium">Connected</span>
+                  <span className="font-medium">Connected to {walletInfo.providerName}</span>
                 </div>
                 <div className="text-sm text-muted-foreground font-mono">
                   {walletInfo.address.slice(0, 6)}...{walletInfo.address.slice(-4)}
@@ -272,7 +359,7 @@ export function WalletConnector() {
               <div className="text-right">
                 <div className="font-medium">{walletInfo.balance} ETH</div>
                 <div className="text-sm text-muted-foreground">
-                  Chain ID: {walletInfo.chainId}
+                  Chain: {walletInfo.chainId}
                 </div>
               </div>
             </div>
@@ -298,22 +385,19 @@ export function WalletConnector() {
               </Alert>
             )}
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               <Button 
                 variant="outline" 
-                onClick={() => navigator.clipboard.writeText(walletInfo.address)}
+                onClick={copyAddress}
+                size="sm"
               >
+                <Copy className="h-4 w-4 mr-2" />
                 Copy Address
               </Button>
               <Button 
                 variant="outline" 
-                onClick={() => {
-                  setWalletInfo(null);
-                  toast({
-                    title: "Disconnected",
-                    description: "Wallet disconnected from app"
-                  });
-                }}
+                onClick={disconnect}
+                size="sm"
               >
                 Disconnect
               </Button>
@@ -321,10 +405,13 @@ export function WalletConnector() {
           </div>
         )}
 
-        <div className="text-xs text-muted-foreground space-y-1">
-          <div>• Coinbase Wallet: Native Smart Wallet support with passkeys</div>
-          <div>• MetaMask: Compatible with ERC-4337 Account Abstraction</div>
-          <div>• Base Network: Optimized for gasless transactions</div>
+        <div className="text-xs text-muted-foreground border-t pt-4 space-y-1">
+          <div className="flex items-center space-x-1">
+            <Globe className="h-3 w-3" />
+            <span>Supported networks: Base, Ethereum mainnet</span>
+          </div>
+          <div>Smart Wallet features available on Base network</div>
+          <div>ERC-4337 Account Abstraction supported</div>
         </div>
       </CardContent>
     </Card>
