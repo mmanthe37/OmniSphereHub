@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { XanoAuthService, type XanoUser } from '@/lib/xano-auth';
+import { UserPermissionService, UserType, type UserPermissions } from '@/lib/user-permissions';
 
 interface AuthContextType {
   user: XanoUser | null;
@@ -8,6 +9,10 @@ interface AuthContextType {
   signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  userType: UserType;
+  permissions: UserPermissions;
+  canAccess: (feature: keyof UserPermissions) => boolean;
+  getLimit: (feature: keyof UserPermissions) => number;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,6 +37,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Calculate user type and permissions
+  const userType = UserPermissionService.getUserType(user);
+  const permissions = UserPermissionService.getPermissions(userType);
+  
+  const canAccess = (feature: keyof UserPermissions): boolean => {
+    return UserPermissionService.canAccess(feature, userType);
+  };
+  
+  const getLimit = (feature: keyof UserPermissions): number => {
+    return UserPermissionService.getFeatureLimit(feature, userType);
   };
 
   const login = async (email: string, password: string) => {
@@ -64,6 +81,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signup,
     logout,
     isAuthenticated: !!user,
+    userType,
+    permissions,
+    canAccess,
+    getLimit,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
