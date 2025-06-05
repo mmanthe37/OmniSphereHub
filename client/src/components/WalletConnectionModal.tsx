@@ -12,6 +12,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { WalletOnboardingWizard } from './WalletOnboardingWizard';
+import { walletManager } from '@/lib/walletConnection';
 import { 
   Wallet, 
   CreditCard, 
@@ -126,24 +127,25 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
     enabled: isOpen && mode === 'payment'
   });
 
-  // Mutations
+  // Browser-based wallet connections
   const connectWalletMutation = useMutation({
-    mutationFn: (walletId: string) => apiRequest("POST", "/api/wallet/connect", { walletId }),
-    onSuccess: (data: any) => {
-      if (data.success) {
-        toast({
-          title: "Wallet Connected",
-          description: `Successfully connected ${data.wallet.provider}`
-        });
-        setCurrentStep('confirm');
-        queryClient.invalidateQueries({ queryKey: ['/api/wallet/connected'] });
-      } else {
-        toast({
-          title: "Connection Failed",
-          description: data.error || "Failed to connect wallet",
-          variant: "destructive"
-        });
-      }
+    mutationFn: async (walletId: string) => {
+      return await walletManager.connectWallet(walletId);
+    },
+    onSuccess: (walletData: any) => {
+      toast({
+        title: "Wallet Connected",
+        description: `Successfully connected ${walletData.provider} with gasless transactions enabled`
+      });
+      setCurrentStep('confirm');
+      queryClient.invalidateQueries({ queryKey: ['/api/wallet/connected'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Connection Failed",
+        description: error.message || "Failed to connect wallet",
+        variant: "destructive"
+      });
     }
   });
 
@@ -409,7 +411,7 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                           className={`bg-gray-800 border-gray-700 cursor-pointer transition-all hover:bg-gray-750 ${
                             !wallet.supported ? 'opacity-50' : ''
                           }`}
-                          onClick={() => wallet.supported && handleWalletConnect(wallet.id)}
+                          onClick={() => wallet.supported && connectWalletMutation.mutate(wallet.id)}
                         >
                           <CardContent className="p-4">
                             <div className="flex items-start gap-3">

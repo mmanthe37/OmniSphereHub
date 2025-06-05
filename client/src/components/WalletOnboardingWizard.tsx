@@ -35,6 +35,7 @@ import { SiMetabase } from 'react-icons/si';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { walletManager } from '@/lib/walletConnection';
 
 interface WalletProvider {
   id: string;
@@ -134,27 +135,39 @@ export function WalletOnboardingWizard({ isOpen, onClose, onWalletConnected }: W
     enabled: isOpen
   });
 
-  // Connect wallet mutation
+  // Browser-based wallet connection
   const connectWalletMutation = useMutation({
-    mutationFn: (walletId: string) => apiRequest("POST", "/api/wallet/connect", { walletId }),
-    onSuccess: (data: any) => {
-      if (data.success) {
-        setConnectionProgress(100);
-        toast({
-          title: "Wallet Connected Successfully",
-          description: `Your ${selectedWallet?.name} wallet is now connected to OmniSphere`
-        });
-        onWalletConnected(data.wallet);
-        setCurrentStep(7); // Move to completion step
-        queryClient.invalidateQueries({ queryKey: ['/api/wallet/connected'] });
-      } else {
-        toast({
-          title: "Connection Failed",
-          description: data.error || "Failed to connect wallet",
-          variant: "destructive"
-        });
-        setConnectionProgress(0);
-      }
+    mutationFn: async (walletId: string) => {
+      return await walletManager.connectWallet(walletId);
+    },
+    onSuccess: (walletData: any) => {
+      setConnectionProgress(100);
+      toast({
+        title: "Wallet Connected Successfully",
+        description: `Your ${selectedWallet?.name} wallet is now connected with gasless transactions enabled`
+      });
+      
+      const wallet = {
+        address: walletData.address,
+        provider: walletData.provider,
+        chainId: walletData.chainId,
+        balance: walletData.balance,
+        network: walletData.chainId === 1 ? 'ethereum' : walletData.chainId === 101 ? 'solana' : 'base',
+        isConnected: true,
+        lastConnected: new Date()
+      };
+      
+      onWalletConnected(wallet);
+      setCurrentStep(7);
+      queryClient.invalidateQueries({ queryKey: ['/api/wallet/connected'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Connection Failed", 
+        description: error.message || "Failed to connect wallet",
+        variant: "destructive"
+      });
+      setConnectionProgress(0);
     }
   });
 
@@ -699,8 +712,8 @@ export function WalletOnboardingWizard({ isOpen, onClose, onWalletConnected }: W
   const canProceed = () => {
     switch (currentStep) {
       case 0: return true;
-      case 1: return userExperience !== '';
-      case 2: return securityPreference !== '' && primaryUseCase !== '';
+      case 1: return userExperience.length > 0;
+      case 2: return securityPreference.length > 0 && primaryUseCase.length > 0;
       case 3: return selectedWallet !== null;
       case 4: return true;
       case 5: return recoveryPhrase === confirmPhrase && recoveryPhrase.length > 0;
@@ -800,11 +813,13 @@ function WalletOption({
   const getWalletIcon = (provider: WalletProvider) => {
     switch (provider.id) {
       case 'metamask':
-        return <SiMetamask className="w-6 h-6" />;
+        return <div className="w-6 h-6 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xs">M</div>;
       case 'walletconnect':
-        return <SiWalletconnect className="w-6 h-6" />;
+        return <div className="w-6 h-6 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-xs">W</div>;
       case 'coinbase':
-        return <Wallet className="w-6 h-6" />;
+        return <div className="w-6 h-6 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">C</div>;
+      case 'phantom':
+        return <div className="w-6 h-6 bg-purple-500 rounded-lg flex items-center justify-center text-white font-bold text-xs">P</div>;
       default:
         return <Wallet className="w-6 h-6" />;
     }
