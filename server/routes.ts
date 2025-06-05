@@ -287,6 +287,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Payment & Commerce API Endpoints
+  app.post("/api/payments/x402", async (req, res) => {
+    try {
+      const { amount, currency, description, metadata } = req.body;
+      const result = await coinbaseCDP.createX402PaymentRequest({
+        amount: parseFloat(amount),
+        currency: currency || 'USDC',
+        description: description || 'X402 Payment',
+        metadata
+      });
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "X402 payment request failed", error: error.message });
+    }
+  });
+
   app.post("/api/payments/micropayment-stream", async (req, res) => {
     try {
       const { creatorId, subscriberId, ratePerSecond, currency } = req.body;
