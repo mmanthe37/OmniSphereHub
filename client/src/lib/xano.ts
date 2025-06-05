@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const xano = axios.create({
-  baseURL: import.meta.env.VITE_XANO_BASE_URL,
+  baseURL: "https://x8ki-letl-twmt.n7.xano.io/api:Lj5ehXrx",
   headers: {
     Authorization: `Bearer ${import.meta.env.VITE_XANO_API_TOKEN}`,
     "Content-Type": "application/json",
