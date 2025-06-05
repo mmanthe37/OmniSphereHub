@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useWebSocket } from "@/lib/websocket";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,23 +11,23 @@ import {
 } from "lucide-react";
 import { formatCurrency, formatPercentage, getTimeAgo } from "@/lib/utils";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
+import { 
+  usePortfolio, 
+  usePortfolioHoldings, 
+  useAITrades, 
+  useUserProfile 
+} from "@/lib/xano-hooks";
 
 export default function DashboardOverview() {
   const [priceData, setPriceData] = useState<any[]>([]);
   const { lastMessage } = useWebSocket("/ws");
 
-  const { data: portfolio } = useQuery({
-    queryKey: ["/api/portfolio/1"],
-  });
-
-  const { data: holdings = [] } = useQuery({
-    queryKey: ["/api/portfolio/1"],
-    select: (data: any) => data?.holdings || [],
-  });
-
-  const { data: aiTrades } = useQuery({
-    queryKey: ["/api/ai-trades/1"],
-  });
+  // Using authentic Xano backend data
+  const userId = 1; // This would come from auth context in production
+  const { data: portfolio } = usePortfolio(userId);
+  const { data: holdings = [] } = usePortfolioHoldings(userId);
+  const { data: aiTrades = [] } = useAITrades(userId);
+  const { data: userProfile } = useUserProfile(userId);
 
   useEffect(() => {
     if (lastMessage?.type === "priceUpdate") {

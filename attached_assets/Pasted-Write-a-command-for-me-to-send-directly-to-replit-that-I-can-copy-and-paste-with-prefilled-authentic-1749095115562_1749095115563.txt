@@ -1,0 +1,151 @@
+Write a command for me to send directly to replit that I can copy and paste with prefilled authentic secrets that will enable it to seamlessly connect to my xano backend in the most useful and constructive way(s) using the following info: 2. Secrets & environment on Replit
+────────────────────────────────
+Add the following entries in the Secrets tab (never commit them to Git):
+
+XANO_BASE_URL = https://x8ki-letl-twmt.n7.xano.io
+XANO_API_TOKEN = a538f02f-8cd3-4716-8897-cda1d72304b7
+
+Your Vite-powered React app can read them through import.meta.env.
+
+────────────────────────────────
+3. A thin, typed API client
+────────────────────────────────
+Install helpers:
+
+npm i axios openapi-typescript zod
+
+Generate TypeScript types from your Swagger spec once:
+
+npx openapi-typescript
+"$XANO_BASE_URL/api:meta/openapi.json"
+--output src/lib/xano.types.ts
+
+Create src/lib/xano.ts:
+
+ts
+import axios from "axios";
+export const xano = axios.create({
+  baseURL: import.meta.env.VITE_XANO_BASE_URL,
+  headers: {
+    Authorization: `Bearer ${import.meta.env.VITE_XANO_API_TOKEN}`,
+    "Content-Type": "application/json",
+  },
+});
+Add an interceptor so expired tokens redirect to /login:
+
+ts
+xano.interceptors.response.use(
+  r => r,
+  err => {
+    if (err.response?.status === 401) window.location.href = "/login";
+    return Promise.reject(err);
+  },
+);
+────────────────────────────────
+4. Example call flows
+────────────────────────────────
+Login (if you keep server-side auth):
+
+ts
+const { data } = await xano.post("/auth/login", { email, password });
+localStorage.setItem("jwt", data.jwt);          // optional
+Fetch Alex’s dashboard:
+
+ts
+const { data: positions } = await xano.get(
+  `/portfolio/${walletAddress}`,
+  { params: { include_rewards: true } },
+);
+Mutate staking pool:
+
+ts
+await xano.post("/pool/stake", {
+  poolId: 3,
+  amount: 12.5,
+});
+────────────────────────────────
+5. UI plumbing
+────────────────────────────────
+• Wrap your <App> in a React Query provider; set its default queryFn to the xano instance.
+• Put auth token (if dynamic) in React Context and inject it into the xano header on login/logout.
+• Use SWR-style hooks:
+
+ts
+function usePools() {
+  return useQuery(["pools"], () => xano.get("/pools").then(r => r.data));
+}
+────────────────────────────────
+6. Deployment checklist
+────────────────────────────────
+☑ Replit Secrets populated (token, base URL).
+☑ Xano CORS allows both repl.co preview and your custom domain.
+☑ .env variables referenced in vite.config.ts with VITE_ prefix.
+☑ vite build && node server.js still reaches Xano (production base URL remains valid).
+☑ Backend migrations happen in Xano; no Replit build needed.
+
+────────────────────────────────
+7. Optional hardening
+────────────────────────────────
+• Replace global access token with user-specific JWTs: call /auth/login, store JWT, send it via Authorization: Bearer <jwt>.
+• Enable row-level security in Xano tables tied to auth.user().id.
+• Use express-oas-generator in Replit if you proxy or enhance the API locally.
+
+Connect once, keep endpoints versioned in Xano, and your Replit front-end will stay in lock-step with every schema or business-logic change.
+My Xano secret developer access API key: eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwiemlwIjoiREVGIn0.Md567XWiaqNHbCwjBuC-9r9ufR9hu6KAV33bhwaoWHgxzBnXKCJuusedIvrVwFnjTFrWEfrgyUpj-wPjJJrBjuk4JvEYxlkC.Lb-vCj_YwfKaRJMm6sTdvw.mMZ6dvsujRRjn0nXBdvFMaiG4OxuDMa5ElM1L4XKYOAIWusdO6F8zx5e8Hkq9DNYCNXEKwtSljK0lrEyzGYCjrqtsqwGIQjtanPoxX0yIF7fa_uu5yT-s5X0EMJEI-9lPoXnmMnZOHxVY40O_SCGp1Wvl6N0etXaXvtVCpxFQqU.tt5TGxAgQ3wk7WPP4268FaXTQypyBXtK3_TaL5gr-ac
+
+Xano Metadata API access token: eyJhbGciOiJSUzI1NiJ9.eyJ4YW5vIjp7ImRibyI6Im1hc3Rlcjp1c2VyIiwiaWQiOjExNzY0MywiYWNjZXNzX3Rva2VuIjp7ImtleWlkIjoiYTUzOGYwMmYtOGNkMy00NzE2LTg4OTctY2RhMWQ3MjMwNGI3Iiwic2NvcGUiOnsidGVuYW50X2NlbnRlcjpiYWNrdXAiOjAsInRlbmFudF9jZW50ZXI6ZGVwbG95IjowLCJ0ZW5hbnRfY2VudGVyOmltcGVyc29uYXRlIjowLCJ0ZW5hbnRfY2VudGVyOmxvZyI6MCwidGVuYW50X2NlbnRlcjpyYmFjIjowLCJ0ZW5hbnRfY2VudGVyOnNlY3JldHMiOjAsInRlbmFudF9jZW50ZXIiOjAsIndvcmtzcGFjZTphZGRvbiI6MTUsIndvcmtzcGFjZTphcGkiOjE1LCJ3b3Jrc3BhY2U6Y29udGVudCI6MTUsIndvcmtzcGFjZTpkYXRhYmFzZSI6MTUsIndvcmtzcGFjZTpkYXRhc291cmNlOmxpdmUiOjE1LCJ3b3Jrc3BhY2U6ZmlsZSI6MTUsIndvcmtzcGFjZTpmdW5jdGlvbiI6MTUsIndvcmtzcGFjZTpsb2ciOjE1LCJ3b3Jrc3BhY2U6bWlkZGxld2FyZSI6MTUsIndvcmtzcGFjZTpyZXF1ZXN0aGlzdG9yeSI6MTUsIndvcmtzcGFjZTp0YXNrIjoxNSwid29ya3NwYWNlOnRvb2wiOjE1fX0sImV4cGlyZXNfYXQiOiIyMDI1LTA5LTAxIDIwOjE3OjA0KzAwMDAifSwiaWF0IjoxNzQ4OTgxODI0LCJuYmYiOjE3NDg5ODE4MjQsImF1ZCI6Inhhbm86bWV0YSJ9.LnDzyLKV7l8_bovMN4pEokD3_VCw1Zvk2KPKJTAza0TFdZfTyJlxubY38bm4xxQCKOOei-w30Oas6TdGPEVLVPvqfZLEQdEbKKQ1yrtPD1dvl-BwC-ZqrPnOzfKzHe0WRts_vqOkh80Bon7QK_f4gEIgUZlVMTyuqzYfrSecf435zV96lK7lqLGhDbJOe9etjD_zGprsyCOlAo62hNYR8H9cYedARd3Gr0CjUsOrWIUU-_dpPLfhX5kSw05H4z5Fo0U6HJ2NSW5XJTMCTk-vX8-sYgNJ5LJv7IHycfuH_spXRm3ndxOJOtnqjSHAqfAVYeaSWbmC2cSzuNz5sajiU4DQ3yfchZd0_AygM92ZLBPmjnI-kKiAiinnyjCiFES7YdVFX0IkqABdH01fsCgEl5Q3DQmSqXZMWlpdzqEA4QpSggqtUukvMX5tCbYg8II0uxLgDemU4isrDg8XQUQXq1GQOgBbQkbPXjmwtyb2PolsB1ANz0ALCQTpeQfbZnQ0t4aF_I2ztkK7dkkusbqaukONXrmeqMrJm0Q5FwZXOJWIoxfxu4RQ8U37M6JIhAu3wMuSP9M3R46opi2NgYkOfAeTjgKXFFfRAfJf1QtVUTt9bsXa9Elyb7ExLn2aB875_D-L12xBMUdalGc7AEGxTu8h3OefW-yPxYnic_-lVW4
+
+Copy-paste the block below into the Replit shell (or “Console”) at the root of your project.  
+It will
+
+1. write the `.env` file with your Xano secrets  
+2. install Axios + Zod + openapi-typescript  
+3. generate strongly-typed bindings from Xano’s Swagger spec  
+4. scaffold `src/lib/xano.ts` with the ready-to-use Axios instance  
+
+```bash
+# === OmniSphere ↔ Xano bootstrap =========================================
+export VITE_XANO_BASE_URL="https://x8ki-letl-twmt.n7.xano.io"
+export VITE_XANO_API_TOKEN="a538f02f-8cd3-4716-8897-cda1d72304b7"
+
+# (1) persist secrets to local .env so Vite can read them
+echo "VITE_XANO_BASE_URL=$VITE_XANO_BASE_URL"   >> .env
+echo "VITE_XANO_API_TOKEN=$VITE_XANO_API_TOKEN" >> .env
+
+# (2) grab helper libs
+npm install -E axios openapi-typescript zod
+
+# (3) generate TS types from Xano OpenAPI once
+mkdir -p src/lib
+npx openapi-typescript "$VITE_XANO_BASE_URL/api:meta/openapi.json" \
+  --output src/lib/xano.types.ts
+
+# (4) create thin Axios wrapper with auth + 401 redirect
+cat > src/lib/xano.ts <<'EOF'
+import axios from "axios";
+
+export const xano = axios.create({
+  baseURL: import.meta.env.VITE_XANO_BASE_URL,
+  headers: {
+    Authorization: `Bearer ${import.meta.env.VITE_XANO_API_TOKEN}`,
+    "Content-Type": "application/json",
+  },
+});
+
+xano.interceptors.response.use(
+  r => r,
+  err => {
+    if (err.response?.status === 401) window.location.href = "/login";
+    return Promise.reject(err);
+  },
+);
+
+export default xano;
+EOF
+
+echo "✅  Xano client ready — import with  import xano from 'src/lib/xano';"
+# ========================================================================
+```
+
+Run it once; thereafter your React code can call  
+`xano.get("/auth/me")`, `xano.post("/pool/stake", …)` etc. without further setup.
