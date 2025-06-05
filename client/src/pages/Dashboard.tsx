@@ -14,13 +14,16 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
 import { MobileNavigation } from "@/components/MobileNavigation";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import PublicHeader from "@/components/PublicHeader";
 import { useWebSocket } from "@/hooks/useWebSocket";
+import { useAuth } from "@/contexts/AuthContext";
 import type { TabType, User, CryptoPrice } from "@/types";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('sphere');
   const [showLanding, setShowLanding] = useState(false);
   const { isConnected, cryptoPrices: livePrice } = useWebSocket('/ws');
+  const { user: authUser } = useAuth();
 
   useEffect(() => {
     const handleShowLanding = () => setShowLanding(true);
@@ -28,9 +31,12 @@ export default function Dashboard() {
     return () => window.removeEventListener('showLanding', handleShowLanding);
   }, []);
   
-  const { data: user } = useQuery<User>({
+  const { data: queryUser } = useQuery<User>({
     queryKey: ['/api/user/1'],
   });
+
+  // Use authenticated user data if available, otherwise fall back to query data
+  const user = authUser || queryUser;
 
   const { data: staticPrices = [] } = useQuery<CryptoPrice[]>({
     queryKey: ['/api/crypto-prices'],
