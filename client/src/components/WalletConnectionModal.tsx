@@ -104,6 +104,7 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
   const [destinationAddress, setDestinationAddress] = useState("");
   const [currentStep, setCurrentStep] = useState<'select' | 'connect' | 'payment' | 'confirm'>('select');
   const [showOnboardingWizard, setShowOnboardingWizard] = useState(false);
+  const [showAllWalletsModal, setShowAllWalletsModal] = useState(false);
 
   // Queries
   const { data: walletProviders = [] } = useQuery<WalletProvider[]>({
@@ -294,8 +295,9 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
   if (!isOpen) return null;
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] bg-gray-900 border-gray-700">
+      <DialogContent className="max-w-4xl max-h-[90vh] bg-gray-900 border-gray-700 overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-white flex items-center gap-2">
             <Wallet className="h-5 w-5" />
@@ -334,6 +336,7 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
 
           {/* Wallet Connection Tab */}
           <TabsContent value="wallets" className="space-y-4">
+            <ScrollArea className="h-[60vh] pr-4">
             {connectedWallets.length > 0 && (
               <Card className="bg-gray-800 border-gray-700">
                 <CardHeader>
@@ -409,9 +412,12 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                   className="w-16 h-16 rounded-full bg-white hover:bg-gray-100 transition-all duration-200 hover:scale-105 flex items-center justify-center"
                   onClick={() => connectWalletMutation.mutate('google')}
                 >
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 via-green-500 via-yellow-500 to-red-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xs">G</span>
-                  </div>
+                  <svg className="w-8 h-8" viewBox="0 0 48 48">
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+                  </svg>
                 </button>
                 
                 {/* Apple */}
@@ -419,9 +425,9 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                   className="w-16 h-16 rounded-full bg-black hover:bg-gray-800 transition-all duration-200 hover:scale-105 flex items-center justify-center"
                   onClick={() => connectWalletMutation.mutate('apple')}
                 >
-                  <div className="w-8 h-8 flex items-center justify-center">
-                    <span className="text-white text-xl">🍎</span>
-                  </div>
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+                  </svg>
                 </button>
                 
                 {/* Facebook */}
@@ -429,7 +435,9 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                   className="w-16 h-16 rounded-full bg-blue-600 hover:bg-blue-700 transition-all duration-200 hover:scale-105 flex items-center justify-center"
                   onClick={() => connectWalletMutation.mutate('facebook')}
                 >
-                  <span className="text-white font-bold text-xl">f</span>
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
                 </button>
                 
                 {/* X (Twitter) */}
@@ -437,7 +445,9 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                   className="w-16 h-16 rounded-full bg-black hover:bg-gray-800 transition-all duration-200 hover:scale-105 flex items-center justify-center"
                   onClick={() => connectWalletMutation.mutate('twitter')}
                 >
-                  <span className="text-white font-bold text-xl">𝕏</span>
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
                 </button>
                 
                 {/* Discord */}
@@ -445,7 +455,9 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                   className="w-16 h-16 rounded-full bg-indigo-600 hover:bg-indigo-700 transition-all duration-200 hover:scale-105 flex items-center justify-center"
                   onClick={() => connectWalletMutation.mutate('discord')}
                 >
-                  <span className="text-white text-xl">💬</span>
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.196.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                  </svg>
                 </button>
               </div>
             </div>
@@ -533,12 +545,7 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                 {/* All Wallets */}
                 <button
                   className="w-full flex items-center justify-between p-4 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 transition-all duration-200"
-                  onClick={() => {
-                    toast({
-                      title: "Coming Soon",
-                      description: "Comprehensive wallet selection will be available soon"
-                    });
-                  }}
+                  onClick={() => setShowAllWalletsModal(true)}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-600 rounded-lg flex items-center justify-center">
@@ -555,6 +562,7 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                 </button>
               </div>
             </div>
+            </ScrollArea>
           </TabsContent>
 
           {/* Payment Methods Tab */}
@@ -733,5 +741,218 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
         </Tabs>
       </DialogContent>
     </Dialog>
+
+    {/* All Wallets Modal */}
+    <Dialog open={showAllWalletsModal} onOpenChange={setShowAllWalletsModal}>
+      <DialogContent className="max-w-3xl bg-gray-900 border-gray-700 text-white max-h-[85vh] overflow-hidden">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-bold text-white">All Wallets (300+)</DialogTitle>
+          <DialogDescription className="text-gray-400">
+            Connect to any supported wallet provider
+          </DialogDescription>
+        </DialogHeader>
+        
+        <ScrollArea className="h-[70vh] pr-4">
+          <div className="space-y-6">
+            {/* Browser Extensions */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <div className="w-5 h-5 bg-orange-500 rounded"></div>
+                Browser Extensions
+              </h3>
+              <div className="grid grid-cols-4 gap-3">
+                {[
+                  { id: 'metamask', name: 'MetaMask', logo: (
+                    <svg className="w-8 h-8" viewBox="0 0 40 40" fill="none">
+                      <path d="M37.0668 5.70203L22.1336 16.7687L25.0669 9.57203L37.0668 5.70203Z" fill="#E17726"/>
+                      <path d="M2.86683 5.70203L17.6002 16.9354L14.8669 9.57203L2.86683 5.70203Z" fill="#E27625"/>
+                      <path d="M31.7335 27.9021L27.8669 33.6021L36.2669 35.9021L38.7335 28.1021L31.7335 27.9021Z" fill="#E27625"/>
+                      <path d="M1.33351 28.1021L3.80018 35.9021L12.2002 33.6021L8.33351 27.9021L1.33351 28.1021Z" fill="#E27625"/>
+                    </svg>
+                  )},
+                  { id: 'brave', name: 'Brave Wallet', logo: (
+                    <svg className="w-8 h-8" fill="#FB542B" viewBox="0 0 24 24">
+                      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 1.5a10.5 10.5 0 110 21 10.5 10.5 0 010-21z"/>
+                    </svg>
+                  )},
+                  { id: 'coinbase_wallet', name: 'Coinbase Wallet', logo: (
+                    <svg className="w-8 h-8" fill="#0052FF" viewBox="0 0 24 24">
+                      <path d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12zm-3-12a3 3 0 116 0 3 3 0 01-6 0z"/>
+                    </svg>
+                  )},
+                  { id: 'phantom', name: 'Phantom', logo: (
+                    <svg className="w-8 h-8" fill="#AB9FF2" viewBox="0 0 24 24">
+                      <path d="M20.05 10.654C20.05 5.204 16.098.882 11.027.882 4.84.882.412 5.586.412 11.435c0 4.585 2.925 8.495 7.005 9.927.384-.674.552-1.49.552-2.365V12c0-.552.448-1 1-1s1 .448 1 1v6.997c0 .552-.448 1-1 1s-1-.448-1-1v-.632c-.64.24-1.34.369-2.069.369-2.925 0-5.369-2.304-5.369-5.369s2.444-5.369 5.369-5.369c.729 0 1.43.129 2.069.369V12c0-.552.448-1 1-1s1 .448 1 1v6.997c0 2.073-1.367 3.82-3.246 4.378C18.078 21.947 20.05 16.58 20.05 10.654z"/>
+                    </svg>
+                  )},
+                  { id: 'rabby', name: 'Rabby', logo: (
+                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">R</div>
+                  )},
+                  { id: 'frame', name: 'Frame', logo: (
+                    <div className="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center text-white font-bold">F</div>
+                  )},
+                  { id: 'tally', name: 'Tally Ho', logo: (
+                    <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold">T</div>
+                  )},
+                  { id: 'mathwallet', name: 'MathWallet', logo: (
+                    <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold">M</div>
+                  )}
+                ].map((wallet) => (
+                  <button
+                    key={wallet.id}
+                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200 hover:scale-105"
+                    onClick={() => {
+                      connectWalletMutation.mutate(wallet.id);
+                      setShowAllWalletsModal(false);
+                    }}
+                  >
+                    <div className="mb-2">{wallet.logo}</div>
+                    <span className="text-xs text-white text-center font-medium">{wallet.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile Wallets */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <div className="w-5 h-5 bg-blue-500 rounded"></div>
+                Mobile Wallets
+              </h3>
+              <div className="grid grid-cols-4 gap-3">
+                {[
+                  { id: 'trust_wallet', name: 'Trust Wallet', logo: (
+                    <svg className="w-8 h-8" fill="#3375BB" viewBox="0 0 24 24">
+                      <path d="M12 0L2 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-10-5z"/>
+                    </svg>
+                  )},
+                  { id: 'rainbow', name: 'Rainbow', logo: (
+                    <div className="w-8 h-8 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold">🌈</div>
+                  )},
+                  { id: 'argent', name: 'Argent', logo: (
+                    <svg className="w-8 h-8" fill="#FF875B" viewBox="0 0 24 24">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                  )},
+                  { id: 'imtoken', name: 'imToken', logo: (
+                    <svg className="w-8 h-8" fill="#11C4D1" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path fill="white" d="M8 12h8M12 8v8"/>
+                    </svg>
+                  )},
+                  { id: 'exodus', name: 'Exodus', logo: (
+                    <svg className="w-8 h-8" fill="#0B1426" viewBox="0 0 24 24">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                  )},
+                  { id: 'coinomi', name: 'Coinomi', logo: (
+                    <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold">C</div>
+                  )},
+                  { id: 'safepal', name: 'SafePal', logo: (
+                    <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold">S</div>
+                  )},
+                  { id: 'tokenpocket', name: 'TokenPocket', logo: (
+                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">TP</div>
+                  )}
+                ].map((wallet) => (
+                  <button
+                    key={wallet.id}
+                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200 hover:scale-105"
+                    onClick={() => {
+                      connectWalletMutation.mutate(wallet.id);
+                      setShowAllWalletsModal(false);
+                    }}
+                  >
+                    <div className="mb-2">{wallet.logo}</div>
+                    <span className="text-xs text-white text-center font-medium">{wallet.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Hardware Wallets */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <div className="w-5 h-5 bg-green-500 rounded"></div>
+                Hardware Wallets
+              </h3>
+              <div className="grid grid-cols-4 gap-3">
+                {[
+                  { id: 'ledger', name: 'Ledger', logo: (
+                    <svg className="w-8 h-8" fill="white" viewBox="0 0 24 24">
+                      <path d="M2 2h6v6H2V2zm14 0h6v6h-6V2zM2 16h6v6H2v-6zm14 0h6v6h-6v-6z"/>
+                    </svg>
+                  )},
+                  { id: 'trezor', name: 'Trezor', logo: (
+                    <svg className="w-8 h-8" fill="#00D7AA" viewBox="0 0 24 24">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                  )},
+                  { id: 'keystone', name: 'Keystone', logo: (
+                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">K</div>
+                  )},
+                  { id: 'bitbox', name: 'BitBox', logo: (
+                    <div className="w-8 h-8 bg-gray-600 rounded-lg flex items-center justify-center text-white font-bold">BB</div>
+                  )}
+                ].map((wallet) => (
+                  <button
+                    key={wallet.id}
+                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200 hover:scale-105"
+                    onClick={() => {
+                      connectWalletMutation.mutate(wallet.id);
+                      setShowAllWalletsModal(false);
+                    }}
+                  >
+                    <div className="mb-2">{wallet.logo}</div>
+                    <span className="text-xs text-white text-center font-medium">{wallet.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Exchange Wallets */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <div className="w-5 h-5 bg-purple-500 rounded"></div>
+                Exchange Wallets
+              </h3>
+              <div className="grid grid-cols-4 gap-3">
+                {[
+                  { id: 'binance_wallet', name: 'Binance', logo: (
+                    <svg className="w-8 h-8" fill="#F3BA2F" viewBox="0 0 24 24">
+                      <path d="M12 2L15.5 5.5L19 2L22.5 5.5L19 9L15.5 5.5L12 2Z"/>
+                    </svg>
+                  )},
+                  { id: 'okx_wallet', name: 'OKX Wallet', logo: (
+                    <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold">OKX</div>
+                  )},
+                  { id: 'crypto_com', name: 'Crypto.com', logo: (
+                    <svg className="w-8 h-8" fill="#003CDA" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                  )},
+                  { id: 'kucoin', name: 'KuCoin', logo: (
+                    <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white font-bold">KC</div>
+                  )}
+                ].map((wallet) => (
+                  <button
+                    key={wallet.id}
+                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200 hover:scale-105"
+                    onClick={() => {
+                      connectWalletMutation.mutate(wallet.id);
+                      setShowAllWalletsModal(false);
+                    }}
+                  >
+                    <div className="mb-2">{wallet.logo}</div>
+                    <span className="text-xs text-white text-center font-medium">{wallet.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
