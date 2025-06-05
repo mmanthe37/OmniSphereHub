@@ -17,12 +17,21 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(insertUser: InsertUser): Promise<User>;
   getSocialPosts(): Promise<SocialPost[]>;
+  createSocialPost(post: { userId: number; content: string; imageUrl?: string }): Promise<SocialPost>;
   getPortfolioData(userId: number): Promise<PortfolioData | undefined>;
   getCryptoPrices(): Promise<CryptoPrice[]>;
   getStakingPools(): Promise<StakingPool[]>;
-  getAITrades(): Promise<AITrade[]>;
-  updateCryptoPrice(symbol: string, price: number, change24h: number): Promise<void>;
+  getUserStakingPositions(userId: number): Promise<any[]>;
+  createStakingPosition(position: { userId: number; poolId: number; amount: number }): Promise<any>;
+  unstakePosition(positionId: number, amount: number): Promise<any>;
+  claimStakingRewards(positionId: number): Promise<any>;
+  getAITrades(userId: number): Promise<AITrade[]>;
+  getAITradingStatus(userId: number): Promise<any>;
+  updateAITradingStatus(userId: number, status: any): Promise<void>;
   getNFTCollections(): Promise<NFTCollection[]>;
+  getUserNFTs(userId: number): Promise<any[]>;
+  createNFT(nft: { userId: number; name: string; description: string; imageUrl?: string; price?: number }): Promise<any>;
+  updateCryptoPrice(symbol: string, price: number, change24h: number): Promise<void>;
   getContentStats(userId: number): Promise<ContentStats | undefined>;
   getCreatorBadges(userId: number): Promise<CreatorBadge[]>;
 }
@@ -33,7 +42,10 @@ export class MemStorage implements IStorage {
   private portfolioData = new Map<number, PortfolioData>();
   private cryptoPrices = new Map<string, CryptoPrice>();
   private stakingPools = new Map<number, StakingPool>();
+  private stakingPositions = new Map<number, any>();
   private aiTrades = new Map<number, AITrade>();
+  private aiTradingStatus = new Map<number, any>();
+  private userNFTs = new Map<number, any[]>();
   private nftCollections = new Map<number, NFTCollection>();
   private contentStats = new Map<number, ContentStats>();
   private creatorBadges = new Map<number, CreatorBadge>();
@@ -42,6 +54,8 @@ export class MemStorage implements IStorage {
   private currentPostId = 1;
   private currentTradeId = 1;
   private currentBadgeId = 1;
+  private currentPositionId = 1;
+  private currentNFTId = 1;
 
   constructor() {
     // Initialize empty data structures for real use
@@ -77,6 +91,23 @@ export class MemStorage implements IStorage {
       .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
   }
 
+  async createSocialPost(post: { userId: number; content: string; imageUrl?: string }): Promise<SocialPost> {
+    const id = this.currentPostId++;
+    const newPost: SocialPost = {
+      id,
+      userId: post.userId,
+      content: post.content,
+      imageUrl: post.imageUrl || null,
+      likes: 0,
+      comments: 0,
+      shares: 0,
+      pnl: null,
+      createdAt: new Date(),
+    };
+    this.socialPosts.set(id, newPost);
+    return newPost;
+  }
+
   async getPortfolioData(userId: number): Promise<PortfolioData | undefined> {
     return this.portfolioData.get(userId);
   }
@@ -104,9 +135,87 @@ export class MemStorage implements IStorage {
       .filter(pool => pool.isActive);
   }
 
-  async getAITrades(): Promise<AITrade[]> {
+  async getUserStakingPositions(userId: number): Promise<any[]> {
+    return Array.from(this.stakingPositions.values())
+      .filter((position: any) => position.userId === userId);
+  }
+
+  async createStakingPosition(position: { userId: number; poolId: number; amount: number }): Promise<any> {
+    const id = this.currentPositionId++;
+    const newPosition = {
+      id,
+      userId: position.userId,
+      poolId: position.poolId,
+      amount: position.amount,
+      earned: 0,
+      createdAt: new Date(),
+      status: 'active'
+    };
+    this.stakingPositions.set(id, newPosition);
+    return newPosition;
+  }
+
+  async unstakePosition(positionId: number, amount: number): Promise<any> {
+    const position = this.stakingPositions.get(positionId);
+    if (position) {
+      position.amount -= amount;
+      position.status = position.amount <= 0 ? 'unstaked' : 'active';
+    }
+    return { success: true, position };
+  }
+
+  async claimStakingRewards(positionId: number): Promise<any> {
+    const position = this.stakingPositions.get(positionId);
+    if (position) {
+      const rewards = position.earned;
+      position.earned = 0;
+      return { success: true, rewards };
+    }
+    return { success: false, rewards: 0 };
+  }
+
+  async getAITrades(userId: number): Promise<AITrade[]> {
     return Array.from(this.aiTrades.values())
+      .filter(trade => trade.userId === userId)
       .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
+  }
+
+  async getAITradingStatus(userId: number): Promise<any> {
+    return this.aiTradingStatus.get(userId) || {
+      active: false,
+      strategy: 'conservative',
+      riskLevel: 'low',
+      maxAmount: 1000
+    };
+  }
+
+  async updateAITradingStatus(userId: number, status: any): Promise<void> {
+    this.aiTradingStatus.set(userId, status);
+  }
+
+  async getUserNFTs(userId: number): Promise<any[]> {
+    return this.userNFTs.get(userId) || [];
+  }
+
+  async createNFT(nft: { userId: number; name: string; description: string; imageUrl?: string; price?: number }): Promise<any> {
+    const id = this.currentNFTId++;
+    const newNFT = {
+      id,
+      userId: nft.userId,
+      name: nft.name,
+      description: nft.description,
+      imageUrl: nft.imageUrl || null,
+      price: nft.price || 0,
+      currency: 'ETH',
+      status: 'minted',
+      createdAt: new Date()
+    };
+    
+    const userNFTs = this.userNFTs.get(nft.userId) || [];
+    userNFTs.push(newNFT);
+    this.userNFTs.set(nft.userId, userNFTs);
+    
+    return newNFT;
   }
 
   async updateCryptoPrice(symbol: string, price: number, change24h: number): Promise<void> {

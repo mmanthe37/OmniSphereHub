@@ -100,11 +100,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI Trading API Routes
   app.get("/api/ai/trades", async (req, res) => {
     try {
-      const userId = req.query.userId as string;
-      if (!userId) {
-        return res.status(400).json({ message: "User ID required" });
-      }
-      const trades = await storage.getAITrades(parseInt(userId));
+      // For now, use a default user ID since auth is not fully implemented
+      const trades = await storage.getAITrades(1);
       res.json(trades);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -113,11 +110,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/ai/status", async (req, res) => {
     try {
-      const userId = req.query.userId as string;
-      if (!userId) {
-        return res.status(400).json({ message: "User ID required" });
-      }
-      const status = await storage.getAITradingStatus(parseInt(userId));
+      // For now, use a default user ID since auth is not fully implemented
+      const status = await storage.getAITradingStatus(1);
       res.json(status);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
@@ -126,7 +120,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/ai/start", async (req, res) => {
     try {
-      const { userId, strategy, riskLevel, maxAmount } = req.body;
+      const { userId = 1, strategy, riskLevel, maxAmount } = req.body;
       const result = await aiTradingEngine.enableAutoTrading(true);
       if (result.success) {
         await storage.updateAITradingStatus(userId, {
@@ -144,7 +138,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/ai/stop", async (req, res) => {
     try {
-      const { userId } = req.body;
+      const { userId = 1 } = req.body;
       const result = await aiTradingEngine.enableAutoTrading(false);
       if (result.success) {
         await storage.updateAITradingStatus(userId, { active: false });
