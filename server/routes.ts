@@ -4,6 +4,8 @@ import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { dexAggregator } from "./dexAggregator";
 import { coinbaseCDP } from "./coinbaseCDP";
+import { cdpSDK } from "./cdpSDK";
+import { x402Protocol } from "./x402Protocol";
 import { advancedTrading } from "./advancedTrading";
 import { paymentCommerce } from "./paymentCommerce";
 import { defiYield } from "./defiYield";
@@ -146,8 +148,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Coinbase CDP API Endpoints
+  // Authentic Coinbase CDP SDK Endpoints
   app.post("/api/cdp/wallet", async (req, res) => {
+    try {
+      const { network } = req.body;
+      const wallet = await cdpSDK.createWallet(network || 'base-mainnet');
+      res.json(wallet);
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to create CDP wallet", error: error.message });
+    }
+  });
+
+  app.get("/api/cdp/wallet/:walletId/balance", async (req, res) => {
+    try {
+      const { walletId } = req.params;
+      const { assetId } = req.query;
+      const balance = await cdpSDK.getWalletBalance(walletId, assetId as string || 'ETH');
+      res.json({ balance, currency: assetId || 'ETH' });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get wallet balance", error: error.message });
+    }
+  });
+
+  app.post("/api/cdp/transfer", async (req, res) => {
+    try {
+      const { walletId, amount, assetId, destination } = req.body;
+      const transfer = await cdpSDK.createTransfer(walletId, amount, assetId, destination);
+      res.json(transfer);
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to create transfer", error: error.message });
+    }
+  });
+
+  app.post("/api/cdp/trade", async (req, res) => {
+    try {
+      const { walletId, amount, fromAssetId, toAssetId } = req.body;
+      const trade = await cdpSDK.createTrade(walletId, amount, fromAssetId, toAssetId);
+      res.json(trade);
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to create trade", error: error.message });
+    }
+  });
+
+  app.post("/api/cdp/stake", async (req, res) => {
+    try {
+      const { walletId, amount, assetId } = req.body;
+      const stake = await cdpSDK.enableStaking(walletId, amount, assetId || 'ETH');
+      res.json(stake);
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to enable staking", error: error.message });
+    }
+  });
+
+  // Coinbase CDP Legacy API Endpoints (keeping for compatibility)
+  app.post("/api/cdp/wallet-legacy", async (req, res) => {
     try {
       const { network } = req.body;
       const wallet = await coinbaseCDP.createCDPWallet(network || 'base');
