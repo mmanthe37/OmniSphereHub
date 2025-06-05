@@ -9,6 +9,9 @@ interface WalletProvider {
   supported: boolean;
   deepLink?: string;
   downloadUrl?: string;
+  features: string[];
+  security: 'high' | 'medium' | 'low';
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
 }
 
 interface ConnectedWallet {
@@ -76,7 +79,10 @@ export class WalletConnectorEngine extends EventEmitter {
         description: 'Connect with MetaMask browser extension',
         category: 'browser',
         supported: true,
-        downloadUrl: 'https://metamask.io/download/'
+        downloadUrl: 'https://metamask.io/download/',
+        features: ['DeFi', 'NFTs', 'Browser Extension', 'Mobile App'],
+        security: 'high',
+        difficulty: 'beginner'
       },
       {
         id: 'coinbase_wallet',
@@ -85,7 +91,10 @@ export class WalletConnectorEngine extends EventEmitter {
         description: 'Connect with Coinbase Wallet',
         category: 'browser',
         supported: true,
-        downloadUrl: 'https://www.coinbase.com/wallet'
+        downloadUrl: 'https://www.coinbase.com/wallet',
+        features: ['DApp Browser', 'Easy Recovery', 'Built-in Exchange', 'NFT Support'],
+        security: 'high',
+        difficulty: 'beginner'
       },
       {
         id: 'walletconnect',
@@ -93,7 +102,11 @@ export class WalletConnectorEngine extends EventEmitter {
         icon: '/icons/walletconnect.svg',
         description: 'Connect with mobile wallet via QR code',
         category: 'mobile',
-        supported: true
+        supported: true,
+        downloadUrl: 'https://walletconnect.com/',
+        features: ['Mobile Native', 'Multi-Wallet', 'QR Code', 'Cross-Chain'],
+        security: 'medium',
+        difficulty: 'intermediate'
       },
       {
         id: 'rainbow',
