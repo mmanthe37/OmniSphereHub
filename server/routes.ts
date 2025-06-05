@@ -20,6 +20,7 @@ import {
 } from "./walletAllowlist";
 import { setupWebhookRoutes } from "./webhookHandler";
 import { smartContractManager } from "./smartContractIntegration";
+import { cdpIntegration } from "./cdpIntegration";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -1481,6 +1482,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       res.status(500).json({ message: "Gas estimation failed" });
+    }
+  });
+
+  // CDP Integration Routes
+  app.get("/api/cdp/wallet/:address", async (req, res) => {
+    try {
+      const { address } = req.params;
+      const walletData = await cdpIntegration.getWalletBalances(address);
+      res.json(walletData);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch CDP wallet data" });
+    }
+  });
+
+  app.post("/api/cdp/validate-wallet", async (req, res) => {
+    try {
+      const { address } = req.body;
+      
+      if (!address) {
+        return res.status(400).json({ message: "Wallet address required" });
+      }
+
+      const validation = await cdpIntegration.validateWalletOnChain(address);
+      res.json(validation);
+    } catch (error) {
+      res.status(500).json({ message: "CDP wallet validation failed" });
+    }
+  });
+
+  app.get("/api/cdp/asset/:assetId", async (req, res) => {
+    try {
+      const { assetId } = req.params;
+      const assetDetails = await cdpIntegration.getAssetDetails(assetId);
+      res.json(assetDetails);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch asset details" });
     }
   });
 
