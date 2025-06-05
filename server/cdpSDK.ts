@@ -1,5 +1,8 @@
 import { Coinbase, Wallet, WalletData } from "@coinbase/coinbase-sdk";
 import path from "path";
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface CDPWalletResponse {
   walletId: string;
@@ -29,9 +32,20 @@ export class CoinbaseCDPSDK {
 
   private initializeSDK() {
     try {
-      // Configure CDP SDK with the authentic organizational credentials
-      const configPath = path.join(__dirname, 'cdp-config.json');
-      Coinbase.configureFromJson({ filePath: configPath });
+      // Configure CDP SDK with environment variables
+      const apiKeyName = process.env.CDP_API_KEY_NAME;
+      const privateKey = process.env.CDP_PRIVATE_KEY;
+
+      if (!apiKeyName || !privateKey) {
+        console.error('CDP credentials not found in environment variables');
+        this.isConfigured = false;
+        return;
+      }
+
+      Coinbase.configure({
+        apiKeyName,
+        privateKey
+      });
       
       // Enable server-signer for production-ready security
       Coinbase.useServerSigner = true;
