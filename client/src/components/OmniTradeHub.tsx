@@ -166,8 +166,57 @@ export function OmniTradeHub({ cryptoPrices }: OmniTradeHubProps) {
   const totalWalletValue = walletBalances.reduce((sum, token) => sum + token.value, 0);
   const connectedAddress = "0x742d35cc6eb59b3e4746ac5e...";
 
-  const handleSwap = () => {
-    alert(`Swap ${swapAmount} ${fromToken} for ${toToken} - DEX aggregator would execute optimal route with ${slippage}% slippage tolerance`);
+  const handleSwap = async () => {
+    if (!swapAmount) return;
+    
+    try {
+      // Get quote from DEX aggregator
+      const quoteResponse = await fetch('/api/dex/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromToken,
+          toToken,
+          amount: swapAmount
+        })
+      });
+      
+      if (!quoteResponse.ok) {
+        throw new Error('Failed to get quote');
+      }
+      
+      const quote = await quoteResponse.json();
+      
+      // Optimize route with Coinbase CDP
+      const optimizeResponse = await fetch('/api/cdp/optimize-route', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromToken,
+          toToken,
+          amount: parseFloat(swapAmount)
+        })
+      });
+      
+      const optimization = await optimizeResponse.json();
+      
+      // Execute swap
+      const swapResponse = await fetch('/api/dex/swap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quote })
+      });
+      
+      const result = await swapResponse.json();
+      
+      if (result.success) {
+        alert(`Swap successful! Transaction: ${result.transactionHash}\nRoute: ${optimization.route}\nSavings: $${optimization.savings.toFixed(2)}`);
+      } else {
+        alert(`Swap failed: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Swap failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   };
 
   const handleSend = () => {

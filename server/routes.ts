@@ -2,6 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
+import { dexAggregator } from "./dexAggregator";
+import { coinbaseCDP } from "./coinbaseCDP";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -97,6 +99,129 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(badges);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // DEX Aggregator API Endpoints
+  app.get("/api/dex/tokens", async (req, res) => {
+    try {
+      const tokens = await dexAggregator.getTokenList();
+      res.json(tokens);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch token list" });
+    }
+  });
+
+  app.post("/api/dex/quote", async (req, res) => {
+    try {
+      const { fromToken, toToken, amount } = req.body;
+      
+      if (!fromToken || !toToken || !amount) {
+        return res.status(400).json({ message: "Missing required parameters" });
+      }
+
+      const quote = await dexAggregator.calculateSwapRoutes(fromToken, toToken, parseFloat(amount));
+      res.json(quote);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to calculate swap routes" });
+    }
+  });
+
+  app.post("/api/dex/swap", async (req, res) => {
+    try {
+      const { quote } = req.body;
+      
+      if (!quote) {
+        return res.status(400).json({ message: "Quote required for swap" });
+      }
+
+      const result = await dexAggregator.simulateSwap(quote);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Swap execution failed" });
+    }
+  });
+
+  // Coinbase CDP API Endpoints
+  app.post("/api/cdp/wallet", async (req, res) => {
+    try {
+      const { network } = req.body;
+      const wallet = await coinbaseCDP.createCDPWallet(network || 'base');
+      res.json(wallet);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create CDP wallet" });
+    }
+  });
+
+  app.post("/api/cdp/optimize-route", async (req, res) => {
+    try {
+      const { fromToken, toToken, amount } = req.body;
+      
+      if (!fromToken || !toToken || !amount) {
+        return res.status(400).json({ message: "Missing required parameters" });
+      }
+
+      const optimization = await coinbaseCDP.optimizeTransactionRoute(fromToken, toToken, parseFloat(amount));
+      res.json(optimization);
+    } catch (error) {
+      res.status(500).json({ message: "Route optimization failed" });
+    }
+  });
+
+  app.post("/api/cdp/payment-stream", async (req, res) => {
+    try {
+      const { payments, batchSize } = req.body;
+      
+      if (!payments || !Array.isArray(payments)) {
+        return res.status(400).json({ message: "Invalid payments array" });
+      }
+
+      const result = await coinbaseCDP.processPaymentStream(payments, batchSize);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Payment stream processing failed" });
+    }
+  });
+
+  app.post("/api/cdp/x402-payment", async (req, res) => {
+    try {
+      const paymentData = req.body;
+      const paymentRequest = await coinbaseCDP.createX402PaymentRequest(paymentData);
+      
+      // Set x402 payment header
+      res.setHeader('x402-payment-required', JSON.stringify(paymentRequest));
+      res.json(paymentRequest);
+    } catch (error) {
+      res.status(500).json({ message: "X402 payment request failed" });
+    }
+  });
+
+  app.get("/api/cdp/pricing/:volume", async (req, res) => {
+    try {
+      const volume = parseFloat(req.params.volume);
+      const pricing = await coinbaseCDP.getInstitutionalPricing(volume);
+      res.json(pricing);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get institutional pricing" });
+    }
+  });
+
+  app.post("/api/cdp/webhook", async (req, res) => {
+    try {
+      const signature = req.headers['x-coinbase-signature'] as string;
+      const payload = JSON.stringify(req.body);
+      
+      const isValid = await coinbaseCDP.verifyWebhook(payload, signature);
+      
+      if (!isValid) {
+        return res.status(401).json({ message: "Invalid webhook signature" });
+      }
+
+      // Process webhook payload
+      console.log('Received Coinbase CDP webhook:', req.body);
+      res.json({ received: true });
+    } catch (error) {
+      res.status(500).json({ message: "Webhook processing failed" });
     }
   });
 
