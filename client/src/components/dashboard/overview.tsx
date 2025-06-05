@@ -6,62 +6,37 @@ import {
   Coins, 
   Bot,
   ArrowUp,
-  ArrowDown
+  ArrowDown,
+  Plus
 } from "lucide-react";
 import { formatCurrency, formatPercentage, getTimeAgo } from "@/lib/utils";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
-import { 
-  usePortfolio, 
-  usePortfolioHoldings, 
-  useAITrades, 
-  useUserProfile 
-} from "@/lib/xano-hooks";
-import { xanoStreaming } from "@/lib/xano-streaming";
 import { useAuth } from "@/contexts/AuthContext";
+import { PortfolioService, type PortfolioData } from "@/lib/portfolio-service";
 
 export default function DashboardOverview() {
-  const [priceData, setPriceData] = useState<any[]>([]);
-  const [portfolioUpdates, setPortfolioUpdates] = useState<any>(null);
+  const [portfolio, setPortfolio] = useState<PortfolioData | null>(null);
   const { user } = useAuth();
 
-  // Using authentic Xano backend data
-  const userId = user?.id || 1;
-  const { data: portfolio } = usePortfolio(userId);
-  const { data: holdings = [] } = usePortfolioHoldings(userId);
-  const { data: aiTrades = [] } = useAITrades(userId);
-  const { data: userProfile } = useUserProfile(userId);
-
   useEffect(() => {
-    // Connect to real-time market data stream from Xano MCP server
-    xanoStreaming.connectMarketDataStream(
-      (data) => {
-        setPriceData(data);
-      },
-      (error) => {
-        console.error('Market data stream error:', error);
-      }
-    );
-
-    // Connect to portfolio updates stream
-    if (userId) {
-      xanoStreaming.connectPortfolioStream(
-        userId,
-        (data) => {
-          setPortfolioUpdates(data);
-        },
-        (error) => {
-          console.error('Portfolio stream error:', error);
-        }
-      );
+    if (user) {
+      // Get authentic portfolio data or create empty state for new user
+      const userPortfolio = PortfolioService.getPortfolio(user.id);
+      setPortfolio(userPortfolio);
     }
+  }, [user]);
 
-    return () => {
-      xanoStreaming.disconnect();
-    };
-  }, [userId]);
+  if (!user || !portfolio) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
-  // Portfolio performance chart data from authentic sources
-  const chartData = portfolio?.performanceHistory || [];
+  // Calculate portfolio metrics
+  const metrics = PortfolioService.calculateMetrics(portfolio);
+  const hasHoldings = portfolio.holdings.length > 0;
 
   const getTokenIcon = (symbol: string) => {
     const icons: Record<string, string> = {
