@@ -17,6 +17,7 @@ import { WalletPrivilegeDisplay } from "@/components/WalletPrivilegeDisplay";
 import { SmartContractDashboard } from "@/components/SmartContractDashboard";
 import { CDPWalletDashboard } from "@/components/CDPWalletDashboard";
 import { PaymasterDashboard } from "@/components/PaymasterDashboard";
+import { LiveCDPWalletManager } from "@/components/LiveCDPWalletManager";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";

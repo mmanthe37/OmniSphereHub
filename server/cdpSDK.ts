@@ -34,17 +34,22 @@ export class CoinbaseCDPSDK {
 
   private initializeSDK() {
     try {
-      // Configure CDP SDK with authentic organizational credentials from files
+      // Configure CDP SDK with your live wallet credentials
+      const apiKeyName = process.env.CDP_API_KEY_NAME || "organizations/6d1bbddf-3620-4c26-b013-6a27b4c36fa9/apiKeys/68e4b4b9-3f3d-4e6b-8c93-3dfb3e2e4e4a";
+      const privateKey = process.env.CDP_PRIVATE_KEY ? 
+        `-----BEGIN EC PRIVATE KEY-----\n${process.env.CDP_PRIVATE_KEY}\n-----END EC PRIVATE KEY-----` :
+        "-----BEGIN EC PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQggwrCLORJHg4oiAo6Ack28CsTkNsoYc4E5llDzcwERFShRANCAASRhdsMkjaeN8nV4uVDBKVfe7egx/bnmTuB3UlnrEK8g0Nodh1+dUNA7qEak9D5G7f2FHxJF7yaSnPGT0+WCO5p\n-----END EC PRIVATE KEY-----";
+
       Coinbase.configure({
-        apiKeyName: "organizations/ef60e383-c0fb-4b2f-89a8-514b1a9e47b5/apiKeys/fdce0a2b-8535-439f-9d18-ea0c6d9e7813",
-        privateKey: "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEICCggY3ULE/LpoUwAHUiDVVzQXHE6yijAqGvKVJh1ZMdoAoGCCqGSM49\nAwEHoUQDQgAEeX803ZpsAwjGM8R8ZV05A4h4n+MsxUk8T+gZvrEp6DlgjeMUgO1R\nmpSjFd193Ini7XlQrojMNtENio/vbCDRmg==\n-----END EC PRIVATE KEY-----\n"
+        apiKeyName,
+        privateKey
       });
       
       // Enable server-signer for production-ready security
       Coinbase.useServerSigner = true;
       
       this.isConfigured = true;
-      console.log('Coinbase CDP SDK initialized with organizational credentials');
+      console.log('Coinbase CDP SDK initialized with live mmanthe37 account credentials');
     } catch (error) {
       console.error('Failed to initialize CDP SDK:', error);
       this.isConfigured = false;

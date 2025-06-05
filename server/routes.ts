@@ -22,6 +22,7 @@ import { setupWebhookRoutes } from "./webhookHandler";
 import { smartContractManager } from "./smartContractIntegration";
 import { cdpIntegration } from "./cdpIntegration";
 import { paymasterAnalytics } from "./paymasterAnalytics";
+import { cdpSDK } from "./cdpSDK";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -1543,6 +1544,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(assetDetails);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch asset details" });
+    }
+  });
+
+  // CDP Wallet Management Routes
+  app.post("/api/cdp/create-wallet", async (req, res) => {
+    try {
+      const { network = 'base-mainnet' } = req.body;
+      const wallet = await cdpSDK.createWallet(network);
+      res.json(wallet);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create CDP wallet" });
+    }
+  });
+
+  app.get("/api/cdp/wallet-balance/:walletId", async (req, res) => {
+    try {
+      const { walletId } = req.params;
+      const { assetId = 'ETH' } = req.query;
+      const balance = await cdpSDK.getWalletBalance(walletId, assetId as string);
+      res.json({ balance });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get wallet balance" });
+    }
+  });
+
+  app.post("/api/cdp/transfer", async (req, res) => {
+    try {
+      const { walletId, toAddress, amount, assetId = 'ETH' } = req.body;
+      const transaction = await cdpSDK.createTransfer(walletId, toAddress, parseFloat(amount), assetId);
+      res.json(transaction);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to process transfer" });
     }
   });
 
