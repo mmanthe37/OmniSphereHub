@@ -102,6 +102,7 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
   const [paymentCurrency, setPaymentCurrency] = useState("USD");
   const [destinationAddress, setDestinationAddress] = useState("");
   const [currentStep, setCurrentStep] = useState<'select' | 'connect' | 'payment' | 'confirm'>('select');
+  const [showOnboardingWizard, setShowOnboardingWizard] = useState(false);
 
   // Queries
   const { data: walletProviders = [] } = useQuery<WalletProvider[]>({
@@ -297,6 +298,22 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
           </DialogDescription>
         </DialogHeader>
 
+        {/* Onboarding Wizard Integration */}
+        {showOnboardingWizard && (
+          <WalletOnboardingWizard
+            isOpen={showOnboardingWizard}
+            onClose={() => setShowOnboardingWizard(false)}
+            onWalletConnected={(wallet) => {
+              setShowOnboardingWizard(false);
+              onClose();
+              toast({
+                title: "Wallet Connected Successfully",
+                description: `Your ${wallet.provider} wallet is now connected with gasless transactions enabled`
+              });
+            }}
+          />
+        )}
+
         <Tabs defaultValue={mode === 'connect' ? 'wallets' : 'payment'} className="w-full">
           <TabsList className="grid w-full grid-cols-3 bg-gray-800">
             <TabsTrigger value="wallets">Wallets</TabsTrigger>
@@ -350,6 +367,27 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                 </CardContent>
               </Card>
             )}
+
+            {/* Guided Setup Button */}
+            <Card className="bg-gradient-to-r from-blue-600 to-purple-600 border-0">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-xl font-bold text-white mb-2">New to Web3?</h3>
+                    <p className="text-blue-100">
+                      Get step-by-step guidance to set up your first crypto wallet with gasless transactions
+                    </p>
+                  </div>
+                  <Button 
+                    onClick={() => setShowOnboardingWizard(true)}
+                    className="bg-white text-blue-600 hover:bg-blue-50"
+                  >
+                    <Zap className="w-4 h-4 mr-2" />
+                    Guided Setup
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
 
             <ScrollArea className="h-[400px]">
               <div className="space-y-6">

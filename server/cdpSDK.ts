@@ -25,6 +25,8 @@ interface CDPTransactionResponse {
 export class CoinbaseCDPSDK {
   private isConfigured = false;
   private wallets: Map<string, Wallet> = new Map();
+  private paymasterEndpoint = 'https://api.developer.coinbase.com/rpc/v1/base/FjtpobcFyw6iEFSXDoJwPcBLrbdigOZU';
+  private paymasterAddress = '0x2d45014917c4bce08b6fb2b3a53960692b5b744b';
 
   constructor() {
     this.initializeSDK();
