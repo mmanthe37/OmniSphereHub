@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Bell, Settings } from "lucide-react";
+import { Bell, Settings, Wallet, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
+import WalletConnectionModal from "@/components/WalletConnectionModal";
+import { useQuery } from "@tanstack/react-query";
 import type { TabType } from "@/types";
 import omniSphereLogo from "@/assets/omnisphere-logo.jpg";
 
@@ -22,7 +24,28 @@ const tabTitles: Record<TabType, { title: string; subtitle: string }> = {
 
 export function Header({ activeTab, user }: HeaderProps) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [walletModalMode, setWalletModalMode] = useState<'connect' | 'payment'>('connect');
   const { title, subtitle } = tabTitles[activeTab];
+
+  const { data: connectedWallets = [] } = useQuery({
+    queryKey: ['/api/wallet/connected'],
+    refetchInterval: 10000
+  });
+
+  const handleWalletConnect = () => {
+    setWalletModalMode('connect');
+    setIsWalletModalOpen(true);
+  };
+
+  const handleAddFunds = () => {
+    setWalletModalMode('payment');
+    setIsWalletModalOpen(true);
+  };
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
 
   return (
     <>
@@ -56,6 +79,37 @@ export function Header({ activeTab, user }: HeaderProps) {
             <p className="text-gray-300 text-base font-inter font-medium mt-1">{subtitle}</p>
           </div>
           <div className="flex items-center space-x-4">
+            {connectedWallets.length > 0 ? (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 px-3 py-2 bg-green-500/20 border border-green-500/30 rounded-lg">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 text-sm font-medium">
+                    {formatAddress(connectedWallets[0].address)}
+                  </span>
+                  <span className="text-green-300 text-xs">
+                    {connectedWallets[0].network}
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleAddFunds}
+                  className="border-blue-500/50 text-blue-400 hover:bg-blue-500/20"
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  Add Funds
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={handleWalletConnect}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              >
+                <Wallet className="h-4 w-4 mr-2" />
+                Connect Wallet
+              </Button>
+            )}
+            
             <Button variant="outline" size="icon" className="bg-gray-800/50 border-purple-400/50 hover:bg-purple-600/30 hover:border-purple-300 transition-all duration-300">
               <Bell className="h-5 w-5 text-cyan-400" />
             </Button>
@@ -75,6 +129,12 @@ export function Header({ activeTab, user }: HeaderProps) {
         isOpen={isSettingsOpen} 
         onClose={() => setIsSettingsOpen(false)} 
         user={user}
+      />
+      
+      <WalletConnectionModal
+        isOpen={isWalletModalOpen}
+        onClose={() => setIsWalletModalOpen(false)}
+        mode={walletModalMode}
       />
     </>
   );

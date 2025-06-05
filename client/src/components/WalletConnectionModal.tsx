@@ -278,6 +278,8 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
     }
   }, [isOpen]);
 
+  if (!isOpen) return null;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] bg-gray-900 border-gray-700">

@@ -9,8 +9,14 @@ import {
   Star,
   GraduationCap,
   Wallet,
-  Circle
+  Circle,
+  Plus,
+  CreditCard
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import WalletConnectionModal from "@/components/WalletConnectionModal";
 import type { TabType } from "@/types";
 import omniSphereLogo from "../assets/omnisphere-logo.jpg";
 
@@ -31,16 +37,77 @@ const navigationItems = [
 ];
 
 export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const [walletModalMode, setWalletModalMode] = useState<'connect' | 'payment'>('connect');
+
+  const { data: connectedWallets = [] } = useQuery({
+    queryKey: ['/api/wallet/connected'],
+    refetchInterval: 10000
+  });
+
+  const handleWalletConnect = () => {
+    setWalletModalMode('connect');
+    setIsWalletModalOpen(true);
+  };
+
+  const handleAddFunds = () => {
+    setWalletModalMode('payment');
+    setIsWalletModalOpen(true);
+  };
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
+
   return (
-    <div className="w-52 bg-gradient-to-b from-gray-800 via-gray-900 to-purple-900 border-r border-dark-border p-4 fixed h-full z-10 flex flex-col">
-      <div className="flex items-center space-x-3 mb-8">
-        <img 
-          src={omniSphereLogo} 
-          alt="OmniSphere" 
-          className="w-10 h-10 rounded-xl object-cover shadow-lg"
-        />
-        <h1 className="text-xl font-bold gradient-text">OmniSphere</h1>
-      </div>
+    <>
+      <div className="w-52 bg-gradient-to-b from-gray-800 via-gray-900 to-purple-900 border-r border-dark-border p-4 fixed h-full z-10 flex flex-col">
+        <div className="flex items-center space-x-3 mb-8">
+          <img 
+            src={omniSphereLogo} 
+            alt="OmniSphere" 
+            className="w-10 h-10 rounded-xl object-cover shadow-lg"
+          />
+          <h1 className="text-xl font-bold gradient-text">OmniSphere</h1>
+        </div>
+
+        {/* Wallet Section */}
+        <div className="mb-6 p-3 bg-gray-800/50 rounded-lg border border-purple-500/30">
+          <div className="flex items-center gap-2 mb-3">
+            <Wallet className="h-4 w-4 text-purple-400" />
+            <span className="text-sm font-medium text-purple-300">Wallet</span>
+          </div>
+          
+          {connectedWallets.length > 0 ? (
+            <div className="space-y-2">
+              <div className="p-2 bg-green-500/10 border border-green-500/30 rounded text-xs">
+                <div className="flex items-center gap-1 mb-1">
+                  <Circle className="h-2 w-2 fill-green-400 text-green-400" />
+                  <span className="text-green-400 font-medium">Connected</span>
+                </div>
+                <div className="text-gray-300">{formatAddress(connectedWallets[0].address)}</div>
+                <div className="text-gray-400">{connectedWallets[0].network}</div>
+              </div>
+              <Button
+                size="sm"
+                onClick={handleAddFunds}
+                className="w-full bg-blue-600/20 border border-blue-500/30 hover:bg-blue-600/30 text-blue-300 text-xs"
+              >
+                <Plus className="h-3 w-3 mr-1" />
+                Add Funds
+              </Button>
+            </div>
+          ) : (
+            <Button
+              size="sm"
+              onClick={handleWalletConnect}
+              className="w-full bg-purple-600/20 border border-purple-500/30 hover:bg-purple-600/30 text-purple-300 text-xs"
+            >
+              <Wallet className="h-3 w-3 mr-1" />
+              Connect Wallet
+            </Button>
+          )}
+        </div>
       
       <nav className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-purple-600 scrollbar-track-gray-800">
         {navigationItems.map((item) => {
@@ -88,6 +155,12 @@ export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
           </div>
         </div>
       </div>
-    </div>
+
+      <WalletConnectionModal
+        isOpen={isWalletModalOpen}
+        onClose={() => setIsWalletModalOpen(false)}
+        mode={walletModalMode}
+      />
+    </>
   );
 }
