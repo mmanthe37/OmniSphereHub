@@ -17,7 +17,7 @@ import { WalletPrivilegeDisplay } from "@/components/WalletPrivilegeDisplay";
 import { SmartContractDashboard } from "@/components/SmartContractDashboard";
 import { CDPWalletDashboard } from "@/components/CDPWalletDashboard";
 import { PaymasterDashboard } from "@/components/PaymasterDashboard";
-import { LiveCDPWalletManager } from "@/components/LiveCDPWalletManager";
+import { WalletManagementHub } from "@/components/WalletManagementHub";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -87,7 +87,7 @@ export default function Dashboard() {
         return (
           <div className="space-y-6">
             <WalletPrivilegeDisplay />
-            <LiveCDPWalletManager />
+            <WalletManagementHub />
             <PaymasterDashboard />
             <SmartContractDashboard />
             <CDPWalletDashboard />
