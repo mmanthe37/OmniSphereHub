@@ -11,8 +11,17 @@ import {
   XCircle, 
   Loader2,
   ExternalLink,
-  AlertTriangle
+  AlertTriangle,
+  Copy
 } from "lucide-react";
+
+// Wallet provider detection
+interface WalletProvider {
+  name: string;
+  icon: string;
+  detected: boolean;
+  connect: () => Promise<void>;
+}
 
 interface WalletInfo {
   address: string;

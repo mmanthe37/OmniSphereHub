@@ -1,0 +1,25 @@
+TypeError: Cannot read properties of undefined (reading 'maxTransactionAmount')
+    at WalletPrivilegeDisplay (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/src/components/WalletPrivilegeDisplay.tsx:38:36)
+    at div
+    at main
+    at div
+    at div
+    at ErrorBoundary (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/src/components/ErrorBoundary.tsx:10:5)
+    at Dashboard (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/src/pages/Dashboard.tsx:50:37)
+    at Route (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=203a6544:323:16)
+    at Switch (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=203a6544:379:17)
+    at Router (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/src/App.tsx?v=F21SoBBaIXx7nBEj_ldc4:32:29)
+    at div
+    at AuthProvider (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/src/contexts/AuthContext.tsx:22:32)
+    at Provider (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-6CYQPTYK.js?v=203a6544:38:15)
+    at TooltipProvider (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=203a6544:64:5)
+    at QueryClientProvider (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-DA747HVV.js?v=203a6544:2932:3)
+    at OnchainKitProviderBoundary (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@coinbase_onchainkit.js?v=203a6544:200:5)
+    at QueryClientProviderWithDefault (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@coinbase_onchainkit.js?v=203a6544:185:3)
+    at WagmiProviderWithDefault (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@coinbase_onchainkit.js?v=203a6544:141:3)
+    at DefaultOnchainKitProviders (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@coinbase_onchainkit.js?v=203a6544:127:3)
+    at OnchainKitProvider (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@coinbase_onchainkit.js?v=203a6544:254:3)
+    at QueryClientProvider (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-DA747HVV.js?v=203a6544:2932:3)
+    at Hydrate (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-SPV4BZWJ.js?v=203a6544:248:11)
+    at WagmiProvider (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7ccae6-00-uzpxsdrytcgj.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-SPV4BZWJ.js?v=203a6544:272:11)
+    at OnchainProviders (https://3fbfd0b4-8e5f-4128-b1d4-3c05fd7cc
