@@ -104,7 +104,6 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
   const [destinationAddress, setDestinationAddress] = useState("");
   const [currentStep, setCurrentStep] = useState<'select' | 'connect' | 'payment' | 'confirm'>('select');
   const [showOnboardingWizard, setShowOnboardingWizard] = useState(false);
-  const [showAllWalletsModal, setShowAllWalletsModal] = useState(false);
 
   // Queries
   const { data: walletProviders = [] } = useQuery<WalletProvider[]>({
@@ -295,7 +294,6 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
   if (!isOpen) return null;
 
   return (
-    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] bg-gray-900 border-gray-700">
         <DialogHeader>
@@ -535,7 +533,12 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                 {/* All Wallets */}
                 <button
                   className="w-full flex items-center justify-between p-4 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 transition-all duration-200"
-                  onClick={() => setShowAllWalletsModal(true)}
+                  onClick={() => {
+                    toast({
+                      title: "Coming Soon",
+                      description: "Comprehensive wallet selection will be available soon"
+                    });
+                  }}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-600 rounded-lg flex items-center justify-center">
@@ -730,148 +733,5 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
         </Tabs>
       </DialogContent>
     </Dialog>
-    <Dialog open={showAllWalletsModal} onOpenChange={setShowAllWalletsModal}>
-      <DialogContent className="max-w-2xl bg-gray-900 border-gray-700 text-white max-h-[80vh] overflow-hidden">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-white">All Wallets (300+)</DialogTitle>
-          <DialogDescription className="text-gray-400">
-            Connect to any supported wallet provider
-          </DialogDescription>
-        </DialogHeader>
-        
-        <ScrollArea className="h-[60vh] pr-4">
-          <div className="space-y-6">
-            {/* Browser Extensions */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <div className="w-5 h-5 bg-orange-500 rounded"></div>
-                Browser Extensions
-              </h3>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { id: 'metamask', name: 'MetaMask', color: 'bg-orange-500', icon: '🦊' },
-                  { id: 'brave', name: 'Brave', color: 'bg-orange-600', icon: '🦁' },
-                  { id: 'phantom', name: 'Phantom', color: 'bg-purple-600', icon: '👻' },
-                  { id: 'rabby', name: 'Rabby', color: 'bg-blue-600', icon: '🐰' },
-                  { id: 'frame', name: 'Frame', color: 'bg-gray-600', icon: '🖼️' },
-                  { id: 'tally', name: 'Tally Ho', color: 'bg-green-600', icon: '🎯' }
-                ].map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200"
-                    onClick={() => {
-                      connectWalletMutation.mutate(wallet.id);
-                      setShowAllWalletsModal(false);
-                    }}
-                  >
-                    <div className={`w-10 h-10 ${wallet.color} rounded-lg flex items-center justify-center mb-2`}>
-                      <span className="text-white text-lg">{wallet.icon}</span>
-                    </div>
-                    <span className="text-xs text-white text-center">{wallet.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Mobile Wallets */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <div className="w-5 h-5 bg-blue-500 rounded"></div>
-                Mobile Wallets
-              </h3>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { id: 'trust_wallet', name: 'Trust Wallet', color: 'bg-blue-600', icon: '🛡️' },
-                  { id: 'rainbow', name: 'Rainbow', color: 'bg-gradient-to-r from-red-500 to-blue-500', icon: '🌈' },
-                  { id: 'argent', name: 'Argent', color: 'bg-orange-500', icon: '🔶' },
-                  { id: 'exodus', name: 'Exodus', color: 'bg-blue-500', icon: '🚀' },
-                  { id: 'coinomi', name: 'Coinomi', color: 'bg-green-600', icon: '💰' },
-                  { id: 'imtoken', name: 'imToken', color: 'bg-blue-700', icon: '🪙' }
-                ].map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200"
-                    onClick={() => {
-                      connectWalletMutation.mutate(wallet.id);
-                      setShowAllWalletsModal(false);
-                    }}
-                  >
-                    <div className={`w-10 h-10 ${wallet.color} rounded-lg flex items-center justify-center mb-2`}>
-                      <span className="text-white text-lg">{wallet.icon}</span>
-                    </div>
-                    <span className="text-xs text-white text-center">{wallet.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Hardware Wallets */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <div className="w-5 h-5 bg-green-500 rounded"></div>
-                Hardware Wallets
-              </h3>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { id: 'ledger', name: 'Ledger', color: 'bg-black', icon: '🔒' },
-                  { id: 'trezor', name: 'Trezor', color: 'bg-green-600', icon: '🔐' },
-                  { id: 'keystone', name: 'Keystone', color: 'bg-blue-600', icon: '💎' },
-                  { id: 'safepal', name: 'SafePal', color: 'bg-purple-600', icon: '🔑' },
-                  { id: 'coolwallet', name: 'CoolWallet', color: 'bg-cyan-600', icon: '❄️' },
-                  { id: 'bitbox', name: 'BitBox', color: 'bg-gray-600', icon: '📦' }
-                ].map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200"
-                    onClick={() => {
-                      connectWalletMutation.mutate(wallet.id);
-                      setShowAllWalletsModal(false);
-                    }}
-                  >
-                    <div className={`w-10 h-10 ${wallet.color} rounded-lg flex items-center justify-center mb-2`}>
-                      <span className="text-white text-lg">{wallet.icon}</span>
-                    </div>
-                    <span className="text-xs text-white text-center">{wallet.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* DeFi Wallets */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <div className="w-5 h-5 bg-purple-500 rounded"></div>
-                DeFi & Exchange Wallets
-              </h3>
-              <div className="grid grid-cols-3 gap-3">
-                {[
-                  { id: 'binance_wallet', name: 'Binance', color: 'bg-yellow-500', icon: '🔶' },
-                  { id: 'okx_wallet', name: 'OKX', color: 'bg-black', icon: '⭕' },
-                  { id: 'crypto_com', name: 'Crypto.com', color: 'bg-blue-600', icon: '💳' },
-                  { id: 'kucoin', name: 'KuCoin', color: 'bg-green-600', icon: '🔷' },
-                  { id: 'gate_wallet', name: 'Gate.io', color: 'bg-purple-600', icon: '🚪' },
-                  { id: 'bybit_wallet', name: 'Bybit', color: 'bg-yellow-600', icon: '🔸' }
-                ].map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    className="flex flex-col items-center p-3 bg-gray-800 hover:bg-gray-750 rounded-lg border border-gray-700 transition-all duration-200"
-                    onClick={() => {
-                      connectWalletMutation.mutate(wallet.id);
-                      setShowAllWalletsModal(false);
-                    }}
-                  >
-                    <div className={`w-10 h-10 ${wallet.color} rounded-lg flex items-center justify-center mb-2`}>
-                      <span className="text-white text-lg">{wallet.icon}</span>
-                    </div>
-                    <span className="text-xs text-white text-center">{wallet.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
-    </>
   );
 }
