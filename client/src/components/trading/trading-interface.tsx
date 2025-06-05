@@ -56,24 +56,16 @@ export default function TradingInterface() {
     }
   }, [lastMessage]);
 
-  // Mock chart data for trading chart
-  const chartData = Array.from({ length: 24 }, (_, i) => ({
-    hour: `${i}:00`,
-    price: 2400 + Math.random() * 200 + i * 5,
-  }));
+  // Chart data from real price feeds
+  const chartData = priceData?.length > 0 ? 
+    priceData.map((price, i) => ({
+      hour: `${new Date(Date.now() - (23 - i) * 60 * 60 * 1000).getHours()}:00`,
+      price: parseFloat(price.price?.toString() || '0'),
+    })) : [];
 
-  // Mock order book data
-  const sellOrders = [
-    { price: "2,489.45", amount: "0.847" },
-    { price: "2,488.92", amount: "1.254" },
-    { price: "2,488.21", amount: "2.187" },
-  ];
-
-  const buyOrders = [
-    { price: "2,487.12", amount: "0.925" },
-    { price: "2,486.78", amount: "1.847" },
-    { price: "2,486.44", amount: "3.126" },
-  ];
+  // Order book data (requires integration with real DEX APIs)
+  const sellOrders: Array<{ price: string; amount: string }> = [];
+  const buyOrders: Array<{ price: string; amount: string }> = [];
 
   const handleTrade = () => {
     if (!amount || parseFloat(amount) <= 0) {
