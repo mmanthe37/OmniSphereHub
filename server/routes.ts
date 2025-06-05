@@ -21,6 +21,7 @@ import {
 import { setupWebhookRoutes } from "./webhookHandler";
 import { smartContractManager } from "./smartContractIntegration";
 import { cdpIntegration } from "./cdpIntegration";
+import { paymasterAnalytics } from "./paymasterAnalytics";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -1542,6 +1543,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(assetDetails);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch asset details" });
+    }
+  });
+
+  // Paymaster Analytics Routes
+  app.get("/api/paymaster/metrics", async (req, res) => {
+    try {
+      const metrics = paymasterAnalytics.getPaymasterMetrics();
+      res.json(metrics);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch paymaster metrics" });
+    }
+  });
+
+  app.get("/api/paymaster/transactions", async (req, res) => {
+    try {
+      const { limit = 10 } = req.query;
+      const transactions = paymasterAnalytics.getRecentTransactions(Number(limit));
+      res.json(transactions);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch paymaster transactions" });
+    }
+  });
+
+  app.get("/api/paymaster/wallet/:address", async (req, res) => {
+    try {
+      const { address } = req.params;
+      const transactions = paymasterAnalytics.getTransactionsByWallet(address);
+      const savings = paymasterAnalytics.getGasSavingsForWallet(address);
+      
+      res.json({
+        transactions,
+        savings
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch wallet paymaster data" });
+    }
+  });
+
+  app.get("/api/paymaster/daily-stats", async (req, res) => {
+    try {
+      const { days = 7 } = req.query;
+      const stats = paymasterAnalytics.getDailyStats(Number(days));
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch daily stats" });
     }
   });
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import { useQuery } from '@tanstack/react-query';
 import { 
   Zap, 
   Shield, 
@@ -15,7 +16,12 @@ import {
   ArrowUpRight,
   Settings,
   Gauge,
-  Clock
+  Clock,
+  BarChart3,
+  TrendingUp,
+  DollarSign,
+  Users,
+  ExternalLink
 } from 'lucide-react';
 
 interface SponsoredTransactionResult {
@@ -39,6 +45,18 @@ export function PaymasterDashboard() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [lastTransaction, setLastTransaction] = useState<SponsoredTransactionResult | null>(null);
   const { toast } = useToast();
+
+  // Fetch authentic paymaster metrics
+  const { data: paymasterMetrics, isLoading: metricsLoading } = useQuery({
+    queryKey: ['/api/paymaster/metrics'],
+    retry: false
+  });
+
+  // Fetch recent authentic transactions
+  const { data: recentTransactions, isLoading: transactionsLoading } = useQuery({
+    queryKey: ['/api/paymaster/transactions'],
+    retry: false
+  });
 
   const paymasterConfig = {
     endpoint: 'https://api.developer.coinbase.com/rpc/v1/base/DfC2hHiGkzPrMbaQ19KR9cEg6DIe9H2A',
@@ -151,6 +169,97 @@ export function PaymasterDashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Authentic Paymaster Metrics */}
+      {paymasterMetrics && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2">
+                <BarChart3 className="w-4 h-4 text-blue-500" />
+                <div className="text-2xl font-bold">{paymasterMetrics.totalTransactions}</div>
+              </div>
+              <div className="text-sm text-muted-foreground">Total Transactions</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2">
+                <DollarSign className="w-4 h-4 text-green-500" />
+                <div className="text-2xl font-bold">${paymasterMetrics.totalCostUSD.toFixed(4)}</div>
+              </div>
+              <div className="text-sm text-muted-foreground">Gas Sponsored (USD)</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-purple-500" />
+                <div className="text-2xl font-bold">{paymasterMetrics.uniqueUsers}</div>
+              </div>
+              <div className="text-sm text-muted-foreground">Unique Users</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-orange-500" />
+                <div className="text-2xl font-bold">{Math.round(paymasterMetrics.averageGasPerTx).toLocaleString()}</div>
+              </div>
+              <div className="text-sm text-muted-foreground">Avg Gas/Tx</div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Recent Authentic Transactions */}
+      {recentTransactions && recentTransactions.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="w-5 h-5" />
+              Recent Sponsored Transactions
+            </CardTitle>
+            <CardDescription>
+              Live transaction data from your deployed paymaster
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {recentTransactions.slice(0, 5).map((tx: any, index: number) => (
+                <div key={index} className="border rounded-lg p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-green-100 text-green-800">
+                        <Zap className="w-3 h-3 mr-1" />
+                        Sponsored
+                      </Badge>
+                      <code className="text-xs bg-muted px-2 py-1 rounded">
+                        {tx.sender.slice(0, 8)}...{tx.sender.slice(-6)}
+                      </code>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-medium">${tx.gasCostUSD.toFixed(6)} saved</div>
+                      <div className="text-xs text-muted-foreground">{tx.gasUsed.toLocaleString()} gas</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{new Date(tx.createdAt).toLocaleString()}</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => window.open(`https://basescan.org/tx/${tx.transactionHash}`, '_blank')}
+                    >
+                      <ExternalLink className="w-3 h-3 mr-1" />
+                      View
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Paymaster Configuration */}
       <Card>
         <CardHeader>
