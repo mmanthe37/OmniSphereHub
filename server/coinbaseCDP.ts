@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { cdpSDK } from './cdpSDK';
 
 interface PaymentRequest {
   amount: number;
@@ -47,6 +48,9 @@ export class CoinbaseCDPIntegration {
     this.apiSecret = process.env.COINBASE_API_SECRET || '';
     this.projectId = process.env.CDP_PROJECT_ID || '';
     this.webhookSecret = process.env.COINBASE_WEBHOOK_SECRET || '';
+
+    // Update to use the authentic CDP API endpoints
+    this.cdpBaseUrl = 'https://api.cdp.coinbase.com/platform/v1';
 
     if (!this.apiKey || !this.apiSecret || !this.projectId) {
       console.warn('Coinbase CDP credentials not fully configured');

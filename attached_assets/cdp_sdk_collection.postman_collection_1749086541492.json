@@ -1,0 +1,616 @@
+{
+	"info": {
+		"_postman_id": "08495ef7-8220-4070-878a-0d1e11984f98",
+		"name": "CDP SDK Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23741415"
+	},
+	"item": [
+		{
+			"name": "Wallets",
+			"item": [
+				{
+					"name": "Create Wallet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"wallet\":{\n        \"network_id\":\"base-sepolia\",\n        \"user_server_signer\": true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/wallets",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"wallets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Wallets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/wallets",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"wallets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Wallet By ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/wallets/{wallet_id}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"wallets",
+								"{wallet_id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Wallet Balances",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/wallets/{wallet_id}/balances",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"wallets",
+								"{wallet_id}",
+								"balances"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset Balance In Wallet",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/wallets/{wallet_id}/balances/{asset_id}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"wallets",
+								"{wallet_id}",
+								"balances",
+								"{asset_id}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Stake",
+			"item": [
+				{
+					"name": "Fetch staking rewards",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"network_id\": \"ethereum-mainnet\",\n  \"asset_id\": \"ETH\",\n  \"address_ids\": [\n    \"<VALIDATOR ADDRESS HERE>\"\n  ],\n \"start_time\": \"2024-09-01T18:39:00Z\",\n  \"end_time\": \"2024-10-09T18:39:00Z\",\n  \"format\": \"usd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/stake/rewards/search",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"stake",
+								"rewards",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Historical Staking Balances",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/networks/ethereum-mainnet/addresses/<VALIDATOR-ADDRESS-HERE>/stake/balances?asset_id=ETH&start_time=2024-09-01T18:39:00Z&end_time=2024-10-09T18:39:00Z",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"networks",
+								"ethereum-mainnet",
+								"addresses",
+								"<VALIDATOR-ADDRESS-HERE>",
+								"stake",
+								"balances"
+							],
+							"query": [
+								{
+									"key": "asset_id",
+									"value": "ETH"
+								},
+								{
+									"key": "start_time",
+									"value": "2024-09-01T18:39:00Z"
+								},
+								{
+									"key": "end_time",
+									"value": "2024-10-09T18:39:00Z"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Validators",
+			"item": [
+				{
+					"name": "List Validators",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/networks/{network_id}/assets/{asset_id}/validators",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"networks",
+								"{network_id}",
+								"assets",
+								"{asset_id}",
+								"validators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Validator By ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/networks/{network_id}/assets/{asset_id}/validators/{validator_id}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"networks",
+								"{network_id}",
+								"assets",
+								"{asset_id}",
+								"validators",
+								"{validator_id}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Assets",
+			"item": [
+				{
+					"name": "Get Asset By ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.cdp.coinbase.com/platform/v1/networks/{network_id}/assets/{asset_id}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"cdp",
+								"coinbase",
+								"com"
+							],
+							"path": [
+								"platform",
+								"v1",
+								"networks",
+								"{network_id}",
+								"assets",
+								"{asset_id}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"// set empty navigator and window objects",
+					"var navigator = {};",
+					"var window = {};",
+					"// import external jsrsasign-js library",
+					"eval(pm.environment.get(\"jsrsasign-js\"));",
+					"",
+					"console.log(\"Raw privateKey:\", pm.environment.get(\"privateKey\"));",
+					"console.log(\"Raw name:\", pm.environment.get(\"name\"));",
+					"",
+					"// import private key and name for environment variables, parsing them",
+					"var privateKey = JSON.parse(pm.environment.get(\"privateKey\"));",
+					"var name = JSON.parse(pm.environment.get(\"name\"));",
+					"",
+					"console.log(\"Formatted key: \", privateKey)",
+					"console.log(\"Formatted name\", name)",
+					"",
+					"// create header object",
+					"var header = {",
+					"    alg: \"ES256\",",
+					"    typ: \"JWT\",",
+					"    kid: name,",
+					"    nonce: Math.floor(Date.now() / 1000).toString(),",
+					"};",
+					"",
+					"// create uri string for current request",
+					"var host = pm.request.url.host",
+					"var path = pm.request.url.path",
+					"var hostStr = host.join(\".\");",
+					"var pathStr = path.join(\"/\");",
+					"var uri = pm.request.method + \" \" + hostStr + \"/\" + pathStr;",
+					"",
+					"// create data object",
+					"var data = {",
+					"    aud: ['retail_rest_api_proxy'],",
+					"    iss: \"cdp\",",
+					"    nbf: Math.floor(Date.now() / 1000),",
+					"    exp: Math.floor(Date.now() / 1000) + 10,",
+					"    sub: name,",
+					"    uri,",
+					"};",
+					"",
+					"// stringigy header and data",
+					"var sHeader = JSON.stringify(header);",
+					"var sPayload = JSON.stringify(data);",
+					"",
+					"// get the private key and sign to create JWT",
+					"var prvKey = KEYUTIL.getKey(privateKey);",
+					"var sJWT = KJUR.jws.JWS.sign(\"ES256\", sHeader, sPayload, prvKey);",
+					"",
+					"console.log(\"Generated Token: \", sJWT)",
+					"",
+					"// set JWT to token environment variable and reference within 'Authorization - Bearer Token'",
+					"pm.environment.set(\"token\", sJWT);",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
