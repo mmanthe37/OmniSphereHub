@@ -391,72 +391,63 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
               </CardContent>
             </Card>
 
-            <ScrollArea className="h-[400px]">
-              <div className="space-y-6">
-                {Object.entries(groupedWallets).map(([category, wallets]) => (
-                  <div key={category}>
-                    <div className="flex items-center gap-2 mb-3">
-                      {getCategoryIcon(category)}
-                      <h3 className="text-lg font-semibold text-white capitalize">
-                        {category === 'browser' ? 'Browser Extensions' : 
-                         category === 'mobile' ? 'Mobile Wallets' :
-                         category === 'hardware' ? 'Hardware Wallets' : 
-                         'Institutional Wallets'}
-                      </h3>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {wallets.map((wallet) => (
-                        <Card 
-                          key={wallet.id} 
-                          className={`bg-gray-800 border-gray-700 cursor-pointer transition-all hover:bg-gray-750 ${
-                            !wallet.supported ? 'opacity-50' : ''
+            {/* Wallet Connection Grid */}
+            <div className="space-y-6">
+              {Object.entries(groupedWallets).map(([category, wallets]) => (
+                <div key={category}>
+                  <div className="flex items-center gap-2 mb-4">
+                    {getCategoryIcon(category)}
+                    <h3 className="text-lg font-semibold text-white capitalize">
+                      {category === 'browser' ? 'Browser Extensions' : 
+                       category === 'mobile' ? 'Mobile Wallets' :
+                       category === 'hardware' ? 'Hardware Wallets' : 
+                       'Institutional Wallets'}
+                    </h3>
+                  </div>
+                  
+                  {/* Circular Wallet Buttons Grid */}
+                  <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
+                    {wallets.map((wallet) => (
+                      <div key={wallet.id} className="flex flex-col items-center space-y-2">
+                        <button
+                          className={`relative w-16 h-16 rounded-full border-2 transition-all duration-200 hover:scale-105 ${
+                            wallet.supported 
+                              ? 'border-blue-500 bg-gradient-to-br from-blue-500/20 to-purple-500/20 hover:border-blue-400 cursor-pointer' 
+                              : 'border-gray-600 bg-gray-800 opacity-50 cursor-not-allowed'
                           }`}
                           onClick={() => wallet.supported && connectWalletMutation.mutate(wallet.id)}
+                          disabled={!wallet.supported || connectWalletMutation.isPending}
                         >
-                          <CardContent className="p-4">
-                            <div className="flex items-start gap-3">
-                              <div className="p-2 bg-blue-500/20 rounded-lg">
-                                <img 
-                                  src={wallet.icon} 
-                                  alt={wallet.name}
-                                  className="h-6 w-6"
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = 'none';
-                                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                                  }}
-                                />
-                                <Wallet className="h-6 w-6 text-blue-400 hidden" />
-                              </div>
-                              <div className="flex-1">
-                                <div className="flex items-center justify-between">
-                                  <h4 className="font-medium text-white">{wallet.name}</h4>
-                                  {!wallet.supported && (
-                                    <Badge variant="secondary">Coming Soon</Badge>
-                                  )}
-                                </div>
-                                <p className="text-sm text-gray-400 mt-1">{wallet.description}</p>
-                                {wallet.downloadUrl && (
-                                  <a
-                                    href={wallet.downloadUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 mt-2"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    <Download className="h-3 w-3" />
-                                    Download
-                                  </a>
-                                )}
-                              </div>
+                          <div className="absolute inset-2 rounded-full bg-white/10 flex items-center justify-center">
+                            <img 
+                              src={wallet.icon} 
+                              alt={wallet.name}
+                              className="w-8 h-8 rounded-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                              }}
+                            />
+                            <Wallet className="w-6 h-6 text-blue-400 hidden" />
+                          </div>
+                          {connectWalletMutation.isPending && (
+                            <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center">
+                              <div className="w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
                             </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
+                          )}
+                        </button>
+                        <div className="text-center">
+                          <p className="text-xs font-medium text-white truncate w-20">{wallet.name}</p>
+                          {!wallet.supported && (
+                            <Badge variant="secondary" className="text-xs mt-1">Soon</Badge>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </ScrollArea>
+                </div>
+              ))}
+            </div>
           </TabsContent>
 
           {/* Payment Methods Tab */}
