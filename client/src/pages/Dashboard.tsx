@@ -3,12 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DashboardOverview } from "@/components/DashboardOverview";
-import { SocialFiContent } from "@/components/SocialFiContent";
+import { SocialHomeFeed } from "@/components/SocialHomeFeed";
 import { AIBotContent } from "@/components/AIBotContent";
 import { NFTCreatorHub } from "@/components/NFTCreatorHub";
 import { OmniTradeHub } from "@/components/OmniTradeHub";
-import { OmniLearnHub } from "@/components/OmniLearnHub";
 import { StakingContent } from "@/components/StakingContent";
+import { AccountManagement } from "@/components/AccountManagement";
+import { Registration } from "@/components/Registration";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -20,7 +21,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import type { TabType, User, CryptoPrice } from "@/types";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState<TabType>('sphere');
+  const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [showLanding, setShowLanding] = useState(false);
   const { isConnected, cryptoPrices: livePrice } = useWebSocket('/ws');
   const { user: authUser } = useAuth();
@@ -47,10 +48,10 @@ export default function Dashboard() {
 
   const handleGetStarted = (goal: 'create' | 'trade' | 'pool' | 'learn') => {
     const goalToTabMap: Record<string, TabType> = {
-      create: 'creator',
-      trade: 'omnitrade',
-      pool: 'omniyield',
-      learn: 'learn'
+      create: 'nft',
+      trade: 'trading',
+      pool: 'staking',
+      learn: 'dashboard'
     };
     
     setActiveTab(goalToTabMap[goal]);
@@ -62,20 +63,22 @@ export default function Dashboard() {
       return <LandingPage onGetStarted={handleGetStarted} />;
     }
     switch (activeTab) {
-      case 'sphere':
+      case 'dashboard':
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
-      case 'omnifi':
-        return <SocialFiContent />;
-      case 'omnitrade':
+      case 'socialfi':
+        return <SocialHomeFeed cryptoPrices={cryptoPrices} />;
+      case 'trading':
         return <OmniTradeHub cryptoPrices={cryptoPrices} />;
-      case 'omniyield':
+      case 'staking':
         return <StakingContent />;
       case 'aibot':
         return <AIBotContent />;
-      case 'creator':
+      case 'nft':
         return <NFTCreatorHub />;
-      case 'learn':
-        return <OmniLearnHub />;
+      case 'account':
+        return <AccountManagement />;
+      case 'register':
+        return <Registration />;
       default:
         return <DashboardOverview cryptoPrices={cryptoPrices} />;
     }
