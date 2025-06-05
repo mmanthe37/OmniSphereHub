@@ -141,19 +141,10 @@ export function TradingContent({ cryptoPrices }: TradingContentProps) {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4">Open Orders</h3>
             <div className="space-y-3">
-              {openOrders.map((order, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
-                  <div>
-                    <p className={`font-medium ${order.action === 'buy' ? 'text-neon-green' : 'text-red-400'}`}>
-                      {order.type}
-                    </p>
-                    <p className="text-sm text-text-secondary">{order.amount}</p>
-                  </div>
-                  <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-300">
-                    Cancel
-                  </Button>
-                </div>
-              ))}
+              <div className="text-center py-6">
+                <p className="text-text-secondary">No open orders</p>
+                <p className="text-xs text-muted-foreground mt-1">Connect wallet and place trades to see orders</p>
+              </div>
             </div>
           </CardContent>
         </Card>

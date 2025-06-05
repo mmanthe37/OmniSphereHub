@@ -21,9 +21,9 @@ export default function DashboardOverview() {
     queryKey: ["/api/portfolio/1"],
   });
 
-  const { data: holdings } = useQuery({
+  const { data: holdings = [] } = useQuery({
     queryKey: ["/api/portfolio/1"],
-    select: (data) => data?.holdings || [],
+    select: (data: any) => data?.holdings || [],
   });
 
   const { data: aiTrades } = useQuery({

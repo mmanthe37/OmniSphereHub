@@ -7,99 +7,49 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Coins, TrendingUp, Shield, Zap, ExternalLink, BookOpen, Play, Lock, Unlock, Calculator, PieChart, BarChart3, Wallet, AlertTriangle, Info, Star, Award, Target } from "lucide-react";
 
-// DeFi Protocols and Dapps
-const defiProtocols = [
-  {
-    id: 1,
-    name: "Uniswap",
-    category: "DEX",
-    description: "Decentralized exchange for swapping tokens",
-    tvl: "$4.2B",
-    apy: "0.3-15%",
-    risk: "Low",
-    logo: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=100",
-    features: ["Token Swapping", "Liquidity Pools", "Yield Farming"],
-    userBalance: "2.4 ETH",
-    earnings: "+$847.23",
-    isConnected: true,
-    learningProgress: 85
-  },
-  {
-    id: 2,
-    name: "Aave",
-    category: "Lending",
-    description: "Lend and borrow cryptocurrencies",
-    tvl: "$6.8B",
-    apy: "2-12%",
-    risk: "Medium",
-    logo: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=100",
-    features: ["Lending", "Borrowing", "Flash Loans"],
-    userBalance: "1,847 USDC",
-    earnings: "+$234.56",
-    isConnected: true,
-    learningProgress: 60
-  },
-  {
-    id: 3,
-    name: "Compound",
-    category: "Lending",
-    description: "Algorithmic money market protocol",
-    tvl: "$2.1B",
-    apy: "1.5-8%",
-    risk: "Low",
-    logo: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=100",
-    features: ["Supply", "Borrow", "Governance"],
-    userBalance: "0",
-    earnings: "$0",
-    isConnected: false,
-    learningProgress: 25
-  },
-  {
-    id: 4,
-    name: "Curve",
-    category: "DEX",
-    description: "Stablecoin-focused automated market maker",
-    tvl: "$3.4B",
-    apy: "5-25%",
-    risk: "Medium",
-    logo: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=100",
-    features: ["Stablecoin Swaps", "Liquidity Mining", "Governance"],
-    userBalance: "567 CRV",
-    earnings: "+$123.45",
-    isConnected: true,
-    learningProgress: 40
-  },
-  {
-    id: 5,
-    name: "Yearn Finance",
-    category: "Yield",
-    description: "Automated yield farming strategies",
-    tvl: "$1.8B",
-    apy: "3-20%",
-    risk: "High",
-    logo: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=100",
-    features: ["Vaults", "Strategies", "Optimization"],
-    userBalance: "0.25 YFI",
-    earnings: "+$456.78",
-    isConnected: false,
-    learningProgress: 10
-  },
-  {
-    id: 6,
-    name: "MakerDAO",
-    category: "Stablecoin",
-    description: "Decentralized stablecoin (DAI) protocol",
-    tvl: "$5.2B",
-    apy: "4-8%",
-    risk: "Low",
-    logo: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=100",
-    features: ["DAI Minting", "Collateral", "Savings Rate"],
-    userBalance: "3,456 DAI",
-    earnings: "+$89.12",
-    isConnected: true,
-    learningProgress: 70
-  }
-];
+// DeFi Protocols data now comes from authentic API sources
+
+export function DeFiDappHub() {
+  // Fetch authentic DeFi portfolio data
+  const { data: defiPortfolio } = useQuery({
+    queryKey: ['/api/defi/portfolio'],
+    select: (data: any) => data || {}
+  });
+
+  const { data: defiProtocols = [] } = useQuery({
+    queryKey: ['/api/defi/protocols'],
+    select: (data: any) => data || []
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="text-center py-8">
+        <h2 className="text-2xl font-bold text-neon-cyan mb-4">DeFi Protocol Hub</h2>
+        <p className="text-text-secondary">Connect your wallet to access DeFi protocols and start earning yield</p>
+        <div className="mt-6">
+          <Button className="bg-neon-cyan text-dark-primary hover:bg-neon-cyan/80">
+            Connect Wallet
+          </Button>
+        </div>
+      </div>
+
+      {/* Protocol Grid - Empty State */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <Card key={i} className="bg-dark-card border-dark-border opacity-50">
+            <CardContent className="p-6">
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-dark-primary rounded-full mx-auto mb-4"></div>
+                <p className="text-text-secondary">Protocol {i}</p>
+                <p className="text-xs text-muted-foreground mt-1">Connect wallet to view</p>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const learningPaths = [
   {
