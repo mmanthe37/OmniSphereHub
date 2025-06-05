@@ -66,12 +66,11 @@ export default function DashboardOverview() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-text-secondary text-sm">Total Portfolio</p>
-                <p className="text-2xl font-bold font-mono">
-                  {portfolio ? formatCurrency(portfolio.totalValue) : "$0.00"}
+                <p className="text-2xl font-bold font-mono text-text-secondary">
+                  $0.00
                 </p>
-                <p className="text-neon-green text-sm flex items-center">
-                  <ArrowUp className="w-4 h-4 mr-1" />
-                  +12.5%
+                <p className="text-text-secondary text-sm">
+                  Connect wallet to view portfolio
                 </p>
               </div>
               <div className="w-12 h-12 bg-gradient-to-r from-neon-purple to-neon-cyan rounded-full flex items-center justify-center">
@@ -86,10 +85,10 @@ export default function DashboardOverview() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-text-secondary text-sm">24h PnL</p>
-                <p className="text-2xl font-bold font-mono text-neon-green">
-                  {portfolio ? `+${formatCurrency(portfolio.dailyPnl)}` : "+$0.00"}
+                <p className="text-2xl font-bold font-mono text-text-secondary">
+                  $0.00
                 </p>
-                <p className="text-neon-green text-sm">Active trades: 12</p>
+                <p className="text-text-secondary text-sm">No active trades</p>
               </div>
               <div className="w-12 h-12 bg-neon-green bg-opacity-20 rounded-full flex items-center justify-center">
                 <TrendingUp className="text-neon-green w-6 h-6" />
@@ -134,40 +133,11 @@ export default function DashboardOverview() {
         <Card className="lg:col-span-2 bg-dark-card border-dark-border">
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4">Portfolio Performance</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData}>
-                  <XAxis 
-                    dataKey="month" 
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fill: '#B8BCC8' }}
-                  />
-                  <YAxis 
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fill: '#B8BCC8' }}
-                    tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
-                  />
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: '#2A2D47',
-                      border: '1px solid #404469',
-                      borderRadius: '8px',
-                      color: '#FFFFFF'
-                    }}
-                    formatter={(value: any) => [formatCurrency(value), 'Portfolio Value']}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="#00D2FF" 
-                    strokeWidth={2}
-                    dot={false}
-                    activeDot={{ r: 6, fill: '#00D2FF' }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+            <div className="h-64 flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-text-secondary">No portfolio data available</p>
+                <p className="text-xs text-muted-foreground mt-1">Connect wallet to view performance</p>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -223,20 +193,9 @@ export default function DashboardOverview() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-dark-primary rounded-lg">
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-neon-purple bg-opacity-20 rounded-full flex items-center justify-center">
-                  <Coins className="text-neon-purple w-5 h-5" />
-                </div>
-                <div>
-                  <p className="font-medium">Staking Reward</p>
-                  <p className="text-sm text-text-secondary">1 hour ago</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="font-mono font-medium text-neon-purple">+147.23 USDC</p>
-                <p className="text-sm text-text-secondary">Pool: ETH-USDC</p>
-              </div>
+            <div className="text-center py-6">
+              <p className="text-text-secondary">No recent activity</p>
+              <p className="text-xs text-muted-foreground mt-1">Connect wallet to view transactions</p>
             </div>
 
             {aiTrades && aiTrades.length > 0 && (
