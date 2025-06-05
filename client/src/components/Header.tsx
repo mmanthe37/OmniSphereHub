@@ -13,13 +13,14 @@ interface HeaderProps {
 }
 
 const tabTitles: Record<TabType, { title: string; subtitle: string }> = {
-  sphere: { title: "The Sphere", subtitle: "Your unified Web3 ecosystem hub" },
-  omnifi: { title: "OmniFi", subtitle: "Social finance and creator economy platform" },
-  omnitrade: { title: "OmniTrade", subtitle: "Advanced trading with integrated wallet management" },
-  omniyield: { title: "OmniYield", subtitle: "Staking and yield farming opportunities" },
+  dashboard: { title: "The Sphere", subtitle: "Your unified Web3 ecosystem hub" },
+  socialfi: { title: "SocialFi", subtitle: "Social finance and creator economy platform" },
+  trading: { title: "OmniTrade", subtitle: "Advanced trading with integrated wallet management" },
+  staking: { title: "OmniYield", subtitle: "Staking and yield farming opportunities" },
   aibot: { title: "AI Bot", subtitle: "Automated trading with artificial intelligence" },
-  creator: { title: "Creator Hub", subtitle: "NFT creation and monetization tools" },
-  learn: { title: "DeFi Academy", subtitle: "Learn Web3, DeFi, and NFT fundamentals" },
+  nft: { title: "Creator Hub", subtitle: "NFT creation and monetization tools" },
+  account: { title: "OmniAccount", subtitle: "Account management and wallet settings" },
+  register: { title: "Join OmniSphere", subtitle: "Create your Web3 account" },
 };
 
 export function Header({ activeTab, user }: HeaderProps) {

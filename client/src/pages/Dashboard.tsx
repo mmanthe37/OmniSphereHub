@@ -10,6 +10,8 @@ import { OmniTradeHub } from "@/components/OmniTradeHub";
 import { StakingContent } from "@/components/StakingContent";
 import { AccountManagement } from "@/components/AccountManagement";
 import { Registration } from "@/components/Registration";
+import { WalletAdvanced } from "@/components/WalletAdvanced";
+import { X402PaymentSystem } from "@/components/X402PaymentSystem";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -76,7 +78,13 @@ export default function Dashboard() {
       case 'nft':
         return <NFTCreatorHub />;
       case 'account':
-        return <AccountManagement />;
+        return (
+          <div className="space-y-6">
+            <AccountManagement />
+            <WalletAdvanced />
+            <X402PaymentSystem />
+          </div>
+        );
       case 'register':
         return <Registration />;
       default:

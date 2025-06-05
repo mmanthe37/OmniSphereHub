@@ -52,7 +52,7 @@ export function NFTCreatorHub() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-400">Items Created</p>
-                <p className="text-2xl font-bold text-white">{userNFTs.length}</p>
+                <p className="text-2xl font-bold text-white">{Array.isArray(userNFTs) ? userNFTs.length : 0}</p>
               </div>
               <Layers className="w-8 h-8 text-blue-400" />
             </div>
@@ -140,7 +140,7 @@ export function NFTCreatorHub() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {userNFTs.length === 0 ? (
+              {!Array.isArray(userNFTs) || userNFTs.length === 0 ? (
                 <div className="text-center py-12">
                   <Palette className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-white mb-2">No NFTs Created Yet</h3>
