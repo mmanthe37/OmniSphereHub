@@ -12,6 +12,12 @@ import { defiYield } from "./defiYield";
 import { analyticsAI } from "./analyticsAI";
 import { aiTradingEngine } from "./aiTradingAlgorithms";
 import { walletConnector } from "./walletConnector";
+import { 
+  isWalletAllowlisted, 
+  getWalletPrivileges, 
+  validateWalletForX402, 
+  logWalletActivity 
+} from "./walletAllowlist";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -71,6 +77,69 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(collections);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Wallet allowlist validation endpoint
+  app.post("/api/wallet/validate", async (req, res) => {
+    try {
+      const { address, transactionAmount = 0 } = req.body;
+      
+      if (!address) {
+        return res.status(400).json({ message: "Wallet address required" });
+      }
+
+      const isAllowlisted = isWalletAllowlisted(address);
+      const privileges = getWalletPrivileges(address);
+      const validation = validateWalletForX402(address, transactionAmount);
+
+      logWalletActivity(address, 'VALIDATION_CHECK', { 
+        transactionAmount, 
+        isAllowlisted,
+        allowed: validation.allowed 
+      });
+
+      res.json({
+        address,
+        isAllowlisted,
+        privileges,
+        validation,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Wallet validation failed" });
+    }
+  });
+
+  // Enhanced wallet privileges endpoint
+  app.get("/api/wallet/privileges/:address", async (req, res) => {
+    try {
+      const { address } = req.params;
+      
+      if (!address) {
+        return res.status(400).json({ message: "Wallet address required" });
+      }
+
+      const isAllowlisted = isWalletAllowlisted(address);
+      const privileges = getWalletPrivileges(address);
+
+      logWalletActivity(address, 'PRIVILEGES_CHECK', { isAllowlisted });
+
+      res.json({
+        address,
+        isAllowlisted,
+        privileges,
+        specialFeatures: isAllowlisted ? [
+          'unlimited_x402_transactions',
+          'premium_ai_signals',
+          'institutional_access',
+          'advanced_analytics',
+          'priority_support'
+        ] : [],
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch wallet privileges" });
     }
   });
 
