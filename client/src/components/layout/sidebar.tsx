@@ -7,7 +7,9 @@ import {
   ArrowLeftRight, 
   Bot, 
   Coins,
-  Grid3X3
+  Grid3X3,
+  User,
+  UserPlus
 } from "lucide-react";
 
 interface SidebarProps {
@@ -21,6 +23,7 @@ const navItems = [
   { id: "trading" as TabType, label: "Trading", icon: ArrowLeftRight, color: "text-neon-green" },
   { id: "aibot" as TabType, label: "AI Bot", icon: Bot, color: "text-neon-cyan" },
   { id: "staking" as TabType, label: "Staking", icon: Coins, color: "text-neon-purple" },
+  { id: "nft" as TabType, label: "NFT Creator", icon: Grid3X3, color: "text-neon-green" },
 ];
 
 export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
@@ -37,7 +40,7 @@ export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         </h1>
       </div>
       
-      <nav className="space-y-2">
+      <nav className="space-y-2 flex-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -57,15 +60,41 @@ export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         })}
       </nav>
       
-      <div className="mt-auto pt-8">
+      <div className="mt-auto pt-8 space-y-3">
+        {user ? (
+          <button
+            onClick={() => onTabChange("account" as TabType)}
+            className={cn(
+              "w-full flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 text-left",
+              "hover:bg-dark-card",
+              activeTab === "account" && "bg-gradient-to-r from-neon-purple to-neon-cyan text-white shadow-neon"
+            )}
+          >
+            <User className={cn("w-5 h-5", activeTab === "account" ? "text-white" : "text-neon-green")} />
+            <span>OmniAccount</span>
+          </button>
+        ) : (
+          <button
+            onClick={() => onTabChange("register" as TabType)}
+            className={cn(
+              "w-full flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 text-left",
+              "hover:bg-dark-card",
+              activeTab === "register" && "bg-gradient-to-r from-neon-purple to-neon-cyan text-white shadow-neon"
+            )}
+          >
+            <UserPlus className={cn("w-5 h-5", activeTab === "register" ? "text-white" : "text-neon-purple")} />
+            <span>Create Account</span>
+          </button>
+        )}
+        
         <div className="bg-dark-card p-4 rounded-xl">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
               {user?.email ? user.email.charAt(0).toUpperCase() : 'G'}
             </div>
             <div>
-              <p className="font-medium">{user?.email || 'Guest User'}</p>
-              <p className="text-sm text-text-secondary">
+              <p className="font-medium text-white">{user?.email || 'Guest User'}</p>
+              <p className="text-sm text-gray-400">
                 {user ? 'Account Member' : 'Guest'}
               </p>
             </div>

@@ -94,4 +94,4 @@ export interface CreatorBadge {
   earnedAt: Date;
 }
 
-export type TabType = 'sphere' | 'omnifi' | 'omnitrade' | 'omniyield' | 'aibot' | 'creator' | 'learn';
+export type TabType = 'dashboard' | 'socialfi' | 'trading' | 'aibot' | 'staking' | 'nft' | 'account' | 'register';
