@@ -8,7 +8,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeftRight, TrendingUp, TrendingDown, Wallet, ExternalLink, Zap, Shield, AlertTriangle, Settings, RefreshCw, Copy, Send, History, BarChart3, PieChart, DollarSign, Coins, Target, Activity } from "lucide-react";
+import { ArrowLeftRight, TrendingUp, TrendingDown, Wallet, ExternalLink, Zap, Shield, AlertTriangle, Settings, RefreshCw, Copy, Send, History, BarChart3, PieChart, DollarSign, Coins, Target, Activity, QrCode, CheckCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { CryptoPrice, PortfolioData } from "@/types";
 import omniSphereLogo from "@/assets/omnisphere-logo.jpg";
 
@@ -276,12 +279,57 @@ export function OmniTradeHub({ cryptoPrices }: OmniTradeHubProps) {
     }
   };
 
+  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
+  const [isReceiveModalOpen, setIsReceiveModalOpen] = useState(false);
+  const [sendFormData, setSendFormData] = useState({
+    recipientAddress: '',
+    amount: '',
+    token: 'ETH',
+    gasPrice: 'standard'
+  });
+
   const handleSend = () => {
-    alert('Send tokens interface would open here - enter recipient address, amount, and gas settings');
+    setIsSendModalOpen(true);
   };
 
   const handleReceive = () => {
-    alert('Receive interface would open here - display wallet address QR code and copy functionality');
+    setIsReceiveModalOpen(true);
+  };
+
+  const executeSendTransaction = async () => {
+    try {
+      const response = await fetch('/api/wallet/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: sendFormData.recipientAddress,
+          amount: parseFloat(sendFormData.amount),
+          token: sendFormData.token,
+          gasPrice: sendFormData.gasPrice
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        alert(`Transaction sent successfully!\nHash: ${result.transactionHash}\nAmount: ${sendFormData.amount} ${sendFormData.token}\nTo: ${sendFormData.recipientAddress}`);
+        setIsSendModalOpen(false);
+        setSendFormData({ recipientAddress: '', amount: '', token: 'ETH', gasPrice: 'standard' });
+      } else {
+        alert(`Transaction failed: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Transaction failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const copyAddressToClipboard = async (address: string) => {
+    try {
+      await navigator.clipboard.writeText(address);
+      alert('Address copied to clipboard!');
+    } catch (error) {
+      alert('Failed to copy address');
+    }
   };
 
   const handleConnectWallet = () => {
@@ -735,6 +783,130 @@ export function OmniTradeHub({ cryptoPrices }: OmniTradeHubProps) {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Send Token Modal */}
+      <Dialog open={isSendModalOpen} onOpenChange={setIsSendModalOpen}>
+        <DialogContent className="bg-gray-900 border-gray-700 max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center text-white">
+              <Send className="w-5 h-5 mr-2" />
+              Send Tokens
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="recipient" className="text-gray-300">Recipient Address</Label>
+              <Input
+                id="recipient"
+                placeholder="0x..."
+                value={sendFormData.recipientAddress}
+                onChange={(e) => setSendFormData(prev => ({ ...prev, recipientAddress: e.target.value }))}
+                className="bg-gray-800 border-gray-600 text-white"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label htmlFor="amount" className="text-gray-300">Amount</Label>
+                <Input
+                  id="amount"
+                  type="number"
+                  placeholder="0.0"
+                  value={sendFormData.amount}
+                  onChange={(e) => setSendFormData(prev => ({ ...prev, amount: e.target.value }))}
+                  className="bg-gray-800 border-gray-600 text-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="token" className="text-gray-300">Token</Label>
+                <Select value={sendFormData.token} onValueChange={(value) => setSendFormData(prev => ({ ...prev, token: value }))}>
+                  <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-600">
+                    <SelectItem value="ETH">ETH</SelectItem>
+                    <SelectItem value="USDC">USDC</SelectItem>
+                    <SelectItem value="USDT">USDT</SelectItem>
+                    <SelectItem value="BTC">BTC</SelectItem>
+                    <SelectItem value="SOL">SOL</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="gasPrice" className="text-gray-300">Gas Price</Label>
+              <Select value={sendFormData.gasPrice} onValueChange={(value) => setSendFormData(prev => ({ ...prev, gasPrice: value }))}>
+                <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-600">
+                  <SelectItem value="slow">Slow (~5 min) - Lower fee</SelectItem>
+                  <SelectItem value="standard">Standard (~2 min) - Standard fee</SelectItem>
+                  <SelectItem value="fast">Fast (~30 sec) - Higher fee</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex space-x-3 pt-4">
+              <Button variant="outline" onClick={() => setIsSendModalOpen(false)} className="flex-1">
+                Cancel
+              </Button>
+              <Button 
+                onClick={executeSendTransaction}
+                disabled={!sendFormData.recipientAddress || !sendFormData.amount}
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
+              >
+                Send Transaction
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Receive Token Modal */}
+      <Dialog open={isReceiveModalOpen} onOpenChange={setIsReceiveModalOpen}>
+        <DialogContent className="bg-gray-900 border-gray-700 max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center text-white">
+              <QrCode className="w-5 h-5 mr-2" />
+              Receive Tokens
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-center">
+            <div className="bg-white p-4 rounded-lg mx-auto w-48 h-48 flex items-center justify-center">
+              <div className="text-gray-800">
+                <QrCode className="w-24 h-24 mx-auto mb-2" />
+                <p className="text-xs">QR Code for<br />0x2265...c07e</p>
+              </div>
+            </div>
+            <div>
+              <Label className="text-gray-300">Your Wallet Address</Label>
+              <div className="flex items-center space-x-2 mt-2">
+                <Input
+                  value="0x2265596126165fc2bcb7c07e4c234a9929cdb8a0"
+                  readOnly
+                  className="bg-gray-800 border-gray-600 text-white font-mono text-sm"
+                />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => copyAddressToClipboard("0x2265596126165fc2bcb7c07e4c234a9929cdb8a0")}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="text-sm text-gray-400">
+              <p>Send tokens to this address to receive them in your wallet.</p>
+              <p className="mt-2">⚠️ Only send tokens on supported networks: Ethereum, Base, Polygon</p>
+            </div>
+            <Button 
+              onClick={() => setIsReceiveModalOpen(false)}
+              className="w-full"
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

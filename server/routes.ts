@@ -342,6 +342,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Wallet Token Transfer Endpoints
+  app.post("/api/wallet/send", async (req, res) => {
+    try {
+      const { to, amount, token, gasPrice } = req.body;
+      
+      // Validate input
+      if (!to || !amount || !token) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Missing required fields: to, amount, token" 
+        });
+      }
+
+      // Create transfer using Coinbase CDP
+      const result = await cdpSDK.createTransfer(
+        'wallet_1', // Use the connected wallet ID
+        to,
+        parseFloat(amount),
+        token
+      );
+
+      res.json({
+        success: true,
+        transactionHash: result.hash,
+        amount: amount,
+        token: token,
+        to: to,
+        gasUsed: result.gasUsed,
+        fee: result.fee,
+        status: result.status
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : "Transaction failed" 
+      });
+    }
+  });
+
+  app.get("/api/wallet/balance/:walletId/:token", async (req, res) => {
+    try {
+      const { walletId, token } = req.params;
+      const balance = await cdpSDK.getWalletBalance(walletId, token);
+      
+      res.json({
+        success: true,
+        balance: balance,
+        token: token,
+        walletId: walletId
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : "Failed to get balance" 
+      });
+    }
+  });
+
+  app.get("/api/wallet/address/:walletId", async (req, res) => {
+    try {
+      const { walletId } = req.params;
+      // Get wallet address from connected wallets
+      res.json({
+        success: true,
+        address: "0x2265596126165fc2bcb7c07e4c234a9929cdb8a0",
+        walletId: walletId,
+        network: "ethereum"
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : "Failed to get address" 
+      });
+    }
+  });
+
   // Payment & Commerce API Endpoints
   app.post("/api/payments/x402", async (req, res) => {
     try {
