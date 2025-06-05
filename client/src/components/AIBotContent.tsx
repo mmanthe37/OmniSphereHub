@@ -9,26 +9,20 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Bot } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { AITrade } from "@/types";
+import { 
+  useAITradingStrategies, 
+  useAIPortfolioAnalytics, 
+  useAITrades 
+} from "@/lib/xano-hooks";
 
-// Mock bot performance data
-// Performance data and statistics now come from real AI trading analytics
+// All AI trading data now comes from authentic Xano backend
 
 export function AIBotContent() {
-  const { data: trades = [] } = useQuery<AITrade[]>({
-    queryKey: ['/api/ai-trades'],
-  });
-
-  // Fetch real strategy data from AI trading engine
-  const { data: activeStrategies = [] } = useQuery({
-    queryKey: ['/api/ai-trading/strategies'],
-    select: (data: any) => data || []
-  });
-
-  // Fetch real portfolio analytics from AI trading engine
-  const { data: portfolioAnalytics } = useQuery({
-    queryKey: ['/api/ai-trading/portfolio'],
-    select: (data: any) => data || {}
-  });
+  // Using authentic Xano backend data
+  const userId = 1; // This would come from auth context in production
+  const { data: trades = [] } = useAITrades(userId);
+  const { data: activeStrategies = [] } = useAITradingStrategies();
+  const { data: portfolioAnalytics } = useAIPortfolioAnalytics(userId);
 
   // Generate performance chart data from real analytics
   const botPerformanceData = portfolioAnalytics?.performanceHistory || [];

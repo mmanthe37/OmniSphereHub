@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,25 +5,20 @@ import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Coins, TrendingUp, Shield, Zap, ExternalLink, BookOpen, Play, Lock, Unlock, Calculator, PieChart, BarChart3, Wallet, AlertTriangle, Info, Star, Award, Target } from "lucide-react";
+import { 
+  useDeFiPortfolio, 
+  useDeFiProtocols, 
+  useDeFiLearningPaths 
+} from "@/lib/xano-hooks";
 
 // All DeFi data now comes from authentic API sources
 
 export function DeFiDappHub() {
-  // Fetch authentic DeFi portfolio data
-  const { data: defiPortfolio } = useQuery({
-    queryKey: ['/api/defi/portfolio'],
-    select: (data: any) => data || {}
-  });
-
-  const { data: defiProtocols = [] } = useQuery({
-    queryKey: ['/api/defi/protocols'],
-    select: (data: any) => data || []
-  });
-
-  const { data: learningPaths = [] } = useQuery({
-    queryKey: ['/api/defi/learning'],
-    select: (data: any) => data || []
-  });
+  // Using authentic Xano backend data
+  const userId = 1; // This would come from auth context in production
+  const { data: defiPortfolio } = useDeFiPortfolio(userId);
+  const { data: defiProtocols = [] } = useDeFiProtocols();
+  const { data: learningPaths = [] } = useDeFiLearningPaths(userId);
 
   return (
     <div className="space-y-6">
