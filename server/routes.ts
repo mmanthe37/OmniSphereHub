@@ -18,6 +18,7 @@ import {
   validateWalletForX402, 
   logWalletActivity 
 } from "./walletAllowlist";
+import { setupWebhookRoutes } from "./webhookHandler";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -1414,6 +1415,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       clearInterval(priceUpdateInterval);
     });
   });
+
+  // Setup OAuth webhook routes with your UUID
+  setupWebhookRoutes(app);
 
   return httpServer;
 }
