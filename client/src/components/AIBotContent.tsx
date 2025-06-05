@@ -11,25 +11,34 @@ import { formatDistanceToNow } from "date-fns";
 import type { AITrade } from "@/types";
 
 // Mock bot performance data
-const botPerformanceData = Array.from({ length: 30 }, (_, i) => ({
-  day: i + 1,
-  performance: 100 + (i * 5) + Math.random() * 50,
-}));
-
-const botStats = {
-  winRate: 73.2,
-  totalTrades: 1247,
-  dailyProfit: 2847.89,
-  totalReturn: 847.2,
-  maxDrawdown: -5.8,
-};
-
-// Active strategies now come from real AI trading engine - no mock data
+// Performance data and statistics now come from real AI trading analytics
 
 export function AIBotContent() {
   const { data: trades = [] } = useQuery<AITrade[]>({
     queryKey: ['/api/ai-trades'],
   });
+
+  // Fetch real strategy data from AI trading engine
+  const { data: activeStrategies = [] } = useQuery({
+    queryKey: ['/api/ai-trading/strategies'],
+    select: (data: any) => data || []
+  });
+
+  // Fetch real portfolio analytics from AI trading engine
+  const { data: portfolioAnalytics } = useQuery({
+    queryKey: ['/api/ai-trading/portfolio'],
+    select: (data: any) => data || {}
+  });
+
+  // Generate performance chart data from real analytics
+  const botPerformanceData = portfolioAnalytics?.performanceHistory || [];
+  const botStats = portfolioAnalytics?.portfolio?.performance || {
+    winRate: 0,
+    totalTrades: 0,
+    dailyProfit: 0,
+    totalReturn: 0,
+    maxDrawdown: 0
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -44,28 +53,37 @@ export function AIBotContent() {
                 <span className="text-neon-green font-medium">ACTIVE</span>
               </div>
             </div>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={botPerformanceData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--dark-border))" />
-                <XAxis dataKey="day" stroke="hsl(var(--text-secondary))" />
-                <YAxis stroke="hsl(var(--text-secondary))" />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--dark-card))',
-                    border: '1px solid hsl(var(--dark-border))',
-                    borderRadius: '8px',
-                    color: 'hsl(var(--foreground))'
-                  }}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="performance" 
-                  stroke="hsl(var(--neon-purple))" 
-                  strokeWidth={2}
-                  dot={{ fill: 'hsl(var(--neon-purple))', strokeWidth: 2 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            {botPerformanceData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={botPerformanceData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--dark-border))" />
+                  <XAxis dataKey="day" stroke="hsl(var(--text-secondary))" />
+                  <YAxis stroke="hsl(var(--text-secondary))" />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--dark-card))',
+                      border: '1px solid hsl(var(--dark-border))',
+                      borderRadius: '8px',
+                      color: 'hsl(var(--foreground))'
+                    }}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="performance" 
+                    stroke="hsl(var(--neon-purple))" 
+                    strokeWidth={2}
+                    dot={{ fill: 'hsl(var(--neon-purple))', strokeWidth: 2 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex items-center justify-center h-[300px]">
+                <div className="text-center">
+                  <p className="text-text-secondary">No performance data available</p>
+                  <p className="text-xs text-muted-foreground mt-1">Start AI trading to see performance</p>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
         
@@ -209,20 +227,27 @@ export function AIBotContent() {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4">Active Strategies</h3>
             <div className="space-y-3">
-              {activeStrategies.map((strategy, index) => (
-                <div key={strategy.name} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
-                  <div>
-                    <p className="font-medium">{strategy.name}</p>
-                    <p className={`text-sm ${
-                      strategy.performance.startsWith('+') ? 'text-neon-green' :
-                      strategy.performance.startsWith('-') ? 'text-red-400' : 'text-neon-purple'
-                    }`}>
-                      {strategy.performance}
-                    </p>
+              {Array.isArray(activeStrategies) && activeStrategies.length > 0 ? (
+                activeStrategies.map((strategy: any, index: number) => (
+                  <div key={strategy.name || index} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
+                    <div>
+                      <p className="font-medium">{strategy.name || 'Unknown Strategy'}</p>
+                      <p className={`text-sm ${
+                        strategy.performance?.toString().startsWith('+') ? 'text-neon-green' :
+                        strategy.performance?.toString().startsWith('-') ? 'text-red-400' : 'text-neon-purple'
+                      }`}>
+                        {strategy.performance || 'N/A'}
+                      </p>
+                    </div>
+                    <Switch defaultChecked={strategy.enabled || strategy.active || false} />
                   </div>
-                  <Switch defaultChecked={strategy.enabled} />
+                ))
+              ) : (
+                <div className="text-center py-6">
+                  <p className="text-text-secondary">No AI strategies available</p>
+                  <p className="text-xs text-muted-foreground mt-1">Configure AI trading engine to see strategies</p>
                 </div>
-              ))}
+              )}
             </div>
           </CardContent>
         </Card>
