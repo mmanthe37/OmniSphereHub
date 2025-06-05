@@ -20,7 +20,7 @@ import {
   Plus,
   ExternalLink,
   Key,
-  Gas,
+  Fuel,
   Network,
   Clock
 } from "lucide-react";
@@ -139,7 +139,7 @@ export function SmartWalletIntegration() {
         entryPoint: "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"
       });
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       toast({
         title: "Operation Validated",
         description: data.valid ? "UserOperation is valid for sponsorship" : `Validation failed: ${data.reason}`,
@@ -248,7 +248,7 @@ export function SmartWalletIntegration() {
                     </select>
                   </div>
                   
-                  {paymasterService && (
+{paymasterService && typeof paymasterService === 'object' && 'context' in paymasterService && (
                     <div className="text-sm space-y-1">
                       <Label>Paymaster Service</Label>
                       <div className="font-mono text-xs bg-green-50 dark:bg-green-900/20 p-2 rounded">
@@ -256,7 +256,7 @@ export function SmartWalletIntegration() {
                           <CheckCircle className="h-3 w-3 text-green-500" />
                           <span>Active</span>
                         </div>
-                        <div>Policy: {paymasterService.context?.policyId}</div>
+                        <div>Policy: {(paymasterService as PaymasterService).context?.policyId}</div>
                       </div>
                     </div>
                   )}
@@ -293,17 +293,17 @@ export function SmartWalletIntegration() {
               </div>
             </div>
 
-            {sponsorshipStatus && (
+{sponsorshipStatus && typeof sponsorshipStatus === 'object' && 'isSponsored' in sponsorshipStatus && (
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm flex items-center space-x-2">
-                    {sponsorshipStatus.isSponsored ? (
+                    {(sponsorshipStatus as SponsorshipStatus).isSponsored ? (
                       <CheckCircle className="h-4 w-4 text-green-500" />
                     ) : (
                       <XCircle className="h-4 w-4 text-red-500" />
                     )}
                     <span>
-                      {sponsorshipStatus.isSponsored ? "Sponsored Address" : "Not Sponsored"}
+                      {(sponsorshipStatus as SponsorshipStatus).isSponsored ? "Sponsored Address" : "Not Sponsored"}
                     </span>
                   </CardTitle>
                 </CardHeader>
@@ -311,16 +311,16 @@ export function SmartWalletIntegration() {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <Label>Policy ID</Label>
-                      <div className="font-mono">{sponsorshipStatus.policyId || "None"}</div>
+                      <div className="font-mono">{(sponsorshipStatus as SponsorshipStatus).policyId || "None"}</div>
                     </div>
                     <div>
                       <Label>Daily Transactions</Label>
-                      <div>{sponsorshipStatus.dailyTransactionCount} / {sponsorshipStatus.dailyLimit}</div>
+                      <div>{(sponsorshipStatus as SponsorshipStatus).dailyTransactionCount} / {(sponsorshipStatus as SponsorshipStatus).dailyLimit}</div>
                     </div>
                   </div>
                   <div>
                     <Label>Gas Remaining</Label>
-                    <div className="font-mono text-sm">{sponsorshipStatus.gasRemaining} wei</div>
+                    <div className="font-mono text-sm">{(sponsorshipStatus as SponsorshipStatus).gasRemaining} wei</div>
                   </div>
                 </CardContent>
               </Card>
@@ -385,7 +385,7 @@ export function SmartWalletIntegration() {
                   </Button>
                   
                   <Alert>
-                    <Gas className="h-4 w-4" />
+                    <Fuel className="h-4 w-4" />
                     <AlertDescription className="text-xs">
                       This will prepare a gasless transaction call with ERC-7677 paymaster service capabilities.
                     </AlertDescription>
@@ -396,52 +396,54 @@ export function SmartWalletIntegration() {
           </TabsContent>
 
           <TabsContent value="policies" className="space-y-4">
-            {policiesData?.policies?.map((policy: SponsorshipPolicy) => (
-              <Card key={policy.id}>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm">{policy.name}</CardTitle>
-                    <Badge variant={policy.active ? "default" : "secondary"}>
-                      {policy.active ? "Active" : "Inactive"}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+            {policiesData && typeof policiesData === 'object' && 'policies' in policiesData && Array.isArray((policiesData as any).policies) ? (
+              (policiesData as any).policies.map((policy: SponsorshipPolicy) => (
+                <Card key={policy.id}>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-sm">{policy.name}</CardTitle>
+                      <Badge variant={policy.active ? "default" : "secondary"}>
+                        {policy.active ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <Label>Max Gas Per Transaction</Label>
+                        <div className="font-mono">{policy.rules.maxGasPerTransaction}</div>
+                      </div>
+                      <div>
+                        <Label>Daily Transaction Limit</Label>
+                        <div>{policy.rules.maxTransactionsPerDay}</div>
+                      </div>
+                    </div>
+                    
                     <div>
-                      <Label>Max Gas Per Transaction</Label>
-                      <div className="font-mono">{policy.rules.maxGasPerTransaction}</div>
+                      <Label>Allowlisted Addresses ({policy.rules.addressAllowlist.length})</Label>
+                      <div className="max-h-24 overflow-y-auto space-y-1">
+                        {policy.rules.addressAllowlist.map((address, index) => (
+                          <div key={index} className="font-mono text-xs bg-gray-100 dark:bg-gray-800 p-1 rounded">
+                            {address}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div>
-                      <Label>Daily Transaction Limit</Label>
-                      <div>{policy.rules.maxTransactionsPerDay}</div>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <Label>Allowlisted Addresses ({policy.rules.addressAllowlist.length})</Label>
-                    <div className="max-h-24 overflow-y-auto space-y-1">
-                      {policy.rules.addressAllowlist.map((address, index) => (
-                        <div key={index} className="font-mono text-xs bg-gray-100 dark:bg-gray-800 p-1 rounded">
-                          {address}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
-                  <div>
-                    <Label>Whitelisted Contracts ({policy.rules.contractWhitelist.length})</Label>
-                    <div className="max-h-24 overflow-y-auto space-y-1">
-                      {policy.rules.contractWhitelist.map((contract, index) => (
-                        <div key={index} className="font-mono text-xs bg-gray-100 dark:bg-gray-800 p-1 rounded">
-                          {contract}
-                        </div>
-                      ))}
+                    <div>
+                      <Label>Whitelisted Contracts ({policy.rules.contractWhitelist.length})</Label>
+                      <div className="max-h-24 overflow-y-auto space-y-1">
+                        {policy.rules.contractWhitelist.map((contract, index) => (
+                          <div key={index} className="font-mono text-xs bg-gray-100 dark:bg-gray-800 p-1 rounded">
+                            {contract}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )) || (
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
               <Alert>
                 <Clock className="h-4 w-4" />
                 <AlertDescription>
