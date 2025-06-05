@@ -22,7 +22,6 @@ import { setupWebhookRoutes } from "./webhookHandler";
 import { smartContractManager } from "./smartContractIntegration";
 import { cdpIntegration } from "./cdpIntegration";
 import { paymasterAnalytics } from "./paymasterAnalytics";
-import { cdpSDK } from "./cdpSDK";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);

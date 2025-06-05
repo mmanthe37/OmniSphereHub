@@ -242,8 +242,8 @@ export class SmartContractManager {
       const hash = await this.walletClient.writeContract({
         address: contractAddress as `0x${string}`,
         abi: OMNISPHERE_CORE_CONTRACT.abi,
-        functionName,
-        args,
+        functionName: functionName as any,
+        args: args as readonly any[],
         value,
         paymaster: this.paymasterAddress,
         paymasterData: '0x'
