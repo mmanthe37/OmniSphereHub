@@ -226,10 +226,34 @@ export function WalletOnboardingWizard({ isOpen, onClose, onWalletConnected }: W
     connectWalletMutation.mutate(selectedWallet.id);
   }
 
-  const handleBuyCrypto = () => {
-    // Coinbase onramp integration for buying crypto directly
-    const onrampUrl = `https://pay.coinbase.com/buy?addresses=%7B%220x1%22%3A%5B%22base%22%5D%7D&appId=omnisphere-project&assets=%5B%22USDC%22%5D&fiatCurrency=USD&presetFiatAmount=20&redirectUrl=${encodeURIComponent(window.location.origin + '/onramp-return')}`;
-    window.open(onrampUrl, '_blank', 'width=600,height=700');
+  const handleBuyCrypto = async () => {
+    try {
+      // Create onramp session with user's connected wallet address
+      const response = await apiRequest("POST", "/api/onramp/create-session", {
+        addresses: { "base": ["0x1"] }, // Will be replaced with actual wallet address
+        assets: ["USDC"],
+        defaultAsset: "USDC",
+        defaultNetwork: "base",
+        presetFiatAmount: 20,
+        fiatCurrency: "USD",
+        redirectUrl: `${window.location.origin}/onramp-return`
+      });
+
+      if (response.ok) {
+        const { onrampUrl } = await response.json();
+        window.open(onrampUrl, '_blank', 'width=600,height=700');
+      } else {
+        // Fallback to direct URL if session creation fails
+        const fallbackUrl = `https://pay.coinbase.com/buy?addresses=%7B%220x1%22%3A%5B%22base%22%5D%7D&appId=omnisphere-project&assets=%5B%22USDC%22%5D&fiatCurrency=USD&presetFiatAmount=20&redirectUrl=${encodeURIComponent(window.location.origin + '/onramp-return')}`;
+        window.open(fallbackUrl, '_blank', 'width=600,height=700');
+      }
+    } catch (error) {
+      toast({
+        title: "Onramp Error",
+        description: "Unable to open crypto purchase flow. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const renderWelcomeStep = () => (

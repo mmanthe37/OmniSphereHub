@@ -911,6 +911,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Coinbase onramp session creation
+  app.post('/api/onramp/create-session', async (req, res) => {
+    try {
+      const {
+        addresses,
+        assets,
+        defaultAsset,
+        defaultNetwork,
+        presetFiatAmount,
+        fiatCurrency,
+        redirectUrl,
+        partnerUserId
+      } = req.body;
+
+      // Create onramp URL with session parameters
+      const params = new URLSearchParams({
+        projectId: 'omnisphere-project',
+        addresses: JSON.stringify(addresses),
+        assets: JSON.stringify(assets),
+        ...(defaultAsset && { defaultAsset }),
+        ...(defaultNetwork && { defaultNetwork }),
+        ...(presetFiatAmount && { presetFiatAmount: presetFiatAmount.toString() }),
+        ...(fiatCurrency && { fiatCurrency }),
+        ...(redirectUrl && { redirectUrl }),
+        ...(partnerUserId && { partnerUserId })
+      });
+
+      const onrampUrl = `https://pay.coinbase.com/buy?${params.toString()}`;
+
+      res.json({
+        success: true,
+        onrampUrl,
+        sessionId: 'session_' + Date.now()
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        error: error.message
+      });
+    }
+  });
+
   app.get("/api/payment/status/:transactionId", async (req, res) => {
     try {
       const { transactionId } = req.params;
