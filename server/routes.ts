@@ -1573,7 +1573,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/cdp/transfer", async (req, res) => {
     try {
       const { walletId, toAddress, amount, assetId = 'ETH' } = req.body;
-      const transaction = await cdpSDK.createTransfer(walletId, toAddress, parseFloat(amount), assetId);
+      const transaction = await cdpSDK.createTransfer(walletId, toAddress, String(amount), assetId);
       res.json(transaction);
     } catch (error) {
       res.status(500).json({ message: "Failed to process transfer" });
@@ -1776,6 +1776,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Setup OAuth webhook routes with your UUID
   setupWebhookRoutes(app);
+
+  // Missing API endpoints for proper application functionality
+  app.get("/api/staking/pools", (req, res) => {
+    res.json([]);
+  });
+
+  app.get("/api/staking/positions", (req, res) => {
+    res.json([]);
+  });
+
+  app.get("/api/ai/trades", (req, res) => {
+    res.json([]);
+  });
+
+  app.get("/api/ai/status", (req, res) => {
+    res.json({ status: "inactive", trades: 0 });
+  });
+
+  app.get("/api/nft/collections", (req, res) => {
+    res.json([]);
+  });
+
+  app.get("/api/nft/user-nfts", (req, res) => {
+    res.json([]);
+  });
 
   return httpServer;
 }
