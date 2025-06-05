@@ -173,7 +173,7 @@ export class PaymentCommerceEngine {
   }> {
     // Find subscription plan
     let plan: SubscriptionPlan | undefined;
-    for (const [_, plans] of this.subscriptions.entries()) {
+    for (const plans of Array.from(this.subscriptions.values())) {
       plan = plans.find((p: SubscriptionPlan) => p.id === planId);
       if (plan) break;
     }
@@ -194,7 +194,7 @@ export class PaymentCommerceEngine {
     const nextPayment = new Date(Date.now() + (plan.duration * 24 * 60 * 60 * 1000));
 
     return {
-      success: result.totalProcessed > 0,
+      success: result.processed > 0,
       subscriptionActive: true,
       nextPayment
     };

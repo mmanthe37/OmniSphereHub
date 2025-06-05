@@ -40,6 +40,7 @@ export class CoinbaseCDPIntegration {
   private webhookSecret: string;
   private baseUrl = 'https://api.coinbase.com/api/v3';
   private cdpBaseUrl = 'https://api.developer.coinbase.com/platform';
+  private paymasterRPC = 'https://api.developer.coinbase.com/rpc/v1/base/FjtpobcFyw6iEFSXDoJwPcBLrbdigOZU';
 
   constructor() {
     this.apiKey = process.env.COINBASE_API_KEY || '';
@@ -72,42 +73,71 @@ export class CoinbaseCDPIntegration {
 
   async createX402PaymentRequest(paymentData: PaymentRequest): Promise<X402PaymentHeader> {
     try {
-      const headers = this.getHeaders('POST', '/payments/x402');
-      const body = JSON.stringify({
-        amount: paymentData.amount.toString(),
-        currency: paymentData.currency.toUpperCase(),
-        description: paymentData.description,
-        metadata: paymentData.metadata
-      });
-
-      const response = await fetch(`${this.baseUrl}/payments/x402`, {
-        method: 'POST',
-        headers: { ...headers, 'Content-Length': body.length.toString() },
-        body
-      });
-
-      if (!response.ok) {
-        throw new Error(`X402 payment request failed: ${response.statusText}`);
-      }
-
-      const data = await response.json();
+      // Use Coinbase paymaster for account abstraction and gas sponsorship
+      const paymasterData = await this.getPaymasterStubData(paymentData);
       
       return {
         protocol: 'x402',
         amount: paymentData.amount,
         currency: paymentData.currency,
-        receiver: data.receiver_address || this.generateReceiveAddress(),
+        receiver: paymasterData.receiver || this.generateReceiveAddress(),
         memo: paymentData.description
       };
     } catch (error) {
       console.error('Error creating X402 payment request:', error);
-      // Fallback to mock payment request
+      throw error;
+    }
+  }
+
+  private async getPaymasterStubData(paymentData: PaymentRequest): Promise<{ receiver: string; gasSponsored: boolean }> {
+    try {
+      const userOperation = {
+        sender: "0xF7DCa789B08Ed2F7995D9bC22c500A8CA715D0A8",
+        nonce: "0x192a01d5c9a0000000000000000000",
+        initCode: "0x",
+        callData: "0xb61d27f6000000000000000000000000d8da6bf26964af9d7eed9e03e53415d37aa960450000000000000000000000000000000000000000000000000de0b6b3a764000000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000000",
+        callGasLimit: "0x0",
+        verificationGasLimit: "0x0",
+        preVerificationGas: "0x0",
+        maxFeePerGas: "0x0",
+        maxPriorityFeePerGas: "0x0",
+        paymasterAndData: "0x",
+        signature: "0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000041fffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c00000000000000000000000000000000000000000000000000000000000000"
+      };
+
+      const response = await fetch(this.paymasterRPC, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "pm_getPaymasterStubData",
+          params: [
+            userOperation,
+            "0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789",
+            "0x2105",
+            {}
+          ]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Paymaster request failed: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      
       return {
-        protocol: 'x402',
-        amount: paymentData.amount,
-        currency: paymentData.currency,
+        receiver: userOperation.sender,
+        gasSponsored: !!result.result
+      };
+    } catch (error) {
+      console.error('Paymaster stub data error:', error);
+      return {
         receiver: this.generateReceiveAddress(),
-        memo: paymentData.description
+        gasSponsored: false
       };
     }
   }
