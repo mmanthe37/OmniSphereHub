@@ -107,6 +107,7 @@ export class AnalyticsAIEngine {
       data.push({ date, value: currentValue });
     }
     
+    console.log(`Generated ${data.length} portfolio data points for user ${userId}, timeframe ${timeframe}`);
     return data;
   }
 
