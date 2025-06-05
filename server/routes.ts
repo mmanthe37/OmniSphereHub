@@ -44,6 +44,170 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Social Posts API
+  app.get("/api/social/posts", async (req, res) => {
+    try {
+      const posts = await storage.getSocialPosts();
+      res.json(posts);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/social/posts", async (req, res) => {
+    try {
+      const { userId, content, imageUrl } = req.body;
+      const post = await storage.createSocialPost({ userId, content, imageUrl });
+      res.status(201).json(post);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // NFT API Routes
+  app.get("/api/nft/collections", async (req, res) => {
+    try {
+      const collections = await storage.getNFTCollections();
+      res.json(collections);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.get("/api/nft/user-nfts", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) {
+        return res.status(400).json({ message: "User ID required" });
+      }
+      const nfts = await storage.getUserNFTs(parseInt(userId));
+      res.json(nfts);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/nft/create", async (req, res) => {
+    try {
+      const { userId, name, description, imageUrl, price } = req.body;
+      const nft = await storage.createNFT({ userId, name, description, imageUrl, price });
+      res.status(201).json(nft);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // AI Trading API Routes
+  app.get("/api/ai/trades", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) {
+        return res.status(400).json({ message: "User ID required" });
+      }
+      const trades = await storage.getAITrades(parseInt(userId));
+      res.json(trades);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.get("/api/ai/status", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) {
+        return res.status(400).json({ message: "User ID required" });
+      }
+      const status = await storage.getAITradingStatus(parseInt(userId));
+      res.json(status);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/ai/start", async (req, res) => {
+    try {
+      const { userId, strategy, riskLevel, maxAmount } = req.body;
+      const result = await aiTradingEngine.enableAutoTrading(true);
+      if (result.success) {
+        await storage.updateAITradingStatus(userId, {
+          active: true,
+          strategy,
+          riskLevel,
+          maxAmount
+        });
+      }
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/ai/stop", async (req, res) => {
+    try {
+      const { userId } = req.body;
+      const result = await aiTradingEngine.enableAutoTrading(false);
+      if (result.success) {
+        await storage.updateAITradingStatus(userId, { active: false });
+      }
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Staking API Routes
+  app.get("/api/staking/pools", async (req, res) => {
+    try {
+      const pools = await storage.getStakingPools();
+      res.json(pools);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.get("/api/staking/positions", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) {
+        return res.status(400).json({ message: "User ID required" });
+      }
+      const positions = await storage.getUserStakingPositions(parseInt(userId));
+      res.json(positions);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/staking/stake", async (req, res) => {
+    try {
+      const { userId, poolId, amount } = req.body;
+      const position = await storage.createStakingPosition({ userId, poolId, amount });
+      res.status(201).json(position);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/staking/unstake", async (req, res) => {
+    try {
+      const { positionId, amount } = req.body;
+      const result = await storage.unstakePosition(positionId, amount);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/staking/claim-rewards", async (req, res) => {
+    try {
+      const { positionId } = req.body;
+      const result = await storage.claimStakingRewards(positionId);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   app.get("/api/social-posts", async (req, res) => {
     try {
       const posts = await storage.getSocialPosts();
