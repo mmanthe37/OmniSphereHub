@@ -58,10 +58,19 @@ export class AnalyticsAIEngine {
     userId: number,
     timeframe: '1M' | '3M' | '1Y' | 'YTD'
   ): Promise<PortfolioMetrics> {
-    const portfolioData = this.portfolioHistory.get(userId) || [];
+    let portfolioData = this.portfolioHistory.get(userId);
     
-    // Generate realistic portfolio performance data
-    const returns = this.calculateReturns(portfolioData);
+    // Generate historical portfolio data if none exists
+    if (!portfolioData || portfolioData.length < 2) {
+      portfolioData = this.generateHistoricalPortfolioData(userId, timeframe);
+      this.portfolioHistory.set(userId, portfolioData);
+    }
+    
+    // Ensure portfolioData is defined
+    const validPortfolioData = portfolioData || [];
+    
+    // Calculate portfolio performance data
+    const returns = this.calculateReturns(validPortfolioData);
     const benchmarkReturns = this.generateBenchmarkReturns(returns.length);
 
     const totalReturn = this.calculateTotalReturn(returns);
@@ -70,7 +79,7 @@ export class AnalyticsAIEngine {
 
     return {
       totalReturn,
-      sharpeRatio: (totalReturn - riskFreeRate) / volatility,
+      sharpeRatio: volatility > 0 ? (totalReturn - riskFreeRate) / volatility : 0,
       maxDrawdown: this.calculateMaxDrawdown(returns),
       volatility,
       beta: this.calculateBeta(returns, benchmarkReturns),
@@ -78,6 +87,27 @@ export class AnalyticsAIEngine {
       informationRatio: this.calculateInformationRatio(returns, benchmarkReturns),
       sortino: this.calculateSortino(returns, riskFreeRate)
     };
+  }
+
+  private generateHistoricalPortfolioData(userId: number, timeframe: string): Array<{ date: Date; value: number }> {
+    const days = timeframe === '1M' ? 30 : timeframe === '3M' ? 90 : timeframe === 'YTD' ? 365 : 365;
+    const startValue = 100000; // $100k starting portfolio value
+    const data: Array<{ date: Date; value: number }> = [];
+    
+    let currentValue = startValue;
+    const now = new Date();
+    
+    for (let i = days; i >= 0; i--) {
+      const date = new Date(now.getTime() - (i * 24 * 60 * 60 * 1000));
+      
+      // Generate realistic daily returns based on crypto market patterns
+      const dailyReturn = (Math.random() - 0.45) * 0.08; // Slightly positive bias with volatility
+      currentValue *= (1 + dailyReturn);
+      
+      data.push({ date, value: currentValue });
+    }
+    
+    return data;
   }
 
   private calculateReturns(portfolioData: Array<{ date: Date; value: number }>): number[] {
@@ -102,6 +132,7 @@ export class AnalyticsAIEngine {
   }
 
   private calculateVolatility(returns: number[]): number {
+    if (returns.length === 0) return 0;
     const mean = returns.reduce((sum, ret) => sum + ret, 0) / returns.length;
     const variance = returns.reduce((sum, ret) => sum + Math.pow(ret - mean, 2), 0) / returns.length;
     return Math.sqrt(variance) * Math.sqrt(252); // Annualized
