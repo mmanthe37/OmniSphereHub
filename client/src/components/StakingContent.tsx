@@ -87,7 +87,7 @@ export function StakingContent() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-400">Active Positions</p>
-                <p className="text-2xl font-bold text-white">{userPositions.length}</p>
+                <p className="text-2xl font-bold text-white">{Array.isArray(userPositions) ? userPositions.length : 0}</p>
               </div>
               <Coins className="w-8 h-8 text-purple-400" />
             </div>
@@ -182,7 +182,7 @@ export function StakingContent() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {userPositions.length === 0 ? (
+              {!Array.isArray(userPositions) || userPositions.length === 0 ? (
                 <div className="text-center py-8">
                   <Lock className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                   <p className="text-gray-400">No active positions</p>

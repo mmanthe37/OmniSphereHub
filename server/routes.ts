@@ -231,7 +231,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/ai-trades", async (req, res) => {
     try {
-      const trades = await storage.getAITrades();
+      const trades = await storage.getAITrades(1); // Default user ID for demo
       res.json(trades);
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
