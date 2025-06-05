@@ -19,6 +19,7 @@ import {
   logWalletActivity 
 } from "./walletAllowlist";
 import { setupWebhookRoutes } from "./webhookHandler";
+import { smartContractManager } from "./smartContractIntegration";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -1414,6 +1415,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('WebSocket error:', error);
       clearInterval(priceUpdateInterval);
     });
+  });
+
+  // Smart Contract Integration Routes
+  app.get("/api/contract/info", async (req, res) => {
+    try {
+      const contractInfo = await smartContractManager.getContractInfo();
+      res.json(contractInfo);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get contract information" });
+    }
+  });
+
+  app.post("/api/contract/validate-wallet", async (req, res) => {
+    try {
+      const { walletAddress } = req.body;
+      
+      if (!walletAddress) {
+        return res.status(400).json({ message: "Wallet address required" });
+      }
+
+      const validation = await smartContractManager.validateWalletOnChain(walletAddress);
+      res.json(validation);
+    } catch (error) {
+      res.status(500).json({ message: "On-chain validation failed" });
+    }
+  });
+
+  app.post("/api/contract/x402-payment", async (req, res) => {
+    try {
+      const { amount, senderAddress } = req.body;
+      
+      if (!amount || !senderAddress) {
+        return res.status(400).json({ 
+          message: "Amount and sender address required" 
+        });
+      }
+
+      const result = await smartContractManager.processX402Payment(
+        parseFloat(amount),
+        senderAddress
+      );
+      
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Payment processing failed" });
+    }
+  });
+
+  app.post("/api/contract/estimate-gas", async (req, res) => {
+    try {
+      const { amount } = req.body;
+      
+      if (!amount) {
+        return res.status(400).json({ message: "Amount required" });
+      }
+
+      const gasEstimate = await smartContractManager.estimateGasForPayment(
+        parseFloat(amount)
+      );
+      
+      res.json({ 
+        gasEstimate: gasEstimate.toString(),
+        estimatedCost: gasEstimate * BigInt(20000000000) // 20 gwei
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Gas estimation failed" });
+    }
   });
 
   // Setup OAuth webhook routes with your UUID

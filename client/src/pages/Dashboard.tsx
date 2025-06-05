@@ -14,6 +14,7 @@ import { WalletAdvanced } from "@/components/WalletAdvanced";
 import { X402PaymentSystem } from "@/components/X402PaymentSystem";
 import { X402RevenueDashboard } from "@/components/X402RevenueDashboard";
 import { WalletPrivilegeDisplay } from "@/components/WalletPrivilegeDisplay";
+import { SmartContractDashboard } from "@/components/SmartContractDashboard";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -83,6 +84,7 @@ export default function Dashboard() {
         return (
           <div className="space-y-6">
             <WalletPrivilegeDisplay />
+            <SmartContractDashboard />
             <AccountManagement />
             <WalletAdvanced />
             <X402PaymentSystem />
