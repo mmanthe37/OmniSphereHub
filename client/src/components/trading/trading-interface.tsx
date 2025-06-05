@@ -20,7 +20,7 @@ export default function TradingInterface() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data: trades = [] } = useQuery({
+  const { data: trades = [], isLoading: tradesLoading } = useQuery({
     queryKey: ["/api/trades/1"],
   });
 
@@ -274,23 +274,32 @@ export default function TradingInterface() {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4">Open Orders</h3>
             <div className="space-y-3">
-              {trades.filter((trade: any) => trade.status === "open").map((trade: any) => (
-                <div key={trade.id} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
-                  <div>
-                    <p className={`font-medium ${trade.side === "buy" ? "text-neon-green" : "text-red-400"}`}>
-                      {trade.side === "buy" ? "Buy" : "Sell"} {trade.symbol.split('/')[0]}
-                    </p>
-                    <p className="text-sm text-text-secondary">
-                      {trade.amount} {trade.symbol.split('/')[0]} @ ${formatNumber(trade.price)}
-                    </p>
-                  </div>
-                  <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-300">
-                    Cancel
-                  </Button>
+              {tradesLoading ? (
+                <div className="text-center py-4">
+                  <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Loading orders...</p>
                 </div>
-              ))}
-              {trades.filter((trade: any) => trade.status === "open").length === 0 && (
-                <p className="text-text-secondary text-center py-4">No open orders</p>
+              ) : Array.isArray(trades) && trades.length > 0 ? (
+                trades.filter((trade: any) => trade?.status === "open").map((trade: any) => (
+                  <div key={trade.id} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
+                    <div>
+                      <p className={`font-medium ${trade.side === "buy" ? "text-neon-green" : "text-red-400"}`}>
+                        {trade.side === "buy" ? "Buy" : "Sell"} {trade.symbol?.split('/')[0] || 'N/A'}
+                      </p>
+                      <p className="text-sm text-text-secondary">
+                        {trade.amount} {trade.symbol?.split('/')[0] || 'N/A'} @ ${formatNumber(trade.price || 0)}
+                      </p>
+                    </div>
+                    <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-300">
+                      Cancel
+                    </Button>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-text-secondary">No open orders</p>
+                  <p className="text-xs text-muted-foreground mt-1">Connect wallet to place trades</p>
+                </div>
               )}
             </div>
           </CardContent>
@@ -300,28 +309,37 @@ export default function TradingInterface() {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4">Trade History</h3>
             <div className="space-y-3">
-              {trades.filter((trade: any) => trade.status === "filled").slice(0, 5).map((trade: any) => (
-                <div key={trade.id} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
-                  <div>
-                    <p className={`font-medium ${trade.side === "buy" ? "text-neon-green" : "text-red-400"}`}>
-                      {trade.side === "buy" ? "Bought" : "Sold"} {trade.symbol.split('/')[0]}
-                    </p>
-                    <p className="text-sm text-text-secondary">
-                      {new Date(trade.createdAt).toLocaleTimeString()}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-mono">{trade.amount} {trade.symbol.split('/')[0]}</p>
-                    {trade.profit && (
-                      <p className={`text-sm ${parseFloat(trade.profit) >= 0 ? "text-neon-green" : "text-red-400"}`}>
-                        {parseFloat(trade.profit) >= 0 ? "+" : ""}{formatCurrency(trade.profit)}
-                      </p>
-                    )}
-                  </div>
+              {tradesLoading ? (
+                <div className="text-center py-4">
+                  <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Loading history...</p>
                 </div>
-              ))}
-              {trades.filter((trade: any) => trade.status === "filled").length === 0 && (
-                <p className="text-text-secondary text-center py-4">No trade history</p>
+              ) : Array.isArray(trades) && trades.length > 0 ? (
+                trades.filter((trade: any) => trade?.status === "filled").slice(0, 5).map((trade: any) => (
+                  <div key={trade.id} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
+                    <div>
+                      <p className={`font-medium ${trade.side === "buy" ? "text-neon-green" : "text-red-400"}`}>
+                        {trade.side === "buy" ? "Bought" : "Sold"} {trade.symbol?.split('/')[0] || 'N/A'}
+                      </p>
+                      <p className="text-sm text-text-secondary">
+                        {trade.createdAt ? new Date(trade.createdAt).toLocaleTimeString() : 'Unknown time'}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-mono">{trade.amount || 0} {trade.symbol?.split('/')[0] || 'N/A'}</p>
+                      {trade.profit && (
+                        <p className={`text-sm ${parseFloat(trade.profit) >= 0 ? "text-neon-green" : "text-red-400"}`}>
+                          {parseFloat(trade.profit) >= 0 ? "+" : ""}{formatCurrency(trade.profit)}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-text-secondary">No trade history</p>
+                  <p className="text-xs text-muted-foreground mt-1">Start trading to see your history</p>
+                </div>
               )}
             </div>
           </CardContent>

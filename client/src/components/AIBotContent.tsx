@@ -24,11 +24,7 @@ const botStats = {
   maxDrawdown: -5.8,
 };
 
-const activeStrategies = [
-  { name: "Arbitrage", performance: "+23.4%", enabled: true },
-  { name: "Mean Reversion", performance: "+18.7%", enabled: true },
-  { name: "Momentum", performance: "-2.1%", enabled: false },
-];
+// Active strategies now come from real AI trading engine - no mock data
 
 export function AIBotContent() {
   const { data: trades = [] } = useQuery<AITrade[]>({

@@ -34,10 +34,7 @@ const openOrders = [
   { type: "Sell BTC", amount: "0.05 BTC @ $67,500.00", action: "sell" },
 ];
 
-const tradeHistory = [
-  { type: "Bought ETH", time: "2 hours ago", amount: "2.5 ETH", profit: "+$247.85" },
-  { type: "Sold SOL", time: "5 hours ago", amount: "50 SOL", profit: "+$892.34" },
-];
+// Trade history now comes from real API data - no mock data
 
 export function TradingContent({ cryptoPrices }: TradingContentProps) {
   const [tradeType, setTradeType] = useState<'buy' | 'sell'>('buy');
@@ -218,18 +215,10 @@ export function TradingContent({ cryptoPrices }: TradingContentProps) {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4">Trade History</h3>
             <div className="space-y-3">
-              {tradeHistory.map((trade, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-dark-primary rounded-lg">
-                  <div>
-                    <p className="font-medium text-neon-green">{trade.type}</p>
-                    <p className="text-sm text-text-secondary">{trade.time}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-mono">{trade.amount}</p>
-                    <p className="text-sm text-neon-green">{trade.profit}</p>
-                  </div>
-                </div>
-              ))}
+              <div className="text-center py-6">
+                <p className="text-text-secondary">No trade history available</p>
+                <p className="text-xs text-muted-foreground mt-1">Connect wallet and place trades to see history</p>
+              </div>
             </div>
           </CardContent>
         </Card>
