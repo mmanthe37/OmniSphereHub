@@ -21,20 +21,44 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function DashboardOverview() {
   const [priceData, setPriceData] = useState<any[]>([]);
-  const { lastMessage } = useWebSocket("/ws");
+  const [portfolioUpdates, setPortfolioUpdates] = useState<any>(null);
+  const { user } = useAuth();
 
   // Using authentic Xano backend data
-  const userId = 1; // This would come from auth context in production
+  const userId = user?.id || 1;
   const { data: portfolio } = usePortfolio(userId);
   const { data: holdings = [] } = usePortfolioHoldings(userId);
   const { data: aiTrades = [] } = useAITrades(userId);
   const { data: userProfile } = useUserProfile(userId);
 
   useEffect(() => {
-    if (lastMessage?.type === "priceUpdate") {
-      setPriceData(lastMessage.data);
+    // Connect to real-time market data stream from Xano MCP server
+    xanoStreaming.connectMarketDataStream(
+      (data) => {
+        setPriceData(data);
+      },
+      (error) => {
+        console.error('Market data stream error:', error);
+      }
+    );
+
+    // Connect to portfolio updates stream
+    if (userId) {
+      xanoStreaming.connectPortfolioStream(
+        userId,
+        (data) => {
+          setPortfolioUpdates(data);
+        },
+        (error) => {
+          console.error('Portfolio stream error:', error);
+        }
+      );
     }
-  }, [lastMessage]);
+
+    return () => {
+      xanoStreaming.disconnect();
+    };
+  }, [userId]);
 
   // Portfolio performance chart data from authentic sources
   const chartData = portfolio?.performanceHistory || [];
