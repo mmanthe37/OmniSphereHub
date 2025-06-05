@@ -210,7 +210,7 @@ export class ERC4337PaymasterService {
     policyId?: string;
     dailyTransactionCount: number;
     dailyLimit: number;
-    gasRemaining: bigint;
+    gasRemaining: string;
   }> {
     const policy = this.sponsorshipPolicies.get('omnisphere-premium');
     
@@ -219,7 +219,7 @@ export class ERC4337PaymasterService {
         isSponsored: false,
         dailyTransactionCount: 0,
         dailyLimit: 0,
-        gasRemaining: BigInt(0)
+        gasRemaining: "0"
       };
     }
 
@@ -230,7 +230,7 @@ export class ERC4337PaymasterService {
       policyId: isAllowlisted ? policy.id : undefined,
       dailyTransactionCount: 0, // Would track from database
       dailyLimit: policy.rules.maxTransactionsPerDay,
-      gasRemaining: policy.rules.maxGasPerTransaction
+      gasRemaining: policy.rules.maxGasPerTransaction.toString()
     };
   }
 

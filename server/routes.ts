@@ -1759,7 +1759,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const policies = erc4337Paymaster.getActivePolicies();
       res.json({ policies });
     } catch (error) {
-      res.status(500).json({ message: "Failed to get sponsorship policies" });
+      console.error("Smart Wallet policies error:", error);
+      res.status(500).json({ message: "CDP API credentials required for Smart Wallet policies" });
     }
   });
 
