@@ -29,6 +29,7 @@ const navigationItems = [
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot },
   { id: 'creator' as TabType, label: 'Creator Hub', icon: Star },
   { id: 'learn' as TabType, label: 'Learn', icon: GraduationCap },
+  { id: 'account' as TabType, label: 'Account & Wallets', icon: Wallet },
 ];
 
 export function MobileNavigation({ activeTab, onTabChange }: MobileNavigationProps) {

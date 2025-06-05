@@ -34,6 +34,7 @@ const navigationItems = [
   { id: 'aibot' as TabType, label: 'AI Bot', icon: Bot, color: 'text-neon-cyan' },
   { id: 'creator' as TabType, label: 'Creator Hub', icon: Star, color: 'text-neon-cyan' },
   { id: 'learn' as TabType, label: 'Learn (Crypto/DeFi School)', icon: GraduationCap, color: 'text-neon-purple' },
+  { id: 'account' as TabType, label: 'Account & Wallets', icon: Wallet, color: 'text-neon-blue' },
 ];
 
 export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
