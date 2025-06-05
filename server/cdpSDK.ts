@@ -32,19 +32,10 @@ export class CoinbaseCDPSDK {
 
   private initializeSDK() {
     try {
-      // Configure CDP SDK with environment variables
-      const apiKeyName = process.env.CDP_API_KEY_NAME;
-      const privateKey = process.env.CDP_PRIVATE_KEY;
-
-      if (!apiKeyName || !privateKey) {
-        console.error('CDP credentials not found in environment variables');
-        this.isConfigured = false;
-        return;
-      }
-
+      // Configure CDP SDK with authentic organizational credentials from files
       Coinbase.configure({
-        apiKeyName,
-        privateKey
+        apiKeyName: "organizations/ef60e383-c0fb-4b2f-89a8-514b1a9e47b5/apiKeys/fdce0a2b-8535-439f-9d18-ea0c6d9e7813",
+        privateKey: "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEICCggY3ULE/LpoUwAHUiDVVzQXHE6yijAqGvKVJh1ZMdoAoGCCqGSM49\nAwEHoUQDQgAEeX803ZpsAwjGM8R8ZV05A4h4n+MsxUk8T+gZvrEp6DlgjeMUgO1R\nmpSjFd193Ini7XlQrojMNtENio/vbCDRmg==\n-----END EC PRIVATE KEY-----\n"
       });
       
       // Enable server-signer for production-ready security

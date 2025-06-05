@@ -450,6 +450,99 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // X402 Payment Protocol routes
+  app.post("/api/x402/payment", async (req, res) => {
+    try {
+      const { amount, currency, receiver, memo } = req.body;
+      const transaction = await x402Protocol.createX402Payment(
+        parseFloat(amount),
+        currency,
+        receiver,
+        memo
+      );
+      res.json(transaction);
+    } catch (error) {
+      res.status(500).json({ message: "X402 payment failed" });
+    }
+  });
+
+  app.post("/api/x402/stream/start", async (req, res) => {
+    try {
+      const { rate, recipient } = req.body;
+      const result = await x402Protocol.startMicropaymentStream(
+        parseFloat(rate),
+        recipient
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to start payment stream" });
+    }
+  });
+
+  app.post("/api/x402/stream/stop", async (req, res) => {
+    try {
+      const { streamId } = req.body;
+      const result = await x402Protocol.stopMicropaymentStream(streamId);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to stop payment stream" });
+    }
+  });
+
+  app.get("/api/x402/streams", async (req, res) => {
+    try {
+      const streams = x402Protocol.getActiveStreams();
+      res.json(streams);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get active streams" });
+    }
+  });
+
+  app.post("/api/x402/ai-agent/authorize", async (req, res) => {
+    try {
+      const { agentId, maxAmount } = req.body;
+      const result = await x402Protocol.enableAIAgentAutonomousPayments(
+        agentId,
+        parseFloat(maxAmount)
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to authorize AI agent" });
+    }
+  });
+
+  app.post("/api/x402/ai-agent/payment", async (req, res) => {
+    try {
+      const { agentId, amount, purpose } = req.body;
+      const transaction = await x402Protocol.processAIAgentPayment(
+        agentId,
+        parseFloat(amount),
+        purpose
+      );
+      res.json(transaction);
+    } catch (error) {
+      res.status(500).json({ message: "AI agent payment failed" });
+    }
+  });
+
+  app.get("/api/x402/discovery", async (req, res) => {
+    try {
+      const services = await x402Protocol.getPaymentDiscovery();
+      res.json(services);
+    } catch (error) {
+      res.status(500).json({ message: "Payment discovery failed" });
+    }
+  });
+
+  app.get("/api/x402/transactions", async (req, res) => {
+    try {
+      const transactions = x402Protocol.getAllTransactions();
+      res.json(transactions);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get transactions" });
+    }
+  });
+
   // DeFi & Yield API Endpoints
   app.post("/api/defi/optimize-yield", async (req, res) => {
     try {
