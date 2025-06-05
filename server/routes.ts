@@ -1485,6 +1485,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/contract/sponsored-transaction", async (req, res) => {
+    try {
+      const { walletAddress, contractAddress, functionName, args, value } = req.body;
+      
+      if (!walletAddress || !contractAddress || !functionName) {
+        return res.status(400).json({ 
+          message: "Wallet address, contract address, and function name required" 
+        });
+      }
+
+      const result = await smartContractManager.processSponsoredTransaction(
+        walletAddress,
+        contractAddress,
+        functionName,
+        args || [],
+        value ? BigInt(value) : BigInt(0)
+      );
+      
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Sponsored transaction failed" });
+    }
+  });
+
   // CDP Integration Routes
   app.get("/api/cdp/wallet/:address", async (req, res) => {
     try {

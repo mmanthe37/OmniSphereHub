@@ -52,6 +52,8 @@ export const OMNISPHERE_CORE_CONTRACT = {
 export class SmartContractManager {
   private publicClient;
   private walletClient;
+  private paymasterEndpoint = 'https://api.developer.coinbase.com/rpc/v1/base/DfC2hHiGkzPrMbaQ19KR9cEg6DIe9H2A';
+  private paymasterAddress = '0x2d45014917c4bce08b6fb2b3a53960692b5b744b';
 
   constructor() {
     this.publicClient = createPublicClient({
@@ -59,13 +61,13 @@ export class SmartContractManager {
       transport: http()
     });
 
-    // Initialize wallet client for contract interactions
+    // Initialize wallet client for contract interactions with paymaster support
     if (process.env.OMNISPHERE_PRIVATE_KEY) {
       const account = privateKeyToAccount(process.env.OMNISPHERE_PRIVATE_KEY as `0x${string}`);
       this.walletClient = createWalletClient({
         account,
         chain: base,
-        transport: http()
+        transport: http(this.paymasterEndpoint)
       });
     }
   }
@@ -131,6 +133,7 @@ export class SmartContractManager {
     success: boolean;
     transactionHash?: string;
     gasUsed?: bigint;
+    gasSponsored?: boolean;
     error?: string;
   }> {
     try {
@@ -150,13 +153,21 @@ export class SmartContractManager {
       // Convert amount to wei
       const amountInWei = parseEther(amount.toString());
 
-      // Process payment through smart contract
+      // Check if wallet qualifies for gas sponsorship
+      const isGasSponsored = await this.checkGasSponsorshipEligibility(senderAddress);
+
+      // Process payment through smart contract with paymaster support
       const hash = await this.walletClient.writeContract({
         address: OMNISPHERE_CORE_CONTRACT.address,
         abi: OMNISPHERE_CORE_CONTRACT.abi,
         functionName: 'processX402Payment',
         args: [amountInWei],
-        value: amountInWei
+        value: amountInWei,
+        // Add paymaster configuration for sponsored transactions
+        ...(isGasSponsored && {
+          paymaster: this.paymasterAddress,
+          paymasterData: '0x'
+        })
       });
 
       // Wait for transaction confirmation
@@ -167,19 +178,94 @@ export class SmartContractManager {
       logWalletActivity(senderAddress, 'X402_PAYMENT_PROCESSED', {
         amount,
         transactionHash: hash,
-        gasUsed: Number(receipt.gasUsed)
+        gasUsed: Number(receipt.gasUsed),
+        gasSponsored: isGasSponsored
       });
 
       return {
         success: true,
         transactionHash: hash,
-        gasUsed: receipt.gasUsed
+        gasUsed: receipt.gasUsed,
+        gasSponsored: isGasSponsored
       };
     } catch (error) {
       console.error('X402 payment processing failed:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Payment processing failed'
+      };
+    }
+  }
+
+  private async checkGasSponsorshipEligibility(walletAddress: string): Promise<boolean> {
+    try {
+      // Check if wallet is in allowlist for gas sponsorship
+      const isAllowlisted = isWalletAllowlisted(walletAddress);
+      const privileges = getWalletPrivileges(walletAddress);
+      
+      // Premium wallets get gas sponsorship
+      return isAllowlisted && privileges.isPremium;
+    } catch (error) {
+      console.error('Gas sponsorship check failed:', error);
+      return false;
+    }
+  }
+
+  async processSponsoredTransaction(
+    walletAddress: string,
+    contractAddress: string,
+    functionName: string,
+    args: any[] = [],
+    value: bigint = BigInt(0)
+  ): Promise<{
+    success: boolean;
+    transactionHash?: string;
+    gasSponsored: boolean;
+    error?: string;
+  }> {
+    try {
+      if (!this.walletClient) {
+        throw new Error('Wallet client not initialized');
+      }
+
+      const isEligible = await this.checkGasSponsorshipEligibility(walletAddress);
+      
+      if (!isEligible) {
+        return {
+          success: false,
+          gasSponsored: false,
+          error: 'Wallet not eligible for gas sponsorship'
+        };
+      }
+
+      // Execute sponsored transaction
+      const hash = await this.walletClient.writeContract({
+        address: contractAddress as `0x${string}`,
+        abi: OMNISPHERE_CORE_CONTRACT.abi,
+        functionName,
+        args,
+        value,
+        paymaster: this.paymasterAddress,
+        paymasterData: '0x'
+      });
+
+      logWalletActivity(walletAddress, 'SPONSORED_TRANSACTION', {
+        contractAddress,
+        functionName,
+        transactionHash: hash
+      });
+
+      return {
+        success: true,
+        transactionHash: hash,
+        gasSponsored: true
+      };
+    } catch (error) {
+      console.error('Sponsored transaction failed:', error);
+      return {
+        success: false,
+        gasSponsored: false,
+        error: error instanceof Error ? error.message : 'Sponsored transaction failed'
       };
     }
   }

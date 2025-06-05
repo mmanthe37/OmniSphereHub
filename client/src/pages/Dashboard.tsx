@@ -16,6 +16,7 @@ import { X402RevenueDashboard } from "@/components/X402RevenueDashboard";
 import { WalletPrivilegeDisplay } from "@/components/WalletPrivilegeDisplay";
 import { SmartContractDashboard } from "@/components/SmartContractDashboard";
 import { CDPWalletDashboard } from "@/components/CDPWalletDashboard";
+import { PaymasterDashboard } from "@/components/PaymasterDashboard";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -85,6 +86,7 @@ export default function Dashboard() {
         return (
           <div className="space-y-6">
             <WalletPrivilegeDisplay />
+            <PaymasterDashboard />
             <SmartContractDashboard />
             <CDPWalletDashboard />
             <AccountManagement />
