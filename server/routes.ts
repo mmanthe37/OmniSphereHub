@@ -10,6 +10,7 @@ import { advancedTrading } from "./advancedTrading";
 import { paymentCommerce } from "./paymentCommerce";
 import { defiYield } from "./defiYield";
 import { analyticsAI } from "./analyticsAI";
+import { aiTradingEngine } from "./aiTradingAlgorithms";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -540,6 +541,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(transactions);
     } catch (error) {
       res.status(500).json({ message: "Failed to get transactions" });
+    }
+  });
+
+  // AI Trading Algorithm routes
+  app.get("/api/ai-trading/market-data", async (req, res) => {
+    try {
+      const marketData = aiTradingEngine.getMarketData();
+      res.json(marketData);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get market data" });
+    }
+  });
+
+  app.get("/api/ai-trading/signals", async (req, res) => {
+    try {
+      const signals = aiTradingEngine.getActiveSignals();
+      res.json(signals);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get trading signals" });
+    }
+  });
+
+  app.get("/api/ai-trading/strategies", async (req, res) => {
+    try {
+      const strategies = aiTradingEngine.getStrategies();
+      res.json(strategies);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get trading strategies" });
+    }
+  });
+
+  app.post("/api/ai-trading/predictions", async (req, res) => {
+    try {
+      const { symbols } = req.body;
+      const predictions = await aiTradingEngine.generateMarketPredictions(symbols || ['BTC', 'ETH', 'SOL']);
+      res.json(predictions);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to generate predictions" });
+    }
+  });
+
+  app.post("/api/ai-trading/execute", async (req, res) => {
+    try {
+      const signal = req.body;
+      const result = await aiTradingEngine.executeAutonomousTrading(signal);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to execute trade" });
+    }
+  });
+
+  app.post("/api/ai-trading/auto-trading", async (req, res) => {
+    try {
+      const { enable } = req.body;
+      const result = await aiTradingEngine.enableAutoTrading(enable);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to toggle auto-trading" });
+    }
+  });
+
+  app.get("/api/ai-trading/portfolio", async (req, res) => {
+    try {
+      const analytics = await aiTradingEngine.getPortfolioAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get portfolio analytics" });
+    }
+  });
+
+  app.post("/api/ai-trading/optimize", async (req, res) => {
+    try {
+      const optimization = await aiTradingEngine.optimizePortfolio();
+      res.json(optimization);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to optimize portfolio" });
+    }
+  });
+
+  app.post("/api/ai-trading/strategy/:name", async (req, res) => {
+    try {
+      const { name } = req.params;
+      const { active } = req.body;
+      const result = await aiTradingEngine.updateStrategyStatus(name, active);
+      res.json({ success: result });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update strategy" });
     }
   });
 
