@@ -10,31 +10,7 @@ interface TradingContentProps {
   cryptoPrices: CryptoPrice[];
 }
 
-// Mock trading chart data
-const tradingChartData = Array.from({ length: 24 }, (_, i) => ({
-  time: `${i}:00`,
-  price: 2400 + Math.random() * 200,
-}));
-
-// Mock order book data
-const sellOrders = [
-  { price: 2489.45, amount: 0.847 },
-  { price: 2488.92, amount: 1.254 },
-  { price: 2488.21, amount: 2.187 },
-];
-
-const buyOrders = [
-  { price: 2487.12, amount: 0.925 },
-  { price: 2486.78, amount: 1.847 },
-  { price: 2486.44, amount: 3.126 },
-];
-
-const openOrders = [
-  { type: "Buy ETH", amount: "1.25 ETH @ $2,485.00", action: "buy" },
-  { type: "Sell BTC", amount: "0.05 BTC @ $67,500.00", action: "sell" },
-];
-
-// Trade history now comes from real API data - no mock data
+// All trading data now comes from real market APIs - no mock data
 
 export function TradingContent({ cryptoPrices }: TradingContentProps) {
   const [tradeType, setTradeType] = useState<'buy' | 'sell'>('buy');
@@ -66,28 +42,12 @@ export function TradingContent({ cryptoPrices }: TradingContentProps) {
                 <Button variant="outline" size="sm" className="bg-dark-primary border-dark-border">1d</Button>
               </div>
             </div>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={tradingChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--dark-border))" />
-                <XAxis dataKey="time" stroke="hsl(var(--text-secondary))" />
-                <YAxis stroke="hsl(var(--text-secondary))" />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--dark-card))',
-                    border: '1px solid hsl(var(--dark-border))',
-                    borderRadius: '8px',
-                    color: 'hsl(var(--foreground))'
-                  }}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="price" 
-                  stroke="hsl(var(--neon-green))" 
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="flex items-center justify-center h-[400px]">
+              <div className="text-center">
+                <p className="text-text-secondary">Chart data unavailable</p>
+                <p className="text-xs text-muted-foreground mt-1">Connect wallet to view trading charts</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
         
@@ -98,15 +58,6 @@ export function TradingContent({ cryptoPrices }: TradingContentProps) {
             <CardContent className="p-4">
               <h4 className="font-semibold mb-3">Order Book</h4>
               <div className="space-y-1 text-sm font-mono">
-                {/* Sell Orders */}
-                <div className="text-red-400 mb-2">Sell Orders</div>
-                {sellOrders.map((order, index) => (
-                  <div key={index} className="flex justify-between">
-                    <span className="text-red-400">{order.price.toFixed(2)}</span>
-                    <span className="text-text-secondary">{order.amount.toFixed(3)}</span>
-                  </div>
-                ))}
-                
                 {/* Current Price */}
                 <div className="border-t border-b border-dark-border py-2 my-2">
                   <div className="flex justify-center">
@@ -114,14 +65,10 @@ export function TradingContent({ cryptoPrices }: TradingContentProps) {
                   </div>
                 </div>
                 
-                {/* Buy Orders */}
-                <div className="text-neon-green mb-2">Buy Orders</div>
-                {buyOrders.map((order, index) => (
-                  <div key={index} className="flex justify-between">
-                    <span className="text-neon-green">{order.price.toFixed(2)}</span>
-                    <span className="text-text-secondary">{order.amount.toFixed(3)}</span>
-                  </div>
-                ))}
+                <div className="text-center py-4">
+                  <p className="text-text-secondary text-sm">Order book unavailable</p>
+                  <p className="text-xs text-muted-foreground mt-1">Connect wallet to view orders</p>
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -36,15 +36,8 @@ export default function DashboardOverview() {
     }
   }, [lastMessage]);
 
-  // Mock chart data for portfolio performance
-  const chartData = [
-    { month: "Jan", value: 65000 },
-    { month: "Feb", value: 75000 },
-    { month: "Mar", value: 68000 },
-    { month: "Apr", value: 85000 },
-    { month: "May", value: 92000 },
-    { month: "Jun", value: 127582 },
-  ];
+  // Portfolio performance chart data from authentic sources
+  const chartData = portfolio?.performanceHistory || [];
 
   const getTokenIcon = (symbol: string) => {
     const icons: Record<string, string> = {
