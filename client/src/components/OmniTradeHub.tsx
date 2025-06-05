@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -158,10 +158,67 @@ export function OmniTradeHub({ cryptoPrices }: OmniTradeHubProps) {
   const [fromToken, setFromToken] = useState("ETH");
   const [toToken, setToToken] = useState("USDC");
   const [slippage, setSlippage] = useState(0.5);
+  const [liveQuote, setLiveQuote] = useState<any>(null);
+  const [routeOptimization, setRouteOptimization] = useState<any>(null);
+  const [isQuoting, setIsQuoting] = useState(false);
   
   const { data: portfolio } = useQuery<PortfolioData>({
     queryKey: ['/api/portfolio/1'],
   });
+
+  // Fetch live quote when swap amount changes
+  const fetchLiveQuote = async () => {
+    if (!swapAmount || parseFloat(swapAmount) <= 0) {
+      setLiveQuote(null);
+      setRouteOptimization(null);
+      return;
+    }
+
+    setIsQuoting(true);
+    try {
+      // Get DEX aggregator quote
+      const quoteResponse = await fetch('/api/dex/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromToken,
+          toToken,
+          amount: swapAmount
+        })
+      });
+
+      if (quoteResponse.ok) {
+        const quote = await quoteResponse.json();
+        setLiveQuote(quote);
+
+        // Get CDP route optimization
+        const optimizeResponse = await fetch('/api/cdp/optimize-route', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fromToken,
+            toToken,
+            amount: parseFloat(swapAmount)
+          })
+        });
+
+        if (optimizeResponse.ok) {
+          const optimization = await optimizeResponse.json();
+          setRouteOptimization(optimization);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching live quote:', error);
+    } finally {
+      setIsQuoting(false);
+    }
+  };
+
+  // Debounced quote fetching
+  React.useEffect(() => {
+    const timer = setTimeout(fetchLiveQuote, 500);
+    return () => clearTimeout(timer);
+  }, [swapAmount, fromToken, toToken]);
 
   const totalWalletValue = walletBalances.reduce((sum, token) => sum + token.value, 0);
   const connectedAddress = "0x742d35cc6eb59b3e4746ac5e...";
@@ -402,25 +459,48 @@ export function OmniTradeHub({ cryptoPrices }: OmniTradeHubProps) {
                     </div>
                   </div>
 
-                  {/* Swap Details */}
-                  {swapAmount && (
+                  {/* Live Swap Details */}
+                  {(swapAmount && (liveQuote || isQuoting)) && (
                     <div className="bg-gray-800/30 rounded-lg p-4 space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Best Route</span>
-                        <span>Uniswap V3 → Curve</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Price Impact</span>
-                        <span className="text-green-400">0.02%</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Network Fee</span>
-                        <span>~$12.45</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">DEX Fee</span>
-                        <span>~$7.46</span>
-                      </div>
+                      {isQuoting ? (
+                        <div className="flex items-center justify-center py-4">
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-cyan-400"></div>
+                          <span className="ml-2 text-sm text-gray-400">Getting best rates...</span>
+                        </div>
+                      ) : liveQuote && (
+                        <>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-400">Best Route</span>
+                            <span className="text-cyan-400">{liveQuote.bestRoute?.dex || 'Uniswap V3'}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-400">Output Amount</span>
+                            <span className="text-green-400">{liveQuote.toAmount} {toToken}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-400">Price Impact</span>
+                            <span className={`${liveQuote.bestRoute?.priceImpact < 1 ? 'text-green-400' : 'text-yellow-400'}`}>
+                              {liveQuote.bestRoute?.priceImpact?.toFixed(2) || '0.02'}%
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-400">Network Fee</span>
+                            <span>~${liveQuote.totalGasCost?.toFixed(2) || '12.45'}</span>
+                          </div>
+                          {routeOptimization && routeOptimization.useBase && (
+                            <div className="flex justify-between text-sm border-t border-gray-700 pt-2">
+                              <span className="text-purple-400">CDP Savings</span>
+                              <span className="text-green-400">-${routeOptimization.savings?.toFixed(2)}</span>
+                            </div>
+                          )}
+                          {routeOptimization && (
+                            <div className="flex justify-between text-sm">
+                              <span className="text-gray-400">Optimized Route</span>
+                              <span className="text-xs text-purple-400">{routeOptimization.route}</span>
+                            </div>
+                          )}
+                        </>
+                      )}
                     </div>
                   )}
 
