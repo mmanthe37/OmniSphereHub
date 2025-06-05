@@ -20,13 +20,10 @@ function Router() {
     );
   }
 
-  if (!user) {
-    return <Login />;
-  }
-
   return (
     <Switch>
       <Route path="/" component={Dashboard} />
+      <Route path="/login" component={Login} />
       <Route path="/onramp-return" component={OnrampReturn} />
       <Route component={NotFound} />
     </Switch>
