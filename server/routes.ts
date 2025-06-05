@@ -355,9 +355,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Create transfer using Coinbase CDP
+      // Get the connected wallet from the wallet connector
+      const connectedWallets = await walletConnector.getConnectedWallets();
+      if (connectedWallets.length === 0) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "No wallet connected. Please connect a wallet first." 
+        });
+      }
+
+      const connectedWallet = connectedWallets[0];
+      
+      // Create transfer using Coinbase CDP with the actual connected wallet
       const result = await cdpSDK.createTransfer(
-        'wallet_1', // Use the connected wallet ID
+        connectedWallet.address, // Use the connected wallet address
         to,
         parseFloat(amount),
         token
@@ -400,13 +411,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Add receive token endpoint for authentic wallet addresses
+  app.post("/api/wallet/receive", async (req, res) => {
+    try {
+      const { token } = req.body;
+      
+      if (!token) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Token type is required" 
+        });
+      }
+
+      // Get the connected wallet
+      const connectedWallets = await walletConnector.getConnectedWallets();
+      if (connectedWallets.length === 0) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "No wallet connected. Please connect a wallet first." 
+        });
+      }
+
+      const connectedWallet = connectedWallets[0];
+
+      res.json({
+        success: true,
+        address: connectedWallet.address,
+        network: connectedWallet.network,
+        token: token,
+        qrCode: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${connectedWallet.address}`
+      });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : "Failed to generate receive address" 
+      });
+    }
+  });
+
   app.get("/api/wallet/address/:walletId", async (req, res) => {
     try {
       const { walletId } = req.params;
-      // Get wallet address from connected wallets
+      
+      // Get authentic wallet address from connected wallets
+      const connectedWallets = await walletConnector.getConnectedWallets();
+      const wallet = connectedWallets.find(w => w.provider === walletId);
+      
+      if (!wallet) {
+        return res.status(404).json({
+          success: false,
+          error: "Wallet not found or not connected"
+        });
+      }
+      
       res.json({
         success: true,
-        address: "0x2265596126165fc2bcb7c07e4c234a9929cdb8a0",
+        address: wallet.address,
         walletId: walletId,
         network: "ethereum"
       });

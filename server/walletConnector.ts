@@ -473,21 +473,7 @@ export class WalletConnectorEngine extends EventEmitter {
     }
   }
 
-  async storeConnectedWallet(wallet: ConnectedWallet): Promise<void> {
-    this.connectedWallets.set(wallet.address, wallet);
-    this.emit('walletConnected', wallet);
-  }
 
-  async disconnectWallet(address: string): Promise<boolean> {
-    const wallet = this.connectedWallets.get(address);
-    if (!wallet) {
-      return false;
-    }
-
-    this.connectedWallets.delete(address);
-    this.emit('walletDisconnected', wallet);
-    return true;
-  }
 
   private async simulateWalletConnection(provider: WalletProvider): Promise<ConnectedWallet> {
     // Generate realistic wallet address based on provider
