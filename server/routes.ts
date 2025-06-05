@@ -4,6 +4,10 @@ import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { dexAggregator } from "./dexAggregator";
 import { coinbaseCDP } from "./coinbaseCDP";
+import { advancedTrading } from "./advancedTrading";
+import { paymentCommerce } from "./paymentCommerce";
+import { defiYield } from "./defiYield";
+import { analyticsAI } from "./analyticsAI";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -222,6 +226,315 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ received: true });
     } catch (error) {
       res.status(500).json({ message: "Webhook processing failed" });
+    }
+  });
+
+  // Advanced Trading API Endpoints
+  app.post("/api/trading/smart-order", async (req, res) => {
+    try {
+      const { amount, fromToken, toToken, urgency, maxSlippage } = req.body;
+      const result = await advancedTrading.smartOrderRouting({
+        amount: parseFloat(amount),
+        fromToken,
+        toToken,
+        urgency: urgency || 'medium',
+        maxSlippage: parseFloat(maxSlippage) || 0.5
+      });
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Smart order routing failed" });
+    }
+  });
+
+  app.post("/api/trading/institutional-batch", async (req, res) => {
+    try {
+      const { userId, amount, token } = req.body;
+      const result = await advancedTrading.addToInstitutionalBatch({
+        userId: parseInt(userId),
+        amount: parseFloat(amount),
+        token,
+        timestamp: new Date(),
+        executed: false
+      });
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Institutional batching failed" });
+    }
+  });
+
+  app.get("/api/trading/gas-optimization", async (req, res) => {
+    try {
+      const result = await advancedTrading.optimizeGasFees([]);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Gas optimization failed" });
+    }
+  });
+
+  app.post("/api/trading/cross-chain-bridge", async (req, res) => {
+    try {
+      const { fromNetwork, toNetwork, token, amount } = req.body;
+      const result = await advancedTrading.enableCrossChainBridging(
+        fromNetwork,
+        toNetwork,
+        token,
+        parseFloat(amount)
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Cross-chain bridging failed" });
+    }
+  });
+
+  // Payment & Commerce API Endpoints
+  app.post("/api/payments/micropayment-stream", async (req, res) => {
+    try {
+      const { creatorId, subscriberId, ratePerSecond, currency } = req.body;
+      const result = await paymentCommerce.initiateMicropaymentStream(
+        parseInt(creatorId),
+        parseInt(subscriberId),
+        parseFloat(ratePerSecond),
+        currency || 'USDC'
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Micropayment stream failed" });
+    }
+  });
+
+  app.delete("/api/payments/stream/:streamId", async (req, res) => {
+    try {
+      const { streamId } = req.params;
+      const result = await paymentCommerce.stopPaymentStream(streamId);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to stop payment stream" });
+    }
+  });
+
+  app.post("/api/payments/nft-transaction", async (req, res) => {
+    try {
+      const { tokenId, price, currency, buyerId, sellerId, royalty } = req.body;
+      const result = await paymentCommerce.processNFTTransaction({
+        tokenId,
+        price: parseFloat(price),
+        currency,
+        buyerId: parseInt(buyerId),
+        sellerId: parseInt(sellerId),
+        royalty: parseFloat(royalty)
+      });
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "NFT transaction failed" });
+    }
+  });
+
+  app.post("/api/payments/subscription-plan", async (req, res) => {
+    try {
+      const plan = req.body;
+      const result = await paymentCommerce.createSubscriptionPlan(plan);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Subscription plan creation failed" });
+    }
+  });
+
+  app.post("/api/payments/creator-monetization", async (req, res) => {
+    try {
+      const { creatorId, contentId, monetizationType, amount } = req.body;
+      const result = await paymentCommerce.enableCreatorMonetization(
+        parseInt(creatorId),
+        contentId,
+        monetizationType,
+        amount ? parseFloat(amount) : undefined
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Creator monetization setup failed" });
+    }
+  });
+
+  app.get("/api/payments/creator-revenue/:creatorId/:timeframe", async (req, res) => {
+    try {
+      const { creatorId, timeframe } = req.params;
+      const result = await paymentCommerce.calculateCreatorRevenue(
+        parseInt(creatorId),
+        timeframe as 'day' | 'week' | 'month'
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Creator revenue calculation failed" });
+    }
+  });
+
+  app.post("/api/payments/instant-payout", async (req, res) => {
+    try {
+      const { creatorId, amount, currency } = req.body;
+      const result = await paymentCommerce.enableInstantPayouts(
+        parseInt(creatorId),
+        parseFloat(amount),
+        currency || 'USDC'
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Instant payout failed" });
+    }
+  });
+
+  // DeFi & Yield API Endpoints
+  app.post("/api/defi/optimize-yield", async (req, res) => {
+    try {
+      const { userId, totalAmount, riskProfile } = req.body;
+      const result = await defiYield.optimizeYieldAllocation(
+        parseInt(userId),
+        parseFloat(totalAmount),
+        riskProfile
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Yield optimization failed" });
+    }
+  });
+
+  app.post("/api/defi/execute-farming", async (req, res) => {
+    try {
+      const { userId, allocations } = req.body;
+      const result = await defiYield.executeAutomatedYieldFarming(
+        parseInt(userId),
+        allocations
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Yield farming execution failed" });
+    }
+  });
+
+  app.post("/api/defi/liquid-staking", async (req, res) => {
+    try {
+      const { userId, asset, amount } = req.body;
+      const result = await defiYield.enableLiquidStaking(
+        parseInt(userId),
+        asset,
+        parseFloat(amount)
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Liquid staking failed" });
+    }
+  });
+
+  app.post("/api/defi/risk-adjusted-portfolio", async (req, res) => {
+    try {
+      const { userId, totalAmount, targetVolatility } = req.body;
+      const result = await defiYield.createRiskAdjustedPortfolio(
+        parseInt(userId),
+        parseFloat(totalAmount),
+        parseFloat(targetVolatility)
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Risk-adjusted portfolio creation failed" });
+    }
+  });
+
+  app.post("/api/defi/automated-rebalancing", async (req, res) => {
+    try {
+      const { userId, frequency, threshold } = req.body;
+      const result = await defiYield.enableAutomatedRebalancing(
+        parseInt(userId),
+        frequency,
+        parseFloat(threshold)
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Automated rebalancing setup failed" });
+    }
+  });
+
+  app.post("/api/defi/institutional-custody", async (req, res) => {
+    try {
+      const { userId, assets } = req.body;
+      const result = await defiYield.getInstitutionalCustody(
+        parseInt(userId),
+        assets
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Institutional custody setup failed" });
+    }
+  });
+
+  // Analytics & AI API Endpoints
+  app.get("/api/analytics/portfolio-metrics/:userId/:timeframe", async (req, res) => {
+    try {
+      const { userId, timeframe } = req.params;
+      const result = await analyticsAI.calculateInstitutionalMetrics(
+        parseInt(userId),
+        timeframe as '1M' | '3M' | '1Y' | 'YTD'
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Portfolio metrics calculation failed" });
+    }
+  });
+
+  app.post("/api/analytics/market-predictions", async (req, res) => {
+    try {
+      const { assets } = req.body;
+      const result = await analyticsAI.generateMarketPredictions(assets);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Market prediction generation failed" });
+    }
+  });
+
+  app.post("/api/analytics/trading-signals", async (req, res) => {
+    try {
+      const { userId, riskTolerance } = req.body;
+      const result = await analyticsAI.generateTradingSignals(
+        parseInt(userId),
+        riskTolerance
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Trading signal generation failed" });
+    }
+  });
+
+  app.get("/api/analytics/risk-metrics/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const result = await analyticsAI.calculateRiskMetrics(parseInt(userId));
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Risk metrics calculation failed" });
+    }
+  });
+
+  app.post("/api/analytics/tax-optimization", async (req, res) => {
+    try {
+      const { userId, holdings } = req.body;
+      const result = await analyticsAI.optimizeTaxStrategy(
+        parseInt(userId),
+        holdings
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Tax optimization failed" });
+    }
+  });
+
+  app.post("/api/analytics/risk-management", async (req, res) => {
+    try {
+      const { userId, stopLossThreshold, positionSizingRule } = req.body;
+      const result = await analyticsAI.enableAutomatedRiskManagement(
+        parseInt(userId),
+        parseFloat(stopLossThreshold),
+        positionSizingRule
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Risk management setup failed" });
     }
   });
 
