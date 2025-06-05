@@ -224,6 +224,12 @@ export function WalletOnboardingWizard({ isOpen, onClose, onWalletConnected }: W
     }, 500);
 
     connectWalletMutation.mutate(selectedWallet.id);
+  }
+
+  const handleBuyCrypto = () => {
+    // Coinbase onramp integration for buying crypto directly
+    const onrampUrl = `https://pay.coinbase.com/buy?addresses=%7B%220x1%22%3A%5B%22base%22%5D%7D&appId=omnisphere-project&assets=%5B%22USDC%22%5D&fiatCurrency=USD&presetFiatAmount=20&redirectUrl=${encodeURIComponent(window.location.origin + '/onramp-return')}`;
+    window.open(onrampUrl, '_blank', 'width=600,height=700');
   };
 
   const renderWelcomeStep = () => (
@@ -673,6 +679,13 @@ export function WalletOnboardingWizard({ isOpen, onClose, onWalletConnected }: W
       </div>
 
       <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto">
+        <Card className="cursor-pointer hover:bg-gray-800" onClick={handleBuyCrypto}>
+          <CardContent className="p-4 text-center">
+            <CreditCard className="w-8 h-8 mx-auto mb-2 text-green-600" />
+            <p className="font-medium">Buy Crypto</p>
+            <p className="text-xs text-muted-foreground">Via Coinbase</p>
+          </CardContent>
+        </Card>
         <Card>
           <CardContent className="p-4 text-center">
             <Zap className="w-8 h-8 mx-auto mb-2 text-yellow-600" />
@@ -680,13 +693,16 @@ export function WalletOnboardingWizard({ isOpen, onClose, onWalletConnected }: W
             <p className="text-xs text-muted-foreground">Access OmniTrade</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <Star className="w-8 h-8 mx-auto mb-2 text-blue-600" />
-            <p className="font-medium">Earn Rewards</p>
-            <p className="text-xs text-muted-foreground">Explore OmniYield</p>
-          </CardContent>
-        </Card>
+      </div>
+
+      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 max-w-lg mx-auto">
+        <div className="flex items-center gap-2 mb-2">
+          <Shield className="w-5 h-5 text-blue-500" />
+          <h3 className="font-semibold text-blue-500">Gasless Transactions Enabled</h3>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Your wallet is configured with OmniSphere's paymaster for zero gas fees on Base network transactions.
+        </p>
       </div>
 
       <Button onClick={onClose} className="w-full max-w-sm">
