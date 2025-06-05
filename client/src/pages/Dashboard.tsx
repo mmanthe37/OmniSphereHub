@@ -18,6 +18,7 @@ import { SmartContractDashboard } from "@/components/SmartContractDashboard";
 import { CDPWalletDashboard } from "@/components/CDPWalletDashboard";
 import { PaymasterDashboard } from "@/components/PaymasterDashboard";
 import { WalletManagementHub } from "@/components/WalletManagementHub";
+import { PaymasterJSONRPCDashboard } from "@/components/PaymasterJSONRPCDashboard";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -88,6 +89,7 @@ export default function Dashboard() {
           <div className="space-y-6">
             <WalletPrivilegeDisplay />
             <WalletManagementHub />
+            <PaymasterJSONRPCDashboard />
             <PaymasterDashboard />
             <SmartContractDashboard />
             <CDPWalletDashboard />

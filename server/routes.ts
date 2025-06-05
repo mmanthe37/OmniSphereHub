@@ -22,6 +22,7 @@ import { setupWebhookRoutes } from "./webhookHandler";
 import { smartContractManager } from "./smartContractIntegration";
 import { cdpIntegration } from "./cdpIntegration";
 import { paymasterAnalytics } from "./paymasterAnalytics";
+import { paymasterJSONRPC } from "./paymasterJSONRPC";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -1620,6 +1621,94 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(stats);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch daily stats" });
+    }
+  });
+
+  // Official Coinbase Paymaster JSON-RPC API Routes
+  app.get("/api/paymaster/entry-points", async (req, res) => {
+    try {
+      const entryPoints = await paymasterJSONRPC.getSupportedEntryPoints();
+      res.json({ entryPoints });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch supported entry points" });
+    }
+  });
+
+  app.get("/api/paymaster/operation/:hash", async (req, res) => {
+    try {
+      const { hash } = req.params;
+      const operation = await paymasterJSONRPC.getUserOperationByHash(hash);
+      res.json(operation);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch user operation" });
+    }
+  });
+
+  app.get("/api/paymaster/receipt/:hash", async (req, res) => {
+    try {
+      const { hash } = req.params;
+      const receipt = await paymasterJSONRPC.getUserOperationReceipt(hash);
+      res.json(receipt);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch operation receipt" });
+    }
+  });
+
+  app.post("/api/paymaster/estimate-gas", async (req, res) => {
+    try {
+      const { userOperation } = req.body;
+      const gasEstimate = await paymasterJSONRPC.estimateUserOperationGas(userOperation);
+      res.json(gasEstimate);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to estimate gas" });
+    }
+  });
+
+  app.post("/api/paymaster/create-sponsored", async (req, res) => {
+    try {
+      const { sender, callData, nonce } = req.body;
+      const sponsoredTx = await paymasterJSONRPC.createSponsoredTransaction(sender, callData, nonce);
+      res.json(sponsoredTx);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create sponsored transaction" });
+    }
+  });
+
+  app.get("/api/paymaster/sponsorship/:address", async (req, res) => {
+    try {
+      const { address } = req.params;
+      const sponsorshipInfo = await paymasterJSONRPC.getAddressSponsorshipInfo(address);
+      res.json(sponsorshipInfo);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch sponsorship info" });
+    }
+  });
+
+  app.get("/api/paymaster/analytics", async (req, res) => {
+    try {
+      const analytics = await paymasterJSONRPC.getSponsorshipAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch paymaster analytics" });
+    }
+  });
+
+  app.get("/api/paymaster/accepted-tokens", async (req, res) => {
+    try {
+      const tokens = await paymasterJSONRPC.getAcceptedPaymentTokens();
+      res.json({ tokens });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch accepted payment tokens" });
+    }
+  });
+
+  app.post("/api/paymaster/send-operation", async (req, res) => {
+    try {
+      const { userOperation } = req.body;
+      const hash = await paymasterJSONRPC.sendUserOperation(userOperation);
+      res.json({ hash });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to send user operation" });
     }
   });
 
