@@ -13,9 +13,12 @@ import { formatCurrency, formatPercentage, getTimeAgo } from "@/lib/utils";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 import { useAuth } from "@/contexts/AuthContext";
 import { PortfolioService, type PortfolioData } from "@/lib/portfolio-service";
+import EmptyPortfolio from "./EmptyPortfolio";
+import { ExternalAPIService } from "@/lib/external-api";
 
 export default function DashboardOverview() {
   const [portfolio, setPortfolio] = useState<PortfolioData | null>(null);
+  const [marketData, setMarketData] = useState<any[]>([]);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -23,8 +26,18 @@ export default function DashboardOverview() {
       // Get authentic portfolio data or create empty state for new user
       const userPortfolio = PortfolioService.getPortfolio(user.id);
       setPortfolio(userPortfolio);
+
+      // Fetch real market data from external API
+      ExternalAPIService.getCryptoPrices()
+        .then(data => setMarketData(data))
+        .catch(error => console.error('Failed to fetch market data:', error));
     }
   }, [user]);
+
+  const handleAddHolding = () => {
+    // Placeholder for adding holdings functionality
+    console.log('Add holding functionality to be implemented');
+  };
 
   if (!user || !portfolio) {
     return (
@@ -37,6 +50,11 @@ export default function DashboardOverview() {
   // Calculate portfolio metrics
   const metrics = PortfolioService.calculateMetrics(portfolio);
   const hasHoldings = portfolio.holdings.length > 0;
+
+  // Show empty state for new users with no holdings
+  if (!hasHoldings) {
+    return <EmptyPortfolio onAddHolding={handleAddHolding} />;
+  }
 
   const getTokenIcon = (symbol: string) => {
     const icons: Record<string, string> = {
