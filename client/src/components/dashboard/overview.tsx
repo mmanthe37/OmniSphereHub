@@ -163,7 +163,8 @@ export default function DashboardOverview() {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-4">Top Holdings</h3>
             <div className="space-y-4">
-              {holdings?.map((holding: any) => (
+              {/* Holdings display removed - awaiting authentic wallet data */}
+              {false && [].map((holding: any) => (
                 <div key={holding.id} className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className={`w-8 h-8 ${getTokenColor(holding.symbol)} rounded-full flex items-center justify-center`}>

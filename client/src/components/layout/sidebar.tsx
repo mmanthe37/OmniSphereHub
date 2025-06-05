@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { TabType } from "@/pages/dashboard";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   ChartLine, 
   Users, 
@@ -23,6 +24,8 @@ const navItems = [
 ];
 
 export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
+  const { user } = useAuth();
+  
   return (
     <div className="w-64 bg-dark-secondary border-r border-dark-border p-6 fixed h-full z-10">
       <div className="flex items-center space-x-3 mb-8">
@@ -57,14 +60,15 @@ export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
       <div className="mt-auto pt-8">
         <div className="bg-dark-card p-4 rounded-xl">
           <div className="flex items-center space-x-3">
-            <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&w=100&h=100&fit=crop" 
-              alt="User profile" 
-              className="w-10 h-10 rounded-full"
-            />
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+              {user?.email ? user.email.charAt(0).toUpperCase() : 'G'}
+            </div>
             <div>
-              <p className="font-medium">Alex Chen</p>
-              <p className="text-sm text-text-secondary">Pro Trader</p>
+              <p className="font-medium">{user?.email || 'Guest User'}</p>
+              <p className="text-sm text-text-secondary">
+                {user?.accountType === 'paid' ? 'Premium Member' : 
+                 user?.accountType === 'free' ? 'Free Account' : 'Guest'}
+              </p>
             </div>
           </div>
         </div>

@@ -143,14 +143,15 @@ export function Sidebar({ activeTab, onTabChange, user }: SidebarProps) {
 
           <div className="bg-dark-card p-4 rounded-xl">
             <div className="flex items-center space-x-3">
-              <img 
-                src={user?.avatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100"} 
-                alt="User profile" 
-                className="w-10 h-10 rounded-full"
-              />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                {user?.email ? user.email.charAt(0).toUpperCase() : 'G'}
+              </div>
               <div>
-                <p className="font-medium">{user?.name || "Alex Chen"}</p>
-                <p className="text-sm text-text-secondary">{user?.tier || "Pro Trader"}</p>
+                <p className="font-medium">{user?.email || 'Guest User'}</p>
+                <p className="text-sm text-text-secondary">
+                  {user?.accountType === 'paid' ? 'Premium Member' : 
+                   user?.accountType === 'free' ? 'Free Account' : 'Guest'}
+                </p>
               </div>
             </div>
           </div>
