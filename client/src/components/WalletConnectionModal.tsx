@@ -419,16 +419,59 @@ export default function WalletConnectionModal({ isOpen, onClose, mode }: WalletC
                           disabled={!wallet.supported || connectWalletMutation.isPending}
                         >
                           <div className="absolute inset-2 rounded-full bg-white/10 flex items-center justify-center">
-                            <img 
-                              src={wallet.icon} 
-                              alt={wallet.name}
-                              className="w-8 h-8 rounded-full object-cover"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                              }}
-                            />
-                            <Wallet className="w-6 h-6 text-blue-400 hidden" />
+                            {wallet.id === 'metamask' && (
+                              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-sm">M</span>
+                              </div>
+                            )}
+                            {wallet.id === 'coinbase_wallet' && (
+                              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                <div className="w-4 h-4 bg-white rounded-full"></div>
+                              </div>
+                            )}
+                            {wallet.id === 'walletconnect' && (
+                              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">WC</span>
+                              </div>
+                            )}
+                            {wallet.id === 'rainbow' && (
+                              <div className="w-8 h-8 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">🌈</span>
+                              </div>
+                            )}
+                            {wallet.id === 'trust_wallet' && (
+                              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">TW</span>
+                              </div>
+                            )}
+                            {wallet.id === 'phantom' && (
+                              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">👻</span>
+                              </div>
+                            )}
+                            {wallet.id === 'ledger' && (
+                              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">L</span>
+                              </div>
+                            )}
+                            {wallet.id === 'trezor' && (
+                              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">T</span>
+                              </div>
+                            )}
+                            {wallet.id === 'binance_wallet' && (
+                              <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                <span className="text-black font-bold text-xs">BNB</span>
+                              </div>
+                            )}
+                            {wallet.id === 'okx_wallet' && (
+                              <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">OKX</span>
+                              </div>
+                            )}
+                            {!['metamask', 'coinbase_wallet', 'walletconnect', 'rainbow', 'trust_wallet', 'phantom', 'ledger', 'trezor', 'binance_wallet', 'okx_wallet'].includes(wallet.id) && (
+                              <Wallet className="w-6 h-6 text-blue-400" />
+                            )}
                           </div>
                           {connectWalletMutation.isPending && (
                             <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center">
