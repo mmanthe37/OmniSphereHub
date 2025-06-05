@@ -226,15 +226,14 @@ export class AnalyticsAIEngine {
   }
 
   private async getCurrentPrice(asset: string): Promise<number> {
-    // Would integrate with real price API
-    const mockPrices: Record<string, number> = {
-      'BTC': 67500,
-      'ETH': 3800,
-      'SOL': 185,
-      'USDC': 1.00,
-      'MATIC': 0.85
-    };
-    return mockPrices[asset] || 100;
+    try {
+      // Use real market data service
+      const { marketDataService } = await import('./marketDataService');
+      return await marketDataService.getPrice(asset);
+    } catch (error) {
+      console.error(`Failed to fetch price for ${asset}:`, error);
+      throw new Error(`Unable to fetch live price data for ${asset}`);
+    }
   }
 
   private generateReasoningFactors(asset: string, direction: string): string[] {

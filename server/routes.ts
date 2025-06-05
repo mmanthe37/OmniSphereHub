@@ -1155,27 +1155,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       message: 'Connected to OmniSphere real-time updates'
     }));
 
-    // Send periodic price updates
+    // Send real-time price updates from authentic data sources
     const priceUpdateInterval = setInterval(async () => {
       if (ws.readyState === WebSocket.OPEN) {
-        const prices = await storage.getCryptoPrices();
-        
-        // Simulate price changes
-        for (const price of prices) {
-          const change = (Math.random() - 0.5) * 2; // ±1% max change
-          const newPrice = price.price * (1 + change / 100);
-          const newChange24h = price.change24h + (Math.random() - 0.5) * 0.5;
+        try {
+          // Fetch live prices from real market data API
+          const prices = await storage.getCryptoPrices();
           
-          await storage.updateCryptoPrice(price.symbol, newPrice, newChange24h);
+          ws.send(JSON.stringify({
+            type: 'priceUpdate',
+            data: prices
+          }));
+        } catch (error) {
+          console.error('Error fetching real price data:', error);
+          // Send error state to client
+          ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Unable to fetch live price data. Please check API configuration.'
+          }));
         }
-
-        const updatedPrices = await storage.getCryptoPrices();
-        ws.send(JSON.stringify({
-          type: 'priceUpdate',
-          data: updatedPrices
-        }));
       }
-    }, 5000); // Update every 5 seconds
+    }, 10000); // Update every 10 seconds with real data
 
     ws.on('close', () => {
       console.log('Client disconnected from WebSocket');

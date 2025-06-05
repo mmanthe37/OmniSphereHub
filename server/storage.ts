@@ -10,6 +10,7 @@ import type {
   ContentStats, 
   CreatorBadge 
 } from "@shared/schema";
+import { marketDataService } from "./marketDataService";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -52,12 +53,8 @@ export class MemStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    for (const [_, user] of this.users) {
-      if (user.username === username) {
-        return user;
-      }
-    }
-    return undefined;
+    const users = Array.from(this.users.values());
+    return users.find(user => user.username === username);
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
@@ -77,7 +74,7 @@ export class MemStorage implements IStorage {
 
   async getSocialPosts(): Promise<SocialPost[]> {
     return Array.from(this.socialPosts.values())
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
   }
 
   async getPortfolioData(userId: number): Promise<PortfolioData | undefined> {
@@ -85,7 +82,21 @@ export class MemStorage implements IStorage {
   }
 
   async getCryptoPrices(): Promise<CryptoPrice[]> {
-    return Array.from(this.cryptoPrices.values());
+    try {
+      // Fetch live prices from market data API
+      const livePrices = await marketDataService.fetchLivePrices(['bitcoin', 'ethereum', 'solana']);
+      
+      // Update local cache with fresh data
+      livePrices.forEach(price => {
+        this.cryptoPrices.set(price.symbol, price);
+      });
+      
+      return livePrices;
+    } catch (error) {
+      console.error('Failed to fetch live prices:', error);
+      // Return cached data if available, otherwise empty array
+      return Array.from(this.cryptoPrices.values());
+    }
   }
 
   async getStakingPools(): Promise<StakingPool[]> {
@@ -95,7 +106,7 @@ export class MemStorage implements IStorage {
 
   async getAITrades(): Promise<AITrade[]> {
     return Array.from(this.aiTrades.values())
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
   }
 
   async updateCryptoPrice(symbol: string, price: number, change24h: number): Promise<void> {

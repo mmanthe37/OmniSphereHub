@@ -56,12 +56,15 @@ export default function TradingInterface() {
     }
   }, [lastMessage]);
 
-  // Chart data from real price feeds
+  // Chart data from authentic price feeds - requires real-time data
   const chartData = priceData?.length > 0 ? 
     priceData.map((price, i) => ({
-      hour: `${new Date(Date.now() - (23 - i) * 60 * 60 * 1000).getHours()}:00`,
+      hour: `${new Date().getHours() - (priceData.length - 1 - i)}:00`,
       price: parseFloat(price.price?.toString() || '0'),
     })) : [];
+
+  // Show loading state when no price data is available
+  const isLoadingPrices = !priceData || priceData.length === 0;
 
   // Order book data (requires integration with real DEX APIs)
   const sellOrders: Array<{ price: string; amount: string }> = [];
