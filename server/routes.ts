@@ -23,6 +23,7 @@ import { smartContractManager } from "./smartContractIntegration";
 import { cdpIntegration } from "./cdpIntegration";
 import { paymasterAnalytics } from "./paymasterAnalytics";
 import { paymasterJSONRPC } from "./paymasterJSONRPC";
+import { erc4337Paymaster } from "./erc4337Paymaster";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -1709,6 +1710,66 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ hash });
     } catch (error) {
       res.status(500).json({ message: "Failed to send user operation" });
+    }
+  });
+
+  // ERC-4337 Smart Wallet Routes
+  app.get("/api/smart-wallet/paymaster-service/:chainId", async (req, res) => {
+    try {
+      const chainId = parseInt(req.params.chainId);
+      const service = await erc4337Paymaster.getPaymasterService(chainId);
+      res.json(service);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get paymaster service" });
+    }
+  });
+
+  app.post("/api/smart-wallet/validate-operation", async (req, res) => {
+    try {
+      const { userOperation, entryPoint } = req.body;
+      const validation = await erc4337Paymaster.validateUserOperation(userOperation, entryPoint);
+      res.json(validation);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to validate user operation" });
+    }
+  });
+
+  app.post("/api/smart-wallet/prepare-calls", async (req, res) => {
+    try {
+      const { calls, sender, chainId } = req.body;
+      const preparedCalls = await erc4337Paymaster.prepareWalletSendCalls(calls, sender, chainId);
+      res.json(preparedCalls);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to prepare wallet calls" });
+    }
+  });
+
+  app.get("/api/smart-wallet/sponsorship/:address", async (req, res) => {
+    try {
+      const { address } = req.params;
+      const status = await erc4337Paymaster.getSponsorshipStatus(address);
+      res.json(status);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get sponsorship status" });
+    }
+  });
+
+  app.get("/api/smart-wallet/policies", async (req, res) => {
+    try {
+      const policies = erc4337Paymaster.getActivePolicies();
+      res.json({ policies });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get sponsorship policies" });
+    }
+  });
+
+  app.post("/api/smart-wallet/generate-paymaster-data", async (req, res) => {
+    try {
+      const { userOperation, validUntil } = req.body;
+      const paymasterData = await erc4337Paymaster.generatePaymasterAndData(userOperation, validUntil);
+      res.json({ paymasterAndData: paymasterData });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to generate paymaster data" });
     }
   });
 

@@ -14,6 +14,7 @@
     "@anthropic-ai/sdk": "^0.37.0",
     "@coinbase/coinbase-sdk": "^0.25.0",
     "@coinbase/onchainkit": "^0.38.13",
+    "@coinbase/wallet-sdk": "^4.3.3",
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@neondatabase/serverless": "^0.10.4",
