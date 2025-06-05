@@ -738,6 +738,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Wallet Connection Endpoints
+  app.post("/api/wallet/connect", async (req, res) => {
+    try {
+      const { walletId } = req.body;
+      
+      if (!walletId) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Wallet ID is required" 
+        });
+      }
+
+      // Connect wallet using authentic CDP integration
+      const result = await walletConnector.connectWallet(walletId);
+      
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : "Failed to connect wallet" 
+      });
+    }
+  });
+
+  app.post("/api/wallet/disconnect", async (req, res) => {
+    try {
+      const { address } = req.body;
+      
+      if (!address) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Wallet address is required" 
+        });
+      }
+
+      await walletConnector.disconnectWallet(address);
+      
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ 
+        success: false, 
+        error: error instanceof Error ? error.message : "Failed to disconnect wallet" 
+      });
+    }
+  });
+
   app.get("/api/wallet/connected", async (req, res) => {
     try {
       const wallets = await walletConnector.getConnectedWallets();

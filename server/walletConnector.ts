@@ -449,17 +449,44 @@ export class WalletConnectorEngine extends EventEmitter {
       return { success: false, error: 'Wallet provider temporarily unavailable' };
     }
 
-    // Simulate wallet connection based on provider type
+    // Create authentic CDP wallet connection
     try {
-      const wallet = await this.simulateWalletConnection(provider);
-      this.connectedWallets.set(wallet.address, wallet);
+      const { cdpSDK } = await import('./cdpSDK');
+      const cdpWallet = await cdpSDK.createWallet('base-mainnet');
       
+      const wallet: ConnectedWallet = {
+        address: cdpWallet.address,
+        provider: walletId,
+        chainId: 8453, // Base mainnet
+        balance: cdpWallet.balance,
+        network: cdpWallet.network,
+        isConnected: true,
+        lastConnected: new Date()
+      };
+      
+      this.connectedWallets.set(wallet.address, wallet);
       this.emit('walletConnected', wallet);
       
       return { success: true, wallet };
     } catch (error) {
       return { success: false, error: 'Failed to connect wallet' };
     }
+  }
+
+  async storeConnectedWallet(wallet: ConnectedWallet): Promise<void> {
+    this.connectedWallets.set(wallet.address, wallet);
+    this.emit('walletConnected', wallet);
+  }
+
+  async disconnectWallet(address: string): Promise<boolean> {
+    const wallet = this.connectedWallets.get(address);
+    if (!wallet) {
+      return false;
+    }
+
+    this.connectedWallets.delete(address);
+    this.emit('walletDisconnected', wallet);
+    return true;
   }
 
   private async simulateWalletConnection(provider: WalletProvider): Promise<ConnectedWallet> {
