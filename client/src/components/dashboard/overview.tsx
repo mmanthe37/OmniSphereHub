@@ -1,4 +1,3 @@
-import { useWebSocket } from "@/lib/websocket";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
@@ -17,6 +16,8 @@ import {
   useAITrades, 
   useUserProfile 
 } from "@/lib/xano-hooks";
+import { xanoStreaming } from "@/lib/xano-streaming";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function DashboardOverview() {
   const [priceData, setPriceData] = useState<any[]>([]);
