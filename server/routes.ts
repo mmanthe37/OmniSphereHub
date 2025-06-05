@@ -603,7 +603,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const result = await cdpSDK.createTransfer(
         connectedWallet.address, // Use the connected wallet address
         to,
-        parseFloat(amount),
+        amount.toString(),
         token
       );
 
@@ -722,7 +722,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         metadata
       });
       res.json(result);
-    } catch (error) {
+    } catch (error: any) {
       res.status(500).json({ message: "X402 payment request failed", error: error.message });
     }
   });

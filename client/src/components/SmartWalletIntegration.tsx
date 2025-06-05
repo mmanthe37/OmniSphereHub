@@ -248,7 +248,7 @@ export function SmartWalletIntegration() {
                     </select>
                   </div>
                   
-{paymasterService && typeof paymasterService === 'object' && 'context' in paymasterService && (
+{paymasterService && typeof paymasterService === 'object' && 'context' in paymasterService ? (
                     <div className="text-sm space-y-1">
                       <Label>Paymaster Service</Label>
                       <div className="font-mono text-xs bg-green-50 dark:bg-green-900/20 p-2 rounded">
@@ -256,10 +256,10 @@ export function SmartWalletIntegration() {
                           <CheckCircle className="h-3 w-3 text-green-500" />
                           <span>Active</span>
                         </div>
-                        <div>Policy: {(paymasterService as PaymasterService).context?.policyId}</div>
+                        <div>Policy: {String((paymasterService as PaymasterService).context?.policyId || 'default')}</div>
                       </div>
                     </div>
-                  )}
+                  ) : null}
                 </CardContent>
               </Card>
             </div>
@@ -293,7 +293,7 @@ export function SmartWalletIntegration() {
               </div>
             </div>
 
-{sponsorshipStatus && typeof sponsorshipStatus === 'object' && 'isSponsored' in sponsorshipStatus && (
+{sponsorshipStatus && typeof sponsorshipStatus === 'object' && 'isSponsored' in sponsorshipStatus ? (
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm flex items-center space-x-2">
@@ -324,7 +324,7 @@ export function SmartWalletIntegration() {
                   </div>
                 </CardContent>
               </Card>
-            )}
+            ) : null}
           </TabsContent>
 
           <TabsContent value="operations" className="space-y-4">
