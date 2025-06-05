@@ -11,6 +11,7 @@ import { paymentCommerce } from "./paymentCommerce";
 import { defiYield } from "./defiYield";
 import { analyticsAI } from "./analyticsAI";
 import { aiTradingEngine } from "./aiTradingAlgorithms";
+import { walletConnector } from "./walletConnector";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -628,6 +629,113 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ success: result });
     } catch (error) {
       res.status(500).json({ message: "Failed to update strategy" });
+    }
+  });
+
+  // Wallet Connection & Payment On-Ramp routes
+  app.get("/api/wallet/providers", async (req, res) => {
+    try {
+      const providers = await walletConnector.getWalletProviders();
+      res.json(providers);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get wallet providers" });
+    }
+  });
+
+  app.post("/api/wallet/connect", async (req, res) => {
+    try {
+      const { walletId } = req.body;
+      const result = await walletConnector.connectWallet(walletId);
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to connect wallet" });
+    }
+  });
+
+  app.post("/api/wallet/disconnect", async (req, res) => {
+    try {
+      const { address } = req.body;
+      const result = await walletConnector.disconnectWallet(address);
+      res.json({ success: result });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to disconnect wallet" });
+    }
+  });
+
+  app.get("/api/wallet/connected", async (req, res) => {
+    try {
+      const wallets = await walletConnector.getConnectedWallets();
+      res.json(wallets);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get connected wallets" });
+    }
+  });
+
+  app.post("/api/wallet/switch-network", async (req, res) => {
+    try {
+      const { address, chainId } = req.body;
+      const result = await walletConnector.switchNetwork(address, parseInt(chainId));
+      res.json({ success: result });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to switch network" });
+    }
+  });
+
+  app.post("/api/wallet/estimate-gas", async (req, res) => {
+    try {
+      const { fromAddress, toAddress, amount, token } = req.body;
+      const fees = await walletConnector.estimateGasFees(
+        fromAddress,
+        toAddress,
+        parseFloat(amount),
+        token
+      );
+      res.json(fees);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to estimate gas fees" });
+    }
+  });
+
+  app.get("/api/payment/methods", async (req, res) => {
+    try {
+      const methods = await walletConnector.getPaymentMethods();
+      res.json(methods);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get payment methods" });
+    }
+  });
+
+  app.post("/api/payment/initiate", async (req, res) => {
+    try {
+      const { amount, currency, paymentMethodId, destinationAddress } = req.body;
+      const result = await walletConnector.initiatePayment(
+        parseFloat(amount),
+        currency,
+        paymentMethodId,
+        destinationAddress
+      );
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to initiate payment" });
+    }
+  });
+
+  app.get("/api/payment/history", async (req, res) => {
+    try {
+      const history = await walletConnector.getPaymentHistory();
+      res.json(history);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get payment history" });
+    }
+  });
+
+  app.get("/api/payment/status/:transactionId", async (req, res) => {
+    try {
+      const { transactionId } = req.params;
+      const status = await walletConnector.getTransactionStatus(transactionId);
+      res.json(status);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get transaction status" });
     }
   });
 
