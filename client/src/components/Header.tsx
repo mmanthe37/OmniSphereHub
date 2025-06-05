@@ -27,7 +27,8 @@ export function Header({ activeTab, user }: HeaderProps) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
   const [walletModalMode, setWalletModalMode] = useState<'connect' | 'payment'>('connect');
-  const { title, subtitle } = tabTitles[activeTab];
+  const tabInfo = tabTitles[activeTab] || { title: "OmniSphere", subtitle: "Web3 ecosystem" };
+  const { title, subtitle } = tabInfo;
 
   const { data: connectedWallets = [] } = useQuery({
     queryKey: ['/api/wallet/connected'],
