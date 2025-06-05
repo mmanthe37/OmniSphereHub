@@ -4,10 +4,12 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { OnchainProviders } from "@/components/OnchainProviders";
 import Dashboard from "@/pages/Dashboard";
 import OnrampReturn from "@/pages/OnrampReturn";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
+import '@coinbase/onchainkit/styles.css';
 
 function Router() {
   const { user, loading } = useAuth();
@@ -32,16 +34,18 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <AuthProvider>
-          <div className="dark">
-            <Toaster />
-            <Router />
-          </div>
-        </AuthProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <OnchainProviders>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <AuthProvider>
+            <div className="dark">
+              <Toaster />
+              <Router />
+            </div>
+          </AuthProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </OnchainProviders>
   );
 }
 

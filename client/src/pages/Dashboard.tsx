@@ -12,6 +12,7 @@ import { AccountManagement } from "@/components/AccountManagement";
 import { Registration } from "@/components/Registration";
 import { WalletAdvanced } from "@/components/WalletAdvanced";
 import { X402PaymentSystem } from "@/components/X402PaymentSystem";
+import { X402RevenueDashboard } from "@/components/X402RevenueDashboard";
 import { LandingPage } from "@/components/LandingPage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StatusBanner } from "@/components/StatusBanner";
@@ -83,6 +84,7 @@ export default function Dashboard() {
             <AccountManagement />
             <WalletAdvanced />
             <X402PaymentSystem />
+            <X402RevenueDashboard />
           </div>
         );
       case 'register':

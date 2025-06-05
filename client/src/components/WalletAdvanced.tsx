@@ -14,7 +14,7 @@ import {
   Identity,
   EthBalance,
 } from '@coinbase/onchainkit/identity';
-import { color } from '@coinbase/onchainkit/theme';
+import { useAccount, useDisconnect, useChainId } from 'wagmi';
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,24 @@ import {
 
 export function WalletAdvanced() {
   const [showDetails, setShowDetails] = useState(false);
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const chainId = useChainId();
+
+  const getChainName = (chainId: number) => {
+    const chainNames: Record<number, string> = {
+      1: 'Ethereum',
+      8453: 'Base',
+      84532: 'Base Sepolia',
+      10: 'Optimism',
+      42161: 'Arbitrum',
+      137: 'Polygon',
+      59144: 'Linea',
+      324: 'ZKsync Era',
+      534352: 'Scroll'
+    };
+    return chainNames[chainId] || `Chain ${chainId}`;
+  };
 
   return (
     <div className="space-y-6">
