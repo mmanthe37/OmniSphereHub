@@ -57,6 +57,7 @@ export const stakingPools = pgTable("staking_pools", {
 
 export const aiTrades = pgTable("ai_trades", {
   id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
   pair: text("pair").notNull(),
   strategy: text("strategy").notNull(),
   profit: real("profit").notNull(),

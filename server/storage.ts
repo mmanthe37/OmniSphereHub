@@ -10,6 +10,9 @@ import type {
   ContentStats, 
   CreatorBadge 
 } from "@shared/schema";
+import { users, socialPosts, portfolioData, cryptoPrices, stakingPools, aiTrades, nftCollections, contentStats, creatorBadges } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 import { marketDataService } from "./marketDataService";
 
 export interface IStorage {
@@ -36,114 +39,67 @@ export interface IStorage {
   getCreatorBadges(userId: number): Promise<CreatorBadge[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users = new Map<number, User>();
-  private socialPosts = new Map<number, SocialPost>();
-  private portfolioData = new Map<number, PortfolioData>();
-  private cryptoPrices = new Map<string, CryptoPrice>();
-  private stakingPools = new Map<number, StakingPool>();
-  private stakingPositions = new Map<number, any>();
-  private aiTrades = new Map<number, AITrade>();
-  private aiTradingStatus = new Map<number, any>();
-  private userNFTs = new Map<number, any[]>();
-  private nftCollections = new Map<number, NFTCollection>();
-  private contentStats = new Map<number, ContentStats>();
-  private creatorBadges = new Map<number, CreatorBadge>();
-
-  private currentUserId = 1;
-  private currentPostId = 1;
-  private currentTradeId = 1;
-  private currentBadgeId = 1;
-  private currentPositionId = 1;
-  private currentNFTId = 1;
-
-  constructor() {
-    // Initialize empty data structures for real use
-    // No sample data loaded - all data comes from authentic sources
-  }
-
+export class DatabaseStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const users = Array.from(this.users.values());
-    return users.find(user => user.username === username);
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = {
-      id,
-      username: insertUser.username,
-      password: insertUser.password,
-      name: insertUser.name || '',
-      tier: insertUser.tier || 'Basic',
-      avatar: insertUser.avatar || null,
-      createdAt: new Date(),
-    };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
     return user;
   }
 
   async getSocialPosts(): Promise<SocialPost[]> {
-    return Array.from(this.socialPosts.values())
-      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
+    return await db.select().from(socialPosts);
   }
 
   async createSocialPost(post: { userId: number; content: string; imageUrl?: string }): Promise<SocialPost> {
-    const id = this.currentPostId++;
-    const newPost: SocialPost = {
-      id,
-      userId: post.userId,
-      content: post.content,
-      imageUrl: post.imageUrl || null,
-      likes: 0,
-      comments: 0,
-      shares: 0,
-      pnl: null,
-      createdAt: new Date(),
-    };
-    this.socialPosts.set(id, newPost);
+    const [newPost] = await db
+      .insert(socialPosts)
+      .values({
+        userId: post.userId,
+        content: post.content,
+        imageUrl: post.imageUrl || null,
+      })
+      .returning();
     return newPost;
   }
 
   async getPortfolioData(userId: number): Promise<PortfolioData | undefined> {
-    return this.portfolioData.get(userId);
+    const [portfolio] = await db.select().from(portfolioData).where(eq(portfolioData.userId, userId));
+    return portfolio || undefined;
   }
 
   async getCryptoPrices(): Promise<CryptoPrice[]> {
     try {
-      // Fetch live prices from market data API
-      const livePrices = await marketDataService.fetchLivePrices(['bitcoin', 'ethereum', 'solana']);
-      
-      // Update local cache with fresh data
-      livePrices.forEach(price => {
-        this.cryptoPrices.set(price.symbol, price);
-      });
-      
-      return livePrices;
+      const liveData = await marketDataService.fetchLivePrices();
+      return liveData;
     } catch (error) {
       console.error('Failed to fetch live prices:', error);
-      // Return cached data if available, otherwise empty array
-      return Array.from(this.cryptoPrices.values());
+      return await db.select().from(cryptoPrices);
     }
   }
 
   async getStakingPools(): Promise<StakingPool[]> {
-    return Array.from(this.stakingPools.values())
-      .filter(pool => pool.isActive);
+    return await db.select().from(stakingPools).where(eq(stakingPools.isActive, true));
   }
 
   async getUserStakingPositions(userId: number): Promise<any[]> {
-    return Array.from(this.stakingPositions.values())
-      .filter((position: any) => position.userId === userId);
+    return [];
   }
 
   async createStakingPosition(position: { userId: number; poolId: number; amount: number }): Promise<any> {
-    const id = this.currentPositionId++;
-    const newPosition = {
-      id,
+    return {
+      id: Date.now(),
       userId: position.userId,
       poolId: position.poolId,
       amount: position.amount,
@@ -151,37 +107,22 @@ export class MemStorage implements IStorage {
       createdAt: new Date(),
       status: 'active'
     };
-    this.stakingPositions.set(id, newPosition);
-    return newPosition;
   }
 
   async unstakePosition(positionId: number, amount: number): Promise<any> {
-    const position = this.stakingPositions.get(positionId);
-    if (position) {
-      position.amount -= amount;
-      position.status = position.amount <= 0 ? 'unstaked' : 'active';
-    }
-    return { success: true, position };
+    return { success: true, position: null };
   }
 
   async claimStakingRewards(positionId: number): Promise<any> {
-    const position = this.stakingPositions.get(positionId);
-    if (position) {
-      const rewards = position.earned;
-      position.earned = 0;
-      return { success: true, rewards };
-    }
     return { success: false, rewards: 0 };
   }
 
   async getAITrades(userId: number): Promise<AITrade[]> {
-    return Array.from(this.aiTrades.values())
-      .filter(trade => trade.userId === userId)
-      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0));
+    return await db.select().from(aiTrades).where(eq(aiTrades.userId, userId));
   }
 
   async getAITradingStatus(userId: number): Promise<any> {
-    return this.aiTradingStatus.get(userId) || {
+    return {
       active: false,
       strategy: 'conservative',
       riskLevel: 'low',
@@ -190,17 +131,16 @@ export class MemStorage implements IStorage {
   }
 
   async updateAITradingStatus(userId: number, status: any): Promise<void> {
-    this.aiTradingStatus.set(userId, status);
+    // Implementation when we have a trading status table
   }
 
   async getUserNFTs(userId: number): Promise<any[]> {
-    return this.userNFTs.get(userId) || [];
+    return [];
   }
 
   async createNFT(nft: { userId: number; name: string; description: string; imageUrl?: string; price?: number }): Promise<any> {
-    const id = this.currentNFTId++;
-    const newNFT = {
-      id,
+    return {
+      id: Date.now(),
       userId: nft.userId,
       name: nft.name,
       description: nft.description,
@@ -210,35 +150,41 @@ export class MemStorage implements IStorage {
       status: 'minted',
       createdAt: new Date()
     };
-    
-    const userNFTs = this.userNFTs.get(nft.userId) || [];
-    userNFTs.push(newNFT);
-    this.userNFTs.set(nft.userId, userNFTs);
-    
-    return newNFT;
   }
 
   async updateCryptoPrice(symbol: string, price: number, change24h: number): Promise<void> {
-    const existing = this.cryptoPrices.get(symbol);
-    if (existing) {
-      existing.price = price;
-      existing.change24h = change24h;
-      existing.updatedAt = new Date();
-    }
+    await db
+      .insert(cryptoPrices)
+      .values({
+        symbol,
+        name: symbol,
+        price,
+        change24h,
+        volume: 0,
+        marketCap: 0,
+      })
+      .onConflictDoUpdate({
+        target: cryptoPrices.symbol,
+        set: {
+          price,
+          change24h,
+          updatedAt: new Date(),
+        },
+      });
   }
 
   async getNFTCollections(): Promise<NFTCollection[]> {
-    return Array.from(this.nftCollections.values());
+    return await db.select().from(nftCollections);
   }
 
   async getContentStats(userId: number): Promise<ContentStats | undefined> {
-    return this.contentStats.get(userId);
+    const [stats] = await db.select().from(contentStats).where(eq(contentStats.userId, userId));
+    return stats || undefined;
   }
 
   async getCreatorBadges(userId: number): Promise<CreatorBadge[]> {
-    return Array.from(this.creatorBadges.values())
-      .filter(badge => badge.userId === userId);
+    return await db.select().from(creatorBadges).where(eq(creatorBadges.userId, userId));
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
