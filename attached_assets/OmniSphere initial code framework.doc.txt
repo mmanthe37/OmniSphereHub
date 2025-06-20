@@ -1,4 +1,3 @@
-
 OmniSphere Project Structure
 
 Frontend Structure
@@ -328,4 +327,3 @@ router.use('/pool', poolRoutes);
 router.use('/agent', agentRoutes);
 
 export default router;
-

@@ -36,10 +36,10 @@ Terminal
 
 Terminal
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create onchain@latest
-```
+\`\`\`
 
 After the prompts, `create onchain` will create a folder with your project name and install the required dependencies.
 
@@ -239,10 +239,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create astro@latest
-```
+\`\`\`
 
 ## Install React
 
@@ -253,10 +253,10 @@ Terminal
 
 Terminal
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpx astro add react
-```
+\`\`\`
 
 ## Install OnchainKit
 
@@ -268,10 +268,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 ## Get A Client API Key
 
@@ -289,10 +289,10 @@ File
 
 .env
 
-```vocs_Code
+\`\`\`vocs_Code
 
 CopyPUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
-```
+\`\`\`
 
 ## Add Providers
 
@@ -306,7 +306,7 @@ File
 
 providers.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy'use client';
 
@@ -324,7 +324,7 @@ export function Providers(props: { children: ReactNode }) {
     </OnchainKitProvider>
   );
 }
-```
+\`\`\`
 
 ## Wrap your OnchainKit components with `<AppProviders />`
 
@@ -340,7 +340,7 @@ ReactIslandOnchainKit Wrappers
 
 ReactIsland
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { AppProviders } from '../AppProviders';
 
@@ -351,7 +351,7 @@ export default function ReactIsland() {
     </AppProviders>
   );
 }
-```
+\`\`\`
 
 The advantage of ReactIsland is that you will only have a single provider at any time.
 The drawback is that your OnchainKit components will all need to live in the same Island.
@@ -371,7 +371,7 @@ File
 
 src/pages/index.astro
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy---
 import Layout from '../layouts/Layout.astro';
@@ -385,7 +385,7 @@ import ReactIsland from '../components/ReactIsland';
     ...
 	</main>
 </Layout>
-```
+\`\`\`
 
 Don't forget to add the `client:only="react"` directive to your OnchainKit component,
 as this is required for Astro to render React components.
@@ -396,10 +396,10 @@ OnchainKit components come with pre-configured styles.
 To include these styles in your project, add the following import
 statement at the top of the `Layout.astro` file:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport '@coinbase/onchainkit/styles.css';
-```
+\`\`\`
 
 This ensures that the OnchainKit styles are loaded and applied to your entire application.
 
@@ -450,10 +450,10 @@ Terminal
 
 Terminal
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpx create-remix@latest
-```
+\`\`\`
 
 ## Install OnchainKit
 
@@ -465,10 +465,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 ## Get A Client API Key
 
@@ -486,10 +486,10 @@ File
 
 .env
 
-```vocs_Code
+\`\`\`vocs_Code
 
 CopyPUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
-```
+\`\`\`
 
 Update the `app/root.tsx` file to provide access to your Client API Key
 through `window.ENV`:
@@ -498,7 +498,7 @@ File
 
 app/root.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copydeclare global {
   interface Window {
@@ -515,7 +515,7 @@ export async function loader() {
     },
   });
 }
-```
+\`\`\`
 
 If this is the first env variable you've added to your project, you will need to
 update the `Layout` component of `app/root.tsx` to make it available to your app:
@@ -524,7 +524,7 @@ File
 
 app/root.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport function Layout({ children }: { children: React.ReactNode }) {
   const data = useLoaderData<typeof loader>();
@@ -551,7 +551,7 @@ Copyexport function Layout({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
-```
+\`\`\`
 
 ## Add Providers
 
@@ -565,7 +565,7 @@ File
 
 providers.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy'use client';
 
@@ -587,7 +587,7 @@ export function Providers(props: { children: ReactNode }) {
     </OnchainKitProvider>
   );
 }
-```
+\`\`\`
 
 ## Wrap your app with `<AppProviders />`
 
@@ -598,7 +598,7 @@ File
 
 app.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { AppProviders } from 'src/AppProviders';
 
@@ -609,7 +609,7 @@ export default function App() {
     </AppProviders>
   );
 }
-```
+\`\`\`
 
 ## Import OnchainKit Styles
 
@@ -621,7 +621,7 @@ File
 
 app.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { AppProviders } from 'src/AppProviders';
 import '@coinbase/onchainkit/styles.css';
@@ -633,7 +633,7 @@ export default function App() {
     </AppProviders>
   );
 }
-```
+\`\`\`
 
 This ensures that the OnchainKit styles are loaded and applied to your entire application.
 
@@ -702,10 +702,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpx create-next-app@14
-```
+\`\`\`
 
 During the setup process you will encounter multiple prompts.
 Make sure you enable TypeScript, ESLint, and Tailwind CSS.
@@ -720,10 +720,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 ## Get Your Client API Key
 
@@ -741,10 +741,10 @@ File
 
 .env
 
-```vocs_Code
+\`\`\`vocs_Code
 
 CopyNEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY;
-```
+\`\`\`
 
 ## Add Providers
 
@@ -758,7 +758,7 @@ File
 
 providers.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy'use client';
 
@@ -776,7 +776,7 @@ export function Providers(props: { children: ReactNode }) {
     </OnchainKitProvider>
   );
 }
-```
+\`\`\`
 
 ## Wrap your app with `<Providers />`
 
@@ -786,7 +786,7 @@ File
 
 app.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport './globals.css';
 import { Providers } from './providers';
@@ -806,16 +806,16 @@ export default function RootLayout({
     </html>
   );
 }
-```
+\`\`\`
 
 ## Add Styles
 
 OnchainKit components come with pre-configured styles. To include these styles in your project, add the following import statement at the top of this file:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport '@coinbase/onchainkit/styles.css';
-```
+\`\`\`
 
 For example, if you're using Next.js with the app router, your `app/layout.tsx` might look like this:
 
@@ -823,7 +823,7 @@ File
 
 layout.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport '@coinbase/onchainkit/styles.css';
 import './globals.css';
@@ -856,7 +856,7 @@ export default function RootLayout(props: { children: ReactNode }) {
     </html>
   );
 }
-```
+\`\`\`
 
 This ensures that the OnchainKit styles are loaded and applied to your entire application.
 
@@ -927,10 +927,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create vite@latest
-```
+\`\`\`
 
 During the setup process you will encounter multiple prompts.
 Make sure you select React and TypeScript.
@@ -945,10 +945,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 ## Get A Client API Key
 
@@ -966,10 +966,10 @@ File
 
 .env
 
-```vocs_Code
+\`\`\`vocs_Code
 
 CopyVITE_PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
-```
+\`\`\`
 
 ## Add Providers
 
@@ -983,7 +983,7 @@ File
 
 providers.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy'use client';
 
@@ -1001,7 +1001,7 @@ export function Providers(props: { children: ReactNode }) {
     </OnchainKitProvider>
   );
 }
-```
+\`\`\`
 
 ## Wrap your app with `<AppProviders />`
 
@@ -1012,7 +1012,7 @@ File
 
 app.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { AppProviders } from 'src/AppProviders';
 
@@ -1023,7 +1023,7 @@ export default function App() {
     </AppProviders>
   );
 }
-```
+\`\`\`
 
 ## Import OnchainKit Styles
 
@@ -1035,7 +1035,7 @@ File
 
 app.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { AppProviders } from 'src/AppProviders';
 import '@coinbase/onchainkit/styles.css';
@@ -1047,7 +1047,7 @@ export default function App() {
     </AppProviders>
   );
 }
-```
+\`\`\`
 
 This ensures that the OnchainKit styles are loaded and applied to your entire application.
 
@@ -1178,7 +1178,7 @@ Use the [`<Avatar>`](https://docs.base.org/builderkits/onchainkit/identity/avata
 
 The `chain` prop is optional and setting to Base, it's what makes the components switch from ENS to Basenames.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Name } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -1188,7 +1188,7 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 // omitted component code for brevity
 <Avatar address={address} chain={base} />
 <Name address={address} chain={base} />
-```
+\`\`\`
 
 ![zizzamia.base.eth](https://ipfs.io/ipfs/bafybeidftkt56cfyrew4xgznhaqp7k3h56hybkvb3kkb6ve3xap6qvq2hm)
 
@@ -1204,7 +1204,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useAvatar, useName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -1213,7 +1213,7 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const basename = 'zizzamia.base.eth';
 const { data: avatar, isLoading: avatarIsLoading } = await useAvatar({ ensName: basename, chain: base });
 const { data: name, isLoading: nameIsLoading } = await useName({ address, chain: base });
-```
+\`\`\`
 
 ## Typescript utility with `getAvatar` and `getName`
 
@@ -1225,7 +1225,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAvatar, getName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -1234,7 +1234,7 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const basename = 'zizzamia.base.eth';
 const avatar = await getAvatar({ ensName: basename, chain: base });
 const name = await getName({ address, chain: base });
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -1280,10 +1280,10 @@ This guide covers common issues you may encounter while using OnchainKit. If you
   - Error: "Project ID is required for this component"
   - Solution: Add your Client API Key to `.env`:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 CopyNEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
-```
+\`\`\`
 
 - **Invalid Environment Variables**  - Error: "Cannot find environment variable"
   - Solution: Use the correct variable name for your framework:
@@ -1298,10 +1298,10 @@ CopyNEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
 
 
 
-      ```vocs_Code
+      \`\`\`vocs_Code
 
       CopyNEXT_PUBLIC_COINBASE_COMMERCE_API_KEY=YOUR_COMMERCE_API_KEY
-      ```
+      \`\`\`
 
     - Ensure API keys are properly exposed in your environment
 
@@ -1313,7 +1313,7 @@ CopyNEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
 
 
 
-    ```vocs_Code
+    \`\`\`vocs_Code
 
     Copy{
       "dependencies": {
@@ -1322,7 +1322,7 @@ CopyNEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
         "@wagmi/core": "^2.0.0"
       }
     }
-    ```
+    \`\`\`
 
 ### Provider Configuration
 
@@ -1331,7 +1331,7 @@ CopyNEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
   - Error: "OnchainKit context not found"
   - Solution: Wrap your app with OnchainKitProvider and [configure](https://docs.base.org/builderkits/onchainkit/getting-started) properly:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { OnchainKitProvider } from '@coinbase/onchainkit';
 import { base } from 'viem/chains';
@@ -1346,7 +1346,7 @@ export default function App({ children }) {
     </OnchainKitProvider>
   );
 }
-```
+\`\`\`
 
 ### Wallet Connection
 
@@ -1380,7 +1380,7 @@ export default function App({ children }) {
   - Error: "Dark mode styles not applying"
   - Solution: Configure Tailwind and OnchainKit properly:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// tailwind.config.js
 module.exports = {
@@ -1388,7 +1388,7 @@ module.exports = {
   safelist: ['dark'],
   // ... rest of config
 }
-```
+\`\`\`
 
 ### React Native
 
@@ -1465,7 +1465,7 @@ OnchainKit offers multiple themes to quickly style your components. Set the them
 
 If no theme is selected, the **`default`** theme is applied automatically.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
@@ -1477,7 +1477,7 @@ Copy<OnchainKitProvider
     },
   }}
 >
-```
+\`\`\`
 
 ## Mode
 
@@ -1489,7 +1489,7 @@ Control the color scheme by setting the `config.appearance.mode` property of the
 
 If no mode is specified, `auto` mode will be applied by default.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
@@ -1501,14 +1501,14 @@ Copy<OnchainKitProvider
     },
   }}
 >
-```
+\`\`\`
 
 ## CSS Overrides
 
 Fine-tune specific aspects of an existing theme.
 This is useful when you want to make adjustments to the appearance of the components without creating an entirely new theme.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy@layer base {
   :root
@@ -1523,7 +1523,7 @@ Copy@layer base {
     --ock-text-primary: 'your-custom-value';
   }
 }
-```
+\`\`\`
 
 ## Custom Theme
 
@@ -1536,7 +1536,7 @@ This gives you complete control over all aspects of the design, including colors
 
 - To automatically switch between light and dark versions of your custom theme:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
@@ -1548,13 +1548,13 @@ Copy<OnchainKitProvider
     },
   }}
 >
-```
+\`\`\`
 
 ##### Single Theme Version:
 
 - To use only one version of your custom theme at all times:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
@@ -1566,14 +1566,14 @@ Copy<OnchainKitProvider
     },
   }}
 >
-```
+\`\`\`
 
 ##### Defining a custom theme
 
 Use CSS variables to define your custom theme.
 The class name definitions must include the `-light` or `-dark` suffix.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy@layer base {
   .custom-light {
@@ -1635,7 +1635,7 @@ Copy@layer base {
     /* Define dark mode custom classes here */
   }
 }
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -1699,7 +1699,7 @@ Telemetry is integrated directly into each applicable component via our new `sen
 
 For example, a telemetry event might be sent as follows:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copycurl -X POST https://api.developer.coinbase.com/rpc/analytics \
   -H "Content-Type: application/json" \
@@ -1716,13 +1716,13 @@ Copycurl -X POST https://api.developer.coinbase.com/rpc/analytics \
       "sponsored": true
     }
   }'
-```
+\`\`\`
 
 ### How Do I Opt Out?
 
 By default, telemetry is opt‑out starting with version 0.37.0. If you'd like to disable telemetry, simply set the `analytics` flag to `false` in your OnchainKit configuration:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport function Providers(props: { children: ReactNode }) {
   return (
@@ -1737,7 +1737,7 @@ Copyexport function Providers(props: { children: ReactNode }) {
     </OnchainKitProvider>
   );
 }
-```
+\`\`\`
 
 You can also re‑enable analytics later by toggling this flag to `true`.
 
@@ -1787,16 +1787,16 @@ OnchainKit comes with first class support for `tailwindcss`.
 You can use the default styles without any customization.
 Just place this at the top of your application's entry point to have the components work out of the box.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport '@coinbase/onchainkit/styles.css';
-```
+\`\`\`
 
 ### Tailwind CSS Config
 
 Depending on your dark mode setup, you may have to add `safelist: ['dark']` to your Tailwind config.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy/** @type {import('tailwindcss').Config} */
 export default {
@@ -1810,7 +1810,7 @@ export default {
   },
   plugins: [],
 };
-```
+\`\`\`
 
 ### Toggling light / dark mode
 
@@ -1822,7 +1822,7 @@ In OnchainKit, toggling color mode works by adding / removing class name `dark` 
 
 To override default colorscheme, you need to modify the following css variables:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy@tailwind base;
 
@@ -1876,7 +1876,7 @@ Copy@tailwind base;
     --ock-line-inverse: 'your-custom-value';
   }
 }
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -1918,16 +1918,16 @@ OnchainKit comes with first class support for `tailwindcss`.
 You can use the default styles without any customization.
 Just place this at the top of your application's entry point to have the components work out of the box.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport '@coinbase/onchainkit/styles.css';
-```
+\`\`\`
 
 ### Tailwind CSS Config
 
 Depending on your dark mode setup, you may have to add `safelist: ['dark']` to your Tailwind config.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy/** @type {import('tailwindcss').Config} */
 export default {
@@ -1941,7 +1941,7 @@ export default {
   },
   plugins: [],
 };
-```
+\`\`\`
 
 ### Toggling light / dark mode
 
@@ -1953,7 +1953,7 @@ In OnchainKit, toggling color mode works by adding / removing class name `dark` 
 
 To override default colorscheme, you need to modify the following css variables:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy@tailwind base;
 
@@ -2007,7 +2007,7 @@ Copy@tailwind base;
     --ock-line-inverse: 'your-custom-value';
   }
 }
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -2106,7 +2106,7 @@ OnchainKit Lifecycle Status allows you to manage the state of APIs and onchain t
 The Lifecycle Status is a TypeScript object that provides easy access to the `statusName` and `statusData` properties,
 allowing you to stay informed and responsive.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
 
@@ -2117,7 +2117,7 @@ const handleOnStatus = useCallback((status: LifecycleStatus) => {
 <Transaction onStatus={handleOnStatus}>
   // omitted component code for brevity
 </Transaction>
-```
+\`\`\`
 
 ## Lifecycle Status
 
@@ -2127,19 +2127,19 @@ The Lifecycle Status includes 3 states common to all components:
 
 The component is initialized and ready for use.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'init';
   statusData: null;
 }
-```
+\`\`\`
 
 ### `success`
 
 The component has successfully completed its main action, such as `swap` or `transaction`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'success';
@@ -2147,14 +2147,14 @@ Copy{
     // the data returned from the API or onchain operation
   };
 }
-```
+\`\`\`
 
 ### `error`
 
 The component has encountered an issue while fetching API data, executing an onchain operation,
 or needs to display a visual message to the user.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'error';
@@ -2164,7 +2164,7 @@ Copy{
     message: string; // The error message providing user-facing details
   };
 }
-```
+\`\`\`
 
 Each component brings its own unique experience, and we have explored both the swap and transaction processes.
 
@@ -2174,7 +2174,7 @@ Each component brings its own unique experience, and we have explored both the s
 
 Any of the Swap Input fields have been updated.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'amountChange';
@@ -2186,27 +2186,27 @@ Copy{
     isMissingRequiredField: boolean;
   };
 }
-```
+\`\`\`
 
 ### `transactionPending`
 
 The transaction has been submitted to the network but has not yet been confirmed to be included in a block.
 During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'transactionPending';
   statusData: null;
 }
-```
+\`\`\`
 
 ### `transactionApproved`
 
 The transaction has been verified to be valid and it has been included in a block
 however the transaction is not yet finalized.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'transactionApproved';
@@ -2215,13 +2215,13 @@ Copy{
     transactionType: 'Batched' | 'ERC20' | 'Permit2' | 'Swap';
   };
 }
-```
+\`\`\`
 
 ### `success`
 
 The transaction has been added to the blockchain and the transaction is considered final.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'success';
@@ -2229,7 +2229,7 @@ Copy{
     transactionReceipt: TransactionReceipt;
   };
 }
-```
+\`\`\`
 
 ## Lifecycle Status with [`<Transaction />`](https://docs.base.org/builderkits/onchainkit/transaction/transaction)
 
@@ -2237,32 +2237,32 @@ Copy{
 
 The transaction component is waiting for the user to take action.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'transactionIdle';
   statusData: null;
 }
-```
+\`\`\`
 
 ### `transactionPending`
 
 The transaction has been submitted to the network but has not yet been confirmed to be included in a block.
 During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'transactionPending';
   statusData: null;
 }
-```
+\`\`\`
 
 ### `success`
 
 The transaction has been added to the blockchain and the transaction is considered final.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   statusName: 'success';
@@ -2270,7 +2270,7 @@ Copy{
     transactionReceipts: TransactionReceipt[];
   };
 }
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -2292,7 +2292,7 @@ The `buildDepositToMorphoTx` function is used to build [Calls](https://docs.base
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { buildDepositToMorphoTx } from '@coinbase/onchainkit/earn';
 
@@ -2302,7 +2302,7 @@ const calls = await buildDepositToMorphoTx({
   amount: 1000000000000000000n, // Amount of tokens to deposit
   recipientAddress: '0x...', // Address of the recipient
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -2336,7 +2336,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { buildMintTransaction } from '@coinbase/onchainkit/api';
@@ -2348,7 +2348,7 @@ const response = await buildMintTransaction({
   quantity: 1,
   network: 'networks/base-mainnet',
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -2387,7 +2387,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { buildSwapTransaction } from '@coinbase/onchainkit/api';
@@ -2421,7 +2421,7 @@ const response = await buildSwapTransaction({
   amount: '0.1',
   useAggregator: false,
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -2452,7 +2452,7 @@ Chevron Right
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type LifecycleStatus =
   | {
@@ -2476,11 +2476,11 @@ Copyexport type LifecycleStatus =
           | 'error';
       }
     >;
-```
+\`\`\`
 
 ## `EarnReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnReact = {
   children?: React.ReactNode;
@@ -2488,22 +2488,22 @@ Copyexport type EarnReact = {
   vaultAddress: Address;
   isSponsored?: boolean;
 };
-```
+\`\`\`
 
 ## `EarnProviderReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnProviderReact = {
   children: React.ReactNode;
   vaultAddress: Address;
   isSponsored?: boolean;
 };
-```
+\`\`\`
 
 ## `EarnContextType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnContextType = {
   /** Warns users if vault address is invalid */
@@ -2550,11 +2550,11 @@ Copyexport type EarnContextType = {
     status: LifecycleStatusUpdate<LifecycleStatus>,
   ) => void;
 };
-```
+\`\`\`
 
 ## `EarnAmountInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnAmountInputReact = {
   className?: string;
@@ -2563,29 +2563,29 @@ Copyexport type EarnAmountInputReact = {
   disabled?: boolean;
   'aria-label'?: string;
 };
-```
+\`\`\`
 
 ## `DepositAmountInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositAmountInputReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `WithdrawAmountInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawAmountInputReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnBalanceReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnBalanceReact = {
   className?: string;
@@ -2594,76 +2594,76 @@ Copyexport type EarnBalanceReact = {
   subtitle: string;
   showAction?: boolean;
 };
-```
+\`\`\`
 
 ## `DepositBalanceReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositBalanceReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `WithdrawBalanceReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawBalanceReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnDepositReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnDepositReact = {
   children?: React.ReactNode;
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnWithdrawReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnWithdrawReact = {
   children?: React.ReactNode;
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnDetailsReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnDetailsReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `DepositButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositButtonReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `WithdrawButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawButtonReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `DepositToMorphoParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositToMorphoParams = {
   /** The address of the Morpho vault */
@@ -2675,11 +2675,11 @@ Copyexport type DepositToMorphoParams = {
   /** The address which can withdraw the deposited tokens */
   recipientAddress: Address;
 };
-```
+\`\`\`
 
 ## `WithdrawFromMorphoParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawFromMorphoParams = {
   /** The address of the Morpho vault */
@@ -2689,22 +2689,22 @@ Copyexport type WithdrawFromMorphoParams = {
   /** The address to which the withdrawn funds will be sent */
   recipientAddress: Address;
 };
-```
+\`\`\`
 
 ## `UseBuildDepositToMorphoTxParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseBuildDepositToMorphoTxParams = {
   vaultAddress: Address;
   recipientAddress?: Address;
   amount: string;
 };
-```
+\`\`\`
 
 ## `UseBuildWithdrawFromMorphoTxParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseBuildWithdrawFromMorphoTxParams = {
   vaultAddress: Address;
@@ -2712,21 +2712,21 @@ Copyexport type UseBuildWithdrawFromMorphoTxParams = {
   amount: string;
   tokenDecimals: number | undefined;
 };
-```
+\`\`\`
 
 ## `UseMorphoVaultParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseMorphoVaultParams = {
   vaultAddress: Address;
   recipientAddress?: Address;
 };
-```
+\`\`\`
 
 ## `UseMorphoVaultReturnType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseMorphoVaultReturnType = {
   vaultName: string | undefined;
@@ -2764,7 +2764,7 @@ Copyexport type UseMorphoVaultReturnType = {
   /** Total liquidity available to borrow in the vault */
   liquidity: string | undefined;
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -2805,7 +2805,7 @@ The `buildWithdrawFromMorphoTx` function is used to build [Calls](https://docs.b
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { buildWithdrawFromMorphoTx } from '@coinbase/onchainkit/earn';
 
@@ -2814,7 +2814,7 @@ const calls = await buildWithdrawFromMorphoTx({
   amount: 1000000000000000000n, // Amount of tokens to withdraw
   recipientAddress: '0x...', // Address of the recipient
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -2867,7 +2867,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getMintDetails } from '@coinbase/onchainkit/api';
@@ -2877,7 +2877,7 @@ const response = await getMintDetails({
   takerAddress: '0x...',
   tokenId: '1',
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -2936,7 +2936,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getPortfolios } from '@coinbase/onchainkit/api';
@@ -2944,7 +2944,7 @@ import { getPortfolios } from '@coinbase/onchainkit/api';
 const response = await getPortfolios({
   addresses: ['0x...'],
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -2979,7 +2979,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getSwapQuote } from '@coinbase/onchainkit/api';
@@ -3012,7 +3012,7 @@ const quote = await getSwapQuote({
   amount: '0.001',
   useAggregator: false,
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -3052,7 +3052,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokenDetails } from '@coinbase/onchainkit/api';
@@ -3061,7 +3061,7 @@ const response = await getTokenDetails({
   contractAddress: '0x...',
   tokenId: '1',
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -3103,7 +3103,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/api';
@@ -3111,7 +3111,7 @@ import { getTokens } from '@coinbase/onchainkit/api';
 setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
 const tokens = await getTokens({ limit: '1', search: 'degen' });
-```
+\`\`\`
 
 Search by name
 
@@ -3119,7 +3119,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/api';
@@ -3127,7 +3127,7 @@ import { getTokens } from '@coinbase/onchainkit/api';
 setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
 
 const tokens = await getTokens({ limit: '1', search: 'Wrapped Ether' });
-```
+\`\`\`
 
 Search by address
 
@@ -3135,7 +3135,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setOnchainKitConfig } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/api';
@@ -3146,7 +3146,7 @@ const tokens = await getTokens({
   limit: '1',
   search: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -3178,36 +3178,36 @@ Chevron Right
 
 ## `APIError`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype APIError = {
   code: string; // The Error code
   error: string; // The Error long message
   message: string; // The Error short message
 };
-```
+\`\`\`
 
 ## `BuildPayTransactionParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BuildPayTransactionParams = {
   address: Address; // The address of the wallet paying
   chainId: number; // The Chain ID of the payment Network (only Base is supported)
   chargeId: string; // The ID of the Commerce Charge to be paid
 };
-```
+\`\`\`
 
 ## `BuildPayTransactionResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BuildPayTransactionResponse = PayTransaction | APIError;
-```
+\`\`\`
 
 ## `BuildSwapTransaction`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BuildSwapTransaction = {
   approveTransaction?: Transaction; // ERC20 approve transaction which allows token holders to authorize spending
@@ -3216,27 +3216,27 @@ Copytype BuildSwapTransaction = {
   transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
   warning?: QuoteWarning; // The warning associated with the swap
 };
-```
+\`\`\`
 
 ## `BuildSwapTransactionParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BuildSwapTransactionParams = GetSwapQuoteParams & {
   fromAddress: Address; // The address of the user
 };
-```
+\`\`\`
 
 ## `BuildSwapTransactionResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
-```
+\`\`\`
 
 ## `GetSwapQuoteParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetSwapQuoteParams = {
   amount: string; // The amount to be swapped
@@ -3247,71 +3247,71 @@ Copytype GetSwapQuoteParams = {
   to: Token; // The destination token for the swap
   useAggregator: boolean; // Whether to use a DEX aggregator
 };
-```
+\`\`\`
 
 ## `GetSwapQuoteResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetSwapQuoteResponse = SwapQuote | APIError;
-```
+\`\`\`
 
 ## `GetTokensOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetTokensOptions = {
   limit?: string; // The maximum number of tokens to return (default: 50)
   page?: string; // The page number to return (default: 1)
   search?: string; // A string to search for in the token name, symbol or address
 };
-```
+\`\`\`
 
 ## `GetTokensResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetTokensResponse = Token[] | APIError;
-```
+\`\`\`
 
 ## `GetTokenDetailsParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetTokenDetailsParams = {
   contractAddress: Address;
   tokenId?: string;
 };
-```
+\`\`\`
 
 ## `GetTokenDetailsResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetTokenDetailsResponse = TokenDetails | APIError;
-```
+\`\`\`
 
 ## `GetMintDetailsParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetMintDetailsParams = {
   contractAddress: Address;
   takerAddress?: Address;
   tokenId?: string;
 };
-```
+\`\`\`
 
 ## `GetMintDetailsResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetMintDetailsResponse = MintDetails | APIError;
-```
+\`\`\`
 
 ## `BuildMintTransactionParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BuildMintTransactionParams = {
   mintAddress: Address;
@@ -3320,32 +3320,32 @@ Copytype BuildMintTransactionParams = {
   quantity: number;
   network?: string;
 };
-```
+\`\`\`
 
 ## `BuildMintTransactionResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BuildMintTransactionResponse = MintTransaction | APIError;
-```
+\`\`\`
 
 ## `GetPortfoliosParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetPortfoliosParams = {
   addresses: Address[] | null | undefined;
 };
-```
+\`\`\`
 
 ## `GetPortfoliosResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetPortfoliosResponse = {
   portfolios: Portfolio[];
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -3372,10 +3372,10 @@ Before using the `AppchainBridge` component, ensure you've completed the [Gettin
 
 If you're starting a new project, we recommend using `create onchain` to scaffold your project.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create onchain@latest
-```
+\`\`\`
 
 ### Adding to an existing project
 
@@ -3387,10 +3387,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](https://docs.base.org/builderkits/onchainkit/installation/nextjs#add-providers).
 
@@ -3408,7 +3408,7 @@ File
 
 chain.ts
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { defineChain } from 'viem';
 
@@ -3426,11 +3426,11 @@ export const EXAMPLE_CHAIN = defineChain({
     },
   },
 });
-```
+\`\`\`
 
 Use the custom chain to create an `Appchain` object. You can also render an icon in the UI using the `icon` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { Appchain } from '@coinbase/onchainkit/appchain';
 
@@ -3438,17 +3438,17 @@ const EXAMPLE_APPCHAIN: Appchain = {
   chain: EXAMPLE_CHAIN,
   icon: <img src="https://some-icon.com/icon.png" alt="Your Appchain Network" />,
 };
-```
+\`\`\`
 
 Now, you can render the `AppchainBridge` component with the `chain` and `appchain` props.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { AppchainBridge } from '@coinbase/onchainkit/appchain';
 import { baseSepolia } from 'viem/chains';
 
 <AppchainBridge chain={baseSepolia} appchain={EXAMPLE_APPCHAIN} />
-```
+\`\`\`
 
 ## Custom bridgeable tokens
 
@@ -3456,7 +3456,7 @@ By default, the bridgeable token is only native ETH. You can customize the bridg
 
 Let's add a custom "Appchain Token" to the bridgeable tokens array.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { BridgeableToken } from '@coinbase/onchainkit/appchain';
 
@@ -3480,11 +3480,11 @@ const customBridgeableTokens: BridgeableToken[] = [\
     image: 'https://some-icon.com/icon.png',\
   },\
 ];
-```
+\`\`\`
 
 You can then plug the `customBridgeableTokens` into the `AppchainBridge` component with the `bridgeableTokens` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { AppchainBridge } from '@coinbase/onchainkit/appchain';
 import { baseSepolia } from 'viem/chains';
@@ -3494,13 +3494,13 @@ import { baseSepolia } from 'viem/chains';
   appchain={SANDBOX_APPCHAIN}
   bridgeableTokens={customBridgeableTokens}
 />
-```
+\`\`\`
 
 ### Chains with custom gas tokens
 
 For chains that use custom gas tokens, simply set the `isCustomGasToken` field to `true` on the custom gas token for your bridgeable token.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { BridgeableToken } from '@coinbase/onchainkit/appchain';
 
@@ -3516,7 +3516,7 @@ const customGasToken: BridgeableToken[] = [\
     isCustomGasToken: true,\
   },\
 ];
-```
+\`\`\`
 
 ### Fetching price for custom tokens
 
@@ -3526,12 +3526,12 @@ To fetch the price of custom ERC-20 tokens, you can override the `handleFetchPri
 
 The function must match the following signature:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy(amount: string, token: Token) => Promise<string>;
-```
+\`\`\`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy
 import { AppchainBridge } from '@coinbase/onchainkit/appchain';
@@ -3549,7 +3549,7 @@ const handleFetchPrice = async (amount: string, token: Token) => {
   bridgeableTokens={customBridgeableTokens}
   handleFetchPrice={handleFetchPrice}
 />
-```
+\`\`\`
 
 ## Components
 
@@ -3599,7 +3599,7 @@ Chevron Right
 
 ## `Appchain`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type Appchain = {
   /** The chain to bridge to. */
@@ -3607,11 +3607,11 @@ Copyexport type Appchain = {
   /** Optional icon to display for the appchain. */
   icon?: React.ReactNode;
 };
-```
+\`\`\`
 
 ## `AppchainBridgeReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type AppchainBridgeReact = {
   /** The source chain to bridge from. This should be Base or Base Sepolia. */
@@ -3629,11 +3629,11 @@ Copyexport type AppchainBridgeReact = {
   /** Optional function to implement fetching the price of the token. */
   handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
 };
-```
+\`\`\`
 
 ## `AppchainBridgeProviderReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type AppchainBridgeProviderReact = {
   children: ReactNode;
@@ -3642,11 +3642,11 @@ Copyexport type AppchainBridgeProviderReact = {
   bridgeableTokens?: BridgeableToken[];
   handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
 };
-```
+\`\`\`
 
 ## `AppchainBridgeContextType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type AppchainBridgeContextType = {
   // Configuration
@@ -3688,11 +3688,11 @@ Copyexport type AppchainBridgeContextType = {
   setResumeWithdrawalTxHash: (txHash: Hex) => void;
   setIsResumeTransactionModalOpen: (open: boolean) => void;
 };
-```
+\`\`\`
 
 ## `BridgeableToken`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type BridgeableToken = Token & {
   /** The address of the remote token on the appchain. */
@@ -3700,20 +3700,20 @@ Copyexport type BridgeableToken = Token & {
   /** Optional boolean to indicate if the chain uses a custom gas token */
   isCustomGasToken?: boolean;
 };
-```
+\`\`\`
 
 ## `ChainWithIcon`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type ChainWithIcon = Chain & {
   icon: React.ReactNode;
 };
-```
+\`\`\`
 
 ## `AppchainConfig`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type AppchainConfig = {
   chainId: number;
@@ -3728,22 +3728,22 @@ Copyexport type AppchainConfig = {
     optimismMintableERC20Factory: Address;
   };
 };
-```
+\`\`\`
 
 ## `AppchainBridgeSuccessReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type AppchainBridgeSuccessReact = {
   title?: string;
   primaryButtonLabel?: string;
   secondaryButtonLabel?: string;
 };
-```
+\`\`\`
 
 ## `BridgeParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type BridgeParams = {
   amount: string;
@@ -3751,59 +3751,59 @@ Copyexport type BridgeParams = {
   token: BridgeableToken;
   recipient?: Address;
 };
-```
+\`\`\`
 
 ## `ChainConfigParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type ChainConfigParams = {
   config: AppchainConfig;
   chain: Chain;
 };
-```
+\`\`\`
 
 ## `UseDepositParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseDepositParams = {
   config: AppchainConfig;
   from: Chain;
   bridgeParams: BridgeParams;
 };
-```
+\`\`\`
 
 ## `UseWithdrawParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseWithdrawParams = {
   config: AppchainConfig;
   chain: Chain;
   bridgeParams: BridgeParams;
 };
-```
+\`\`\`
 
 ## `UseDepositButtonParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseDepositButtonParams = {
   depositStatus: string;
   withdrawStatus: string;
   bridgeParams: BridgeParams;
 };
-```
+\`\`\`
 
 ## `UseWithdrawButtonParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseWithdrawButtonParams = {
   withdrawStatus: string;
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -3832,7 +3832,7 @@ Before using, ensure you've completed all [Getting Started steps](https://docs.b
 
 Example using `@coinbase/onchainkit/buy`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Buy } from '@coinbase/onchainkit/buy';
 import type { Token } from '@coinbase/onchainkit/token';
@@ -3852,7 +3852,7 @@ export default function BuyComponents() {
     <Buy toToken={degenToken} />
   )
 }
-```
+\`\`\`
 
 ![token-image](https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm)DEGEN
 
@@ -3871,7 +3871,7 @@ The contract used in our Swap API is Uniswap's [Universal Router](https://basesc
 
 Note that gas sponsorship will only work for Smart Wallets.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Buy } from '@coinbase/onchainkit/buy';
 import type { Token } from '@coinbase/onchainkit/token';
@@ -3891,7 +3891,7 @@ export default function BuyComponents() {
     <Buy toToken={degenToken} isSponsored />
   )
 }
-```
+\`\`\`
 
 ## Props
 
@@ -3933,10 +3933,10 @@ Before using the `Checkout` component, ensure you've completed the [Getting Star
 
 If you're starting a new project, we recommend using `create onchain` to scaffold your project.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create onchain@latest
-```
+\`\`\`
 
 ### Adding to an existing project
 
@@ -3948,10 +3948,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](https://docs.base.org/builderkits/onchainkit/getting-started#add-providers).
 
@@ -3971,7 +3971,7 @@ In the Coinbase Commerce dashboard, create a new product and copy the `productId
 
 ### Import the component
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Checkout, CheckoutButton, CheckoutStatus } from '@coinbase/onchainkit/checkout';
 
@@ -3979,7 +3979,7 @@ Copyimport { Checkout, CheckoutButton, CheckoutStatus } from '@coinbase/onchaink
   <CheckoutButton coinbaseBranded/> // set coinbaseBranded for branding
   <CheckoutStatus />
 </Checkout>
-```
+\`\`\`
 
 ### Option 2: Dynamic Charges
 
@@ -3999,7 +3999,7 @@ See [Using chargeHandler](https://docs.base.org/builderkits/onchainkit/checkout/
 
 ### Pass the chargeID into Checkout via the chargeHandler prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyconst chargeHandler = async () => {
   const response = await fetch('/createCharge', { method: 'POST' });
@@ -4010,7 +4010,7 @@ Copyconst chargeHandler = async () => {
 <Checkout chargeHandler={chargeHandler}>
   <CheckoutButton />
 </Checkout>
-```
+\`\`\`
 
 That's it! Start selling onchain with just a few lines of code.
 
@@ -4022,13 +4022,13 @@ That's it! Start selling onchain with just a few lines of code.
 
 You can create products on the Coinbase Commerce Portal and use them in the `Checkout` component through the `productId` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<Checkout productId='my-product-id'>
   <CheckoutButton />
 </Checkout>
 
-```
+\`\`\`
 
 Pay
 
@@ -4044,7 +4044,7 @@ File
 
 backend.ts
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// This backend endpoint should create a charge and return the response.
 app.post('/createCharge', async (req: Request, res: Response) => {
@@ -4067,7 +4067,7 @@ app.post('/createCharge', async (req: Request, res: Response) => {
 
   res.json(data);
 });
-```
+\`\`\`
 
 Note that `productId` and `chargeHandler` are mutually exclusive and only one can be provided as a prop to Checkout.
 
@@ -4084,7 +4084,7 @@ For non-idempotent actions, like order fulfillment, we recommend one of the foll
 1. ( **Recommended**) Check the status of the `chargeId` using the [Coinbase Commerce API](https://docs.cdp.coinbase.com/commerce-onchain/docs/web3-payments-faq#how-can-i-verify-if-a-charge-has-been-fully-paid).
 2. Set up a [Coinbase Commerce Webhook](https://docs.cdp.coinbase.com/commerce-onchain/docs/webhooks) which will notify you for successful payments.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { LifecycleStatus } from '@coinbase/onchainkit/checkout';
 
@@ -4111,7 +4111,7 @@ const statusHandler = async (status: LifecycleStatus) => {
   <CheckoutButton />
 </Checkout>
 
-```
+\`\`\`
 
 ### Viewing successful checkouts
 
@@ -4129,7 +4129,7 @@ File
 
 providers.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { OnchainKitProvider } from '@coinbase/onchainkit';
 
@@ -4145,7 +4145,7 @@ Copyimport { OnchainKitProvider } from '@coinbase/onchainkit';
     {children}
 </OnchainKitProvider>
 
-```
+\`\`\`
 
 ![Add name and logo](https://docs.base.org/images/onchainkit/commerce-4.png)
 
@@ -4153,13 +4153,13 @@ Copyimport { OnchainKitProvider } from '@coinbase/onchainkit';
 
 You can add Coinbase branding to the component by using the `coinbaseBranded` prop on `CheckoutButton`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<Checkout >
   <CheckoutButton coinbaseBranded/>
 </Checkout>
 
-```
+\`\`\`
 
 Pay
 
@@ -4167,13 +4167,13 @@ Pay
 
 You can disable the button using the `disabled` prop on `CheckoutButton`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<Checkout >
   <CheckoutButton disabled/>
 </Checkout>
 
-```
+\`\`\`
 
 Pay
 
@@ -4181,13 +4181,13 @@ Pay
 
 You can customize the button text using the `text` prop on `CheckoutButton`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<Checkout >
   <CheckoutButton text='Checkout with USDC'/>
 </Checkout>
 
-```
+\`\`\`
 
 Checkout with USDC
 
@@ -4195,13 +4195,13 @@ Checkout with USDC
 
 We recommend style customization by setting a custom [OnchainKit theme](https://docs.base.org/builderkits/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<Checkout >
   <CheckoutButton className='bg-[#EA580C]' />
 </Checkout>
 
-```
+\`\`\`
 
 Pay
 
@@ -4211,7 +4211,7 @@ Pay
 
 You can use our Checkout [`LifecycleStatus`](https://docs.base.org/builderkits/onchainkit/checkout/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { LifecycleStatus } from '@coinbase/onchainkit/checkout';
 
@@ -4232,7 +4232,7 @@ const statusHandler = (status: LifecycleStatus) => {
   <CheckoutButton />
 </Checkout>
 
-```
+\`\`\`
 
 ## Example use cases
 
@@ -4272,7 +4272,7 @@ Chevron Right
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype LifecycleStatus =
   | {
@@ -4306,11 +4306,11 @@ Copytype LifecycleStatus =
         receiptUrl: string;
       };
     };
-```
+\`\`\`
 
 ## `CheckoutButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype CheckoutButtonReact = {
   className?: string;
@@ -4319,11 +4319,11 @@ Copytype CheckoutButtonReact = {
   icon?: React.ReactNode;
   text?: string;
 };
-```
+\`\`\`
 
 ## `CheckoutReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype CheckoutReact = {
   chargeHandler?: () => Promise<string>;
@@ -4333,14 +4333,14 @@ Copytype CheckoutReact = {
   onStatus?: (status: LifecycleStatus) => void;
   productId?: string;
 };
-```
+\`\`\`
 
 ## `CheckoutStatusReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype CheckoutStatusReact = { className?: string };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -4365,7 +4365,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { isBase } from '@coinbase/onchainkit';
 
@@ -4377,7 +4377,7 @@ isBase({ chainId: 84532 }); // returns true
 
 // Ethereum (chain ID: 1)
 isBase({ chainId: 1 }); // returns false
-```
+\`\`\`
 
 ## Returns
 
@@ -4410,7 +4410,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { isEthereum } from '@coinbase/onchainkit';
 
@@ -4422,7 +4422,7 @@ isEthereum({ chainId: 11155111 }); // returns true
 
 // Base (chain ID: 8453)
 isEthereum({ chainId: 8453 }); // returns false
-```
+\`\`\`
 
 ## Returns
 
@@ -4453,7 +4453,7 @@ File
 
 app.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { base } from 'viem/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
@@ -4475,7 +4475,7 @@ const App = () => {
     </OnchainKitProvider>
   );
 };
-```
+\`\`\`
 
 ## Props
 
@@ -4609,7 +4609,7 @@ File
 
 wagmi.ts
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { http, cookieStorage, createConfig, createStorage } from 'wagmi';
 import { base } from 'wagmi/chains'; // add baseSepolia for testing
@@ -4640,7 +4640,7 @@ declare module 'wagmi' {
     config: ReturnType<typeof getConfig>;
   }
 }
-```
+\`\`\`
 
 # Start building!
 
@@ -4672,7 +4672,7 @@ Chevron Right
 
 ## `AppConfig`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype AppConfig = {
   appearance?: {
@@ -4683,31 +4683,31 @@ Copytype AppConfig = {
   };
   paymaster?: string | null; // Paymaster URL for gas sponsorship
 };
-```
+\`\`\`
 
 ## `isBaseOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype isBaseOptions = {
   chainId: number;
   isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
-```
+\`\`\`
 
 ## `isEthereumOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype isEthereumOptions = {
   chainId: number;
   isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
 };
-```
+\`\`\`
 
 ## `OnchainKitConfig`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnchainKitConfig = {
   address: Address | null; // Address is optional as we may not have an address for new users
@@ -4718,18 +4718,18 @@ Copytype OnchainKitConfig = {
   schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
   projectId: string | null; // ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support
 };
-```
+\`\`\`
 
 ## `OnchainKitContextType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnchainKitContextType = OnchainKitConfig;
-```
+\`\`\`
 
 ## `OnchainKitProviderReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnchainKitProviderReact = {
   address?: Address;
@@ -4741,7 +4741,7 @@ Copytype OnchainKitProviderReact = {
   schemaId?: EASSchemaUid;
   projectId?: string;
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -4768,10 +4768,10 @@ Before using the `Earn` component, ensure you've completed the [Getting Started]
 
 If you're starting a new project, we recommend using `create onchain` to scaffold your project.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create onchain@latest
-```
+\`\`\`
 
 ### Adding to an existing project
 
@@ -4783,10 +4783,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](https://docs.base.org/builderkits/onchainkit/getting-started#add-providers).
 
@@ -4794,12 +4794,12 @@ Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getti
 
 To use `Earn`, you'll need to provide a `vaultAddress` prop. A vault address can be obtained from Morpho's [Vaults page](https://app.morpho.org/base/earn).
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Earn } from '@coinbase/onchainkit/earn';
 
 <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" />
-```
+\`\`\`
 
 DepositWithdraw
 
@@ -4821,7 +4821,7 @@ Connect to deposit
 
 For instance, you can render the `EarnDeposit` component by itself within the `Earn` component, along with any other custom components you'd like to render.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
 
@@ -4830,7 +4830,7 @@ Copyimport { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
   <EarnDeposit />
   <div>Custom footer</div>
 </Earn>
-```
+\`\`\`
 
 Custom header
 
@@ -4848,7 +4848,7 @@ Custom footer
 
 For more granular control, you can also render lower level subcomponents within `EarnDeposit` and `EarnWithdraw`. These subcomponents accept `className` props to customize their styles.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Earn,
         EarnDeposit,
@@ -4865,7 +4865,7 @@ Copyimport { Earn,
     <DepositButton />
   </EarnDeposit>
 </Earn>
-```
+\`\`\`
 
 ![token-image](https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2)Spark USDC VaultInfo
 
@@ -4895,7 +4895,7 @@ File
 
 index.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Earn, useEarnContext } from '@coinbase/onchainkit/earn';
 import { CustomDepositButtons } from '@/custom-deposit-buttons';
@@ -4903,7 +4903,7 @@ import { CustomDepositButtons } from '@/custom-deposit-buttons';
   <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
       <CustomDepositButtons />
   </Earn>
-```
+\`\`\`
 
 ![token-image](https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2)Spark USDC VaultInfo
 
@@ -4921,21 +4921,21 @@ Taking advantage of the data and methods provided by `useEarnContext`, developer
 
 To sponsor transactions, you can use the `isSponsored` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" isSponsored />
-```
+\`\`\`
 
 Ensure that your `OnchainKitProvider` has a `paymaster` configured:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   config={{
     paymaster: process.env.PAYMASTER_ENDPOINT,
   }}
 >
-```
+\`\`\`
 
 ## Components
 
@@ -4997,7 +4997,7 @@ Chevron Right
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type LifecycleStatus =
   | {
@@ -5021,11 +5021,11 @@ Copyexport type LifecycleStatus =
           | 'error';
       }
     >;
-```
+\`\`\`
 
 ## `EarnReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnReact = {
   children?: React.ReactNode;
@@ -5033,22 +5033,22 @@ Copyexport type EarnReact = {
   vaultAddress: Address;
   isSponsored?: boolean;
 };
-```
+\`\`\`
 
 ## `EarnProviderReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnProviderReact = {
   children: React.ReactNode;
   vaultAddress: Address;
   isSponsored?: boolean;
 };
-```
+\`\`\`
 
 ## `EarnContextType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnContextType = {
   /** Warns users if vault address is invalid */
@@ -5095,11 +5095,11 @@ Copyexport type EarnContextType = {
     status: LifecycleStatusUpdate<LifecycleStatus>,
   ) => void;
 };
-```
+\`\`\`
 
 ## `EarnAmountInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnAmountInputReact = {
   className?: string;
@@ -5108,29 +5108,29 @@ Copyexport type EarnAmountInputReact = {
   disabled?: boolean;
   'aria-label'?: string;
 };
-```
+\`\`\`
 
 ## `DepositAmountInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositAmountInputReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `WithdrawAmountInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawAmountInputReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnBalanceReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnBalanceReact = {
   className?: string;
@@ -5139,76 +5139,76 @@ Copyexport type EarnBalanceReact = {
   subtitle: string;
   showAction?: boolean;
 };
-```
+\`\`\`
 
 ## `DepositBalanceReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositBalanceReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `WithdrawBalanceReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawBalanceReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnDepositReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnDepositReact = {
   children?: React.ReactNode;
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnWithdrawReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnWithdrawReact = {
   children?: React.ReactNode;
   className?: string;
 };
-```
+\`\`\`
 
 ## `EarnDetailsReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type EarnDetailsReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `DepositButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositButtonReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `WithdrawButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawButtonReact = {
   className?: string;
 };
-```
+\`\`\`
 
 ## `DepositToMorphoParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type DepositToMorphoParams = {
   /** The address of the Morpho vault */
@@ -5220,11 +5220,11 @@ Copyexport type DepositToMorphoParams = {
   /** The address which can withdraw the deposited tokens */
   recipientAddress: Address;
 };
-```
+\`\`\`
 
 ## `WithdrawFromMorphoParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WithdrawFromMorphoParams = {
   /** The address of the Morpho vault */
@@ -5234,22 +5234,22 @@ Copyexport type WithdrawFromMorphoParams = {
   /** The address to which the withdrawn funds will be sent */
   recipientAddress: Address;
 };
-```
+\`\`\`
 
 ## `UseBuildDepositToMorphoTxParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseBuildDepositToMorphoTxParams = {
   vaultAddress: Address;
   recipientAddress?: Address;
   amount: string;
 };
-```
+\`\`\`
 
 ## `UseBuildWithdrawFromMorphoTxParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseBuildWithdrawFromMorphoTxParams = {
   vaultAddress: Address;
@@ -5257,21 +5257,21 @@ Copyexport type UseBuildWithdrawFromMorphoTxParams = {
   amount: string;
   tokenDecimals: number | undefined;
 };
-```
+\`\`\`
 
 ## `UseMorphoVaultParams`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseMorphoVaultParams = {
   vaultAddress: Address;
   recipientAddress?: Address;
 };
-```
+\`\`\`
 
 ## `UseMorphoVaultReturnType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type UseMorphoVaultReturnType = {
   vaultName: string | undefined;
@@ -5309,7 +5309,7 @@ Copyexport type UseMorphoVaultReturnType = {
   /** Total liquidity available to borrow in the vault */
   liquidity: string | undefined;
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -5334,7 +5334,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { fetchOnrampConfig } from '@coinbase/onchainkit/fund';
 
@@ -5343,11 +5343,11 @@ const config = await fetchOnrampConfig();
 
 // When using without OnchainKitProvider or in non-React environment
 const config2 = await fetchOnrampConfig('your-api-key');
-```
+\`\`\`
 
 ## Parameters
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy/**
  * Optional API key for Coinbase Onramp. If not provided, the API key from
@@ -5355,7 +5355,7 @@ Copy/**
  * OnchainKitProvider or in a non-React environment.
  */
 apiKey?: string;
-```
+\`\`\`
 
 ## Returns
 
@@ -5386,7 +5386,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { fetchOnrampOptions } from '@coinbase/onchainkit/fund';
 
@@ -5395,11 +5395,11 @@ const options = await fetchOnrampOptions({
   subdivision: 'CA', // Required for US residents
   apiKey: 'your-api-key', //   Required when using without OnchainKitProvider or in non-React environment
 });
-```
+\`\`\`
 
 ## Parameters
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   /**
@@ -5421,7 +5421,7 @@ Copy{
    */
   apiKey?: string;
 }
-```
+\`\`\`
 
 ## Returns
 
@@ -5452,7 +5452,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { fetchOnrampQuote } from '@coinbase/onchainkit/fund';
 
@@ -5466,11 +5466,11 @@ const quote = await fetchOnrampQuote({
   subdivision: 'CA', // Required for US residents
   apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
 });
-```
+\`\`\`
 
 ## Parameters
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   /**
@@ -5522,7 +5522,7 @@ Copy{
    */
   apiKey?: string;
 }
-```
+\`\`\`
 
 ## Returns
 
@@ -5553,7 +5553,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { fetchOnrampTransactionStatus } from '@coinbase/onchainkit/fund';
 
@@ -5563,11 +5563,11 @@ const transactions = await fetchOnrampTransactionStatus({
   pageSize: '10',
   apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
 });
-```
+\`\`\`
 
 ## Parameters
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   /**
@@ -5586,7 +5586,7 @@ Copy{
    */
   apiKey?: string;
 }
-```
+\`\`\`
 
 ## Returns
 
@@ -5636,15 +5636,15 @@ File
 
 .env
 
-```vocs_Code
+\`\`\`vocs_Code
 
 CopyNEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
 NEXT_PUBLIC_CDP_PROJECT_ID=YOUR_CDP_PROJECT_ID
-```
+\`\`\`
 
 ### Add Project ID to OnchainKitProvider
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
@@ -5653,16 +5653,16 @@ Copy<OnchainKitProvider
 >
   {props.children}
 </OnchainKitProvider>
-```
+\`\`\`
 
 ### Drop in the `<FundButton />` component
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { FundButton } from '@coinbase/onchainkit/fund';
 
 <FundButton />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -5672,7 +5672,7 @@ You can customize the Coinbase Onramp experience by bringing your own Onramp URL
 component. We provide the [`getOnrampBuyUrl`](https://docs.base.org/builderkits/onchainkit/fund/get-onramp-buy-url) utility to help you generate a Coinbase Onramp
 URL tailored to your use case.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { FundButton, getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
 import { useAccount } from 'wagmi';
@@ -5689,16 +5689,16 @@ const onrampBuyUrl = getOnrampBuyUrl({
 });
 
 <FundButton fundingUrl={onrampBuyUrl} />
-```
+\`\`\`
 
 Connect Wallet
 
 You can choose to have the funding URL open in a popup or a new tab using the `openIn` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<FundButton openIn={"tab"} />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -5706,19 +5706,19 @@ Connect Wallet
 
 You can override the text on the fund button using the `text` prop, and hide the icon with the `hideIcon` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<FundButton text={"Onramp"} hideIcon={true} />
-```
+\`\`\`
 
 Connect Wallet
 
 You can hide the text with the `hideText` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<FundButton hideText={true} />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -5760,7 +5760,7 @@ Before using the `FundCard` component, ensure you've completed the [Getting Star
 
 ### Drop in the `<FundCard />` component
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { FundCard } from '@coinbase/onchainkit/fund';
 
@@ -5769,7 +5769,7 @@ Copyimport { FundCard } from '@coinbase/onchainkit/fund';
   country="US"
   currency="USD"
 />;
-```
+\`\`\`
 
 Connect Wallet
 
@@ -5779,7 +5779,7 @@ Connect Wallet
 
 You can customize the header and button text:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<FundCard
   assetSymbol="ETH"
@@ -5788,7 +5788,7 @@ Copy<FundCard
   headerText="Purchase Ethereum"
   buttonText="Purchase"
 />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -5796,20 +5796,20 @@ Connect Wallet
 
 You can specify which fiat currency to use:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<FundCard
   assetSymbol="ETH"
   country="GB"
   currency="GBP"
 />
-```
+\`\`\`
 
 ### Preset Amount Inputs
 
 You can specify preset amount buttons:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyconst presetAmountInputs = ['10', '20', '50'] as const;
 
@@ -5819,13 +5819,13 @@ Copyconst presetAmountInputs = ['10', '20', '50'] as const;
   currency="USD"
   presetAmountInputs={presetAmountInputs}
 />;
-```
+\`\`\`
 
 ### Custom Content
 
 You can provide custom children to completely customize the card content while keeping the fund button functionality:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<FundCard
   assetSymbol="ETH"
@@ -5841,11 +5841,11 @@ Copy<FundCard
     </select>
   </div>
 </FundCard>
-```
+\`\`\`
 
 You can also reuse the existing children from the default implementation and add your own custom content.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   FundCardHeader,
@@ -5871,9 +5871,9 @@ Copyimport {
   <FundCardSubmitButton />
   <div>Any custom content</div>
 </FundCard>
-```
+\`\`\`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyconst {
     asset,
@@ -5904,7 +5904,7 @@ Copyconst {
     updateLifecycleStatus,
     presetAmountInputs,
  } = useFundContext();
-```
+\`\`\`
 
 ## Props
 
@@ -5943,7 +5943,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
 
@@ -5956,7 +5956,7 @@ const onrampBuyUrl = getOnrampBuyUrl({
   fiatCurrency: 'USD',
   redirectUrl: 'https://yourapp.com/onramp-return?param=foo',
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -5989,7 +5989,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { setupOnrampEventListeners } from '@coinbase/onchainkit/fund';
 import type { SuccessEventData, OnrampError, EventMetadata } from '@coinbase/onchainkit/fund';
@@ -6009,11 +6009,11 @@ const unsubscribe = setupOnrampEventListeners({
 
 // Clean up when done
 unsubscribe();
-```
+\`\`\`
 
 ## Parameters
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy{
   host?: string;                                   // Optional custom host URL
@@ -6021,7 +6021,7 @@ Copy{
   onExit?: (error?: OnrampError) => void;         // Exit callback
   onEvent?: (event: EventMetadata) => void;       // General event callback
 }
-```
+\`\`\`
 
 ## Returns
 
@@ -6053,7 +6053,7 @@ Chevron Right
 
 ## `FundCardPropsReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype FundCardPropsReact = {
   children?: ReactNode;
@@ -6067,11 +6067,11 @@ Copytype FundCardPropsReact = {
   className?: string;
   presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
-```
+\`\`\`
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype LifecycleStatus =
   | {
@@ -6094,11 +6094,11 @@ Copytype LifecycleStatus =
       statusName: 'transactionPending';
       statusData: null;
     };
-```
+\`\`\`
 
 ## `PresetAmountInputs`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy type PresetAmountInputItemPropsReact = {
   presetAmountInput: string;
@@ -6114,11 +6114,11 @@ Copy type PresetAmountInputItemPropsReact = {
  * const presetAmountInputs: PresetAmountInputs = ['100', '200', '300'];
  */
 type PresetAmountInputs = readonly [string, string, string];
-```
+\`\`\`
 
 ## `FundButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype FundButtonReact = {
   className?: string; // An optional CSS class name for styling the button component
@@ -6136,7 +6136,7 @@ Copytype FundButtonReact = {
   rel?: string; // Specifies the relationship between the current document and the linked document
   target?: string; // Where to open the target if `openIn` is set to tab
 };
-```
+\`\`\`
 
 ## `GetOnrampUrlWithProjectIdParams`
 
@@ -6144,7 +6144,7 @@ Props used to get an Onramp buy URL by directly providing a CDP project ID.
 
 See [https://docs.cdp.coinbase.com/onramp/docs/api-initializing#generating-the-coinbase-onramp-buysell-url](https://docs.cdp.coinbase.com/onramp/docs/api-initializing#generating-the-coinbase-onramp-buysell-url)
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetOnrampUrlWithProjectIdParams = {
   /**
@@ -6182,7 +6182,7 @@ Copytype GetOnrampUrlWithProjectIdParams = {
    */
   assets?: string[];
 } & GetOnrampBuyUrlOptionalProps;
-```
+\`\`\`
 
 ## `GetOnrampUrlWithSessionTokenParams`
 
@@ -6190,7 +6190,7 @@ Props used to get an Onramp buy URL using a session token created using the Onra
 
 See [https://docs.cdp.coinbase.com/onramp/docs/api-initializing#getting-an-coinbase-onramp-buysell-session-token](https://docs.cdp.coinbase.com/onramp/docs/api-initializing#getting-an-coinbase-onramp-buysell-session-token)
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetOnrampUrlWithSessionTokenParams = {
   /**
@@ -6202,13 +6202,13 @@ Copytype GetOnrampUrlWithSessionTokenParams = {
   addresses?: never; // You cannot provide addresses when using sessionToken
   assets?: never; // You cannot provide assets when using sessionToken
 } & GetOnrampBuyUrlOptionalProps;
-```
+\`\`\`
 
 ## `GetOnrampBuyUrlOptionalProps`
 
 The optional properties that can be used to create an Onramp buy URL.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetOnrampBuyUrlOptionalProps = {
   /**
@@ -6253,11 +6253,11 @@ Copytype GetOnrampBuyUrlOptionalProps = {
    */
   redirectUrl?: string;
 };
-```
+\`\`\`
 
 ## `OnrampConfigResponseData`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnrampConfigResponseData = {
   countries: OnrampConfigCountry[];
@@ -6278,11 +6278,11 @@ type OnrampConfigCountry = {
 type OnrampPaymentMethod = {
   id: string;
 };
-```
+\`\`\`
 
 ## `OnrampOptionsResponseData`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnrampOptionsResponseData = {
   /**
@@ -6322,11 +6322,11 @@ type OnrampPaymentMethodLimit = {
   min: number;
   max: number;
 };
-```
+\`\`\`
 
 ## `OnrampTransactionStatusResponseData`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnrampTransactionStatusResponseData = {
   /** List of `OnrampTransactions` in reverse chronological order. */
@@ -6354,11 +6354,11 @@ type OnrampTransaction = {
   paymentMethod: string;
   transactionId: string;
 };
-```
+\`\`\`
 
 ## `SuccessEventData`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SuccessEventData = {
   assetImageUrl: string;
@@ -6366,11 +6366,11 @@ Copytype SuccessEventData = {
   assetSymbol: string;
   chainId: string;
 };
-```
+\`\`\`
 
 ## `OnrampError`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnrampError = {
   errorType:
@@ -6381,11 +6381,11 @@ Copytype OnrampError = {
   code?: string;
   debugMessage?: string;
 };
-```
+\`\`\`
 
 ## `EventMetadata`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype EventMetadata =
   | OpenEvent
@@ -6394,11 +6394,11 @@ Copytype EventMetadata =
   | ExitEvent
   | SuccessEvent
   | RequestOpenUrlEvent;
-```
+\`\`\`
 
 ## `OnrampQuoteResponseData`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype OnrampQuoteResponseData = {
   /**
@@ -6432,7 +6432,7 @@ Copytype OnrampQuoteResponseData = {
    */
   quoteId: string;
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -6461,7 +6461,7 @@ The hook handles the following:
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useBuildDepositToMorphoTx } from '@coinbase/onchainkit/earn';
 
@@ -6470,7 +6470,7 @@ const { calls } = useBuildDepositToMorphoTx({
   recipientAddress: '0x...',
   amount: '1000000000000000000',
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -6507,7 +6507,7 @@ The hook handles the following:
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useBuildWithdrawFromMorphoTx } from '@coinbase/onchainkit/earn';
 
@@ -6517,7 +6517,7 @@ const { calls } = useBuildWithdrawFromMorphoTx({
   amount: '1000000000000000000',
   tokenDecimals: 18,
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -6552,7 +6552,7 @@ Note: This hook should be used within a `<Earn />` or `<EarnProvider />` (headle
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useEarnContext } from '@coinbase/onchainkit/earn';
 
@@ -6569,7 +6569,7 @@ const { depositAmount,
         } = useEarnContext();
 
 // Use the values to build a custom deposit interface!
-```
+\`\`\`
 
 ## Returns
 
@@ -6602,7 +6602,7 @@ codescaffoldingreturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useMintDetails } from '@coinbase/onchainkit/nft';
 
@@ -6617,7 +6617,7 @@ const Component = () => {
 
   return <div>{JSON.stringify(data)}</div>;
 };
-```
+\`\`\`
 
 ## Returns
 
@@ -6646,7 +6646,7 @@ The `useMorphoVault` hook fetches and returns comprehensive data about a Morpho 
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useMorphoVault } from '@coinbase/onchainkit/earn';
 
@@ -6661,7 +6661,7 @@ const {
   vaultAddress: '0x...',
   recipientAddress: '0x...',
 });
-```
+\`\`\`
 
 ## Returns
 
@@ -6698,7 +6698,7 @@ codescaffoldingreturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useTokenDetails } from '@coinbase/onchainkit/nft';
 
@@ -6712,7 +6712,7 @@ const Component = () => {
 
   return <div>{JSON.stringify(data)}</div>;
 };
-```
+\`\`\`
 
 ## Returns
 
@@ -6743,11 +6743,11 @@ The `Address` component is used to render a shortened user account address.
 
 Sliced account address:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Address } from '@coinbase/onchainkit/identity';
 <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
-```
+\`\`\`
 
 0x02fe...B6B1Copy
 
@@ -6755,11 +6755,11 @@ Copyimport { Address } from '@coinbase/onchainkit/identity';
 
 Set `isSliced` to false, to display the full address:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Address } from '@coinbase/onchainkit/identity';
 <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false} />
-```
+\`\`\`
 
 0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1Copy
 
@@ -6767,14 +6767,14 @@ Copyimport { Address } from '@coinbase/onchainkit/identity';
 
 You can override component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Address } from '@coinbase/onchainkit/identity';
 <Address
   className="bg-emerald-400 px-2 py-1 rounded"
   address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
 />
-```
+\`\`\`
 
 0x02fe...B6B1Copy
 
@@ -6804,49 +6804,49 @@ When an avatar is not available, it defaults to blue color avatar.
 
 Address with an ENS avatar:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9" />
-```
+\`\`\`
 
 ![nickprince.eth](https://euc.li/nickprince.eth)
 
 Address without an ENS or Basenames avatar defaults to a plain avatar:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
-```
+\`\`\`
 
 Address with a Basename avatar:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 <Avatar address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" chain={base} />
-```
+\`\`\`
 
 ![paul.base.eth](https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.base.eth/1722120524815/FWUzoZmJ_400x400-kWjr2gMvjNe9hHMs9Z9LxGVGIME3By.jpg)
 
 Override styles via `className` prop:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar
   className="bg-white rounded-full"
   address="0x1234567890abcdef1234567890abcdef12345678"
 />
-```
+\`\`\`
 
 Use `defaultComponent` prop to change the default avatar when ENS avatar is not found.
 Use `loadingComponent` prop to change the loading placeholder:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar } from '@coinbase/onchainkit/identity';
 <Avatar
@@ -6866,12 +6866,12 @@ Copyimport { Avatar } from '@coinbase/onchainkit/identity';
     </div>
   )}
 />
-```
+\`\`\`
 
 Show attestation on ENV avatar with [`Badge`](https://docs.base.org/builderkits/onchainkit/identity/badge) component.
 Use [`OnchainKitProvider`](https://docs.base.org/builderkits/onchainkit/config/onchainkit-provider) or [`Identity`](https://docs.base.org/builderkits/onchainkit/identity/identity) component with the `schemaId` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
 <Identity
@@ -6882,7 +6882,7 @@ Copyimport { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
     <Badge />
   </Avatar>
 </Identity>
-```
+\`\`\`
 
 ![nickprince.eth](https://euc.li/nickprince.eth)
 
@@ -6915,25 +6915,25 @@ tsxcss
 
 tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Badge } from '@coinbase/onchainkit/identity';
 <Badge className="badge" />
-```
+\`\`\`
 
 Badge with custom colors:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Badge } from '@coinbase/onchainkit/identity';
 <Badge className="bg-blue-400 border-white"/>
-```
+\`\`\`
 
 ## Badge with Tooltip
 
 You can enable a tooltip for the attestation badge to provide context about what the badge represents:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Badge } from '@coinbase/onchainkit/identity';
 
@@ -6941,11 +6941,11 @@ Copyimport { Badge } from '@coinbase/onchainkit/identity';
   tooltip={true}
   className="badge"
 />
-```
+\`\`\`
 
 With custom tooltip text:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Badge } from '@coinbase/onchainkit/identity';
 
@@ -6953,7 +6953,7 @@ Copyimport { Badge } from '@coinbase/onchainkit/identity';
   tooltip="Coinbase Verified Account"
   className="badge"
 />
-```
+\`\`\`
 
 ## Props
 
@@ -6970,7 +6970,7 @@ Badge with [`<Name />`](https://docs.base.org/builderkits/onchainkit/identity/na
 
 In both examples we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID to show the Coinbase verified badge on the Name and Avatar components.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { base } from 'viem/chains';
 import { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
@@ -6988,11 +6988,11 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
     <Badge tooltip={true} /> {/* With tooltip that shows attestation name */}
   </Name>
 </Identity>
-```
+\`\`\`
 
 Badge with [`<Avatar />`](https://docs.base.org/builderkits/onchainkit/identity/avatar), best used when [`<Avatar />`](https://docs.base.org/builderkits/onchainkit/identity/avatar) is not paired with any labels.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { base } from 'viem/chains';
 import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
@@ -7009,7 +7009,7 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
     <Badge tooltip="Verified by Coinbase" /> {/* With custom tooltip text */}
   </Avatar>
 </Identity>
-```
+\`\`\`
 
 [Skip to content](https://docs.base.org/builderkits/onchainkit/identity/get-address#vocs-content)
 
@@ -7030,12 +7030,12 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAddress } from '@coinbase/onchainkit/identity';
 
 const address = await getAddress({ name: 'zizzamia.eth' });
-```
+\`\`\`
 
 Get Basename from base chain
 
@@ -7043,13 +7043,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAddress } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = await getAddress({ name: 'zizzamia.base.eth', chain: base });
-```
+\`\`\`
 
 ## Returns
 
@@ -7086,7 +7086,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAttestations } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -7100,7 +7100,7 @@ const attestationsOptions = {
 };
 
 const attestations = await getAttestations(address, base, attestationsOptions);
-```
+\`\`\`
 
 ## Returns
 
@@ -7112,14 +7112,14 @@ See [Attestation](https://docs.base.org/builderkits/onchainkit/identity/types#at
 
 ### Address
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Address = `0x${string}`; // The address for which attestations are being queried.
-```
+\`\`\`
 
 ### Chain
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Chain = { // The blockchain of interest.
   id: string;
@@ -7134,7 +7134,7 @@ Copytype Chain = { // The blockchain of interest.
   rpcUrls: string[];
   blockExplorerUrls: string[];
 };
-```
+\`\`\`
 
 ### GetAttestationsOptions
 
@@ -7174,13 +7174,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAvatar } from '@coinbase/onchainkit/identity';
 import { base, mainnet } from 'viem/chains';
 
 const baseAvatar = await getAvatar({ ensName: 'paulcramer.eth', chain: base });
-```
+\`\`\`
 
 Get ENS avatar:
 
@@ -7188,13 +7188,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAvatar } from '@coinbase/onchainkit/identity';
 import { mainnet } from 'viem/chains';
 
 const ensAvatar = await getAvatar({ ensName: 'paulcramer.eth', chain: mainnet });
-```
+\`\`\`
 
 ## Returns
 
@@ -7229,13 +7229,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAvatars } from '@coinbase/onchainkit/identity';
 
 const ensNames = ['vitalik.eth', 'zizzamia.eth'];
 const avatars = await getAvatars({ ensNames });
-```
+\`\`\`
 
 Get avatars for multiple Basenames:
 
@@ -7243,14 +7243,14 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAvatars } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const ensNames = ['zizzamia.base.eth', 'coinbase.base.eth'];
 const avatars = await getAvatars({ ensNames, chain: base });
-```
+\`\`\`
 
 Get avatars for a mix of ENS names and Basenames:
 
@@ -7258,14 +7258,14 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getAvatars } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const ensNames = ['vitalik.eth', 'zizzamia.base.eth'];
 const avatars = await getAvatars({ ensNames, chain: base });
-```
+\`\`\`
 
 ## Returns
 
@@ -7306,13 +7306,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getName } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const name = await getName({ address });
-```
+\`\`\`
 
 Get Basename from an address:
 
@@ -7320,14 +7320,14 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const name = await getName({ address, chain: base });
-```
+\`\`\`
 
 Get a sliced address when address does not have an ENS name:
 
@@ -7335,13 +7335,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getName } from '@coinbase/onchainkit/identity';
 
 const address = '0x1234567890abcdef1234567890abcdef12345678';
 const name = await getName({ address });
-```
+\`\`\`
 
 ## Returns
 
@@ -7368,7 +7368,7 @@ Chevron Right
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type LifecycleStatus =
   | {
@@ -7408,11 +7408,11 @@ Copyexport type LifecycleStatus =
         transactionReceipts?: TransactionReceipt[];
       };
     };
-```
+\`\`\`
 
 ## `NFTCardReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype NFTCardReact = {
   children: React.ReactNode;
@@ -7438,11 +7438,11 @@ Copytype NFTCardReact = {
   // card will not pass transactionReceipt
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
-```
+\`\`\`
 
 ## `NFTMintCardReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype NFTMintCardReact = {
   children: ReactNode;
@@ -7474,11 +7474,11 @@ Copytype NFTMintCardReact = {
   // MintCard will pass transactionReceipt
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
-```
+\`\`\`
 
 ## `NFTData`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype NFTData = {
   // card components
@@ -7507,7 +7507,7 @@ Copytype NFTData = {
   recentOwners?: Address[]; // required for NFTMinters
   network?: string; // required for default BuildMintTransaction implementation
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -7538,7 +7538,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getNames } from '@coinbase/onchainkit/identity';
 
@@ -7547,7 +7547,7 @@ const addresses = [\
   '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9'\
 ];
 const names = await getNames({ addresses });
-```
+\`\`\`
 
 Get Basenames from multiple addresses:
 
@@ -7555,7 +7555,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getNames } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -7565,7 +7565,7 @@ const addresses = [\
   '0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF'\
 ];
 const names = await getNames({ addresses, chain: base });
-```
+\`\`\`
 
 Get a mix of ENS names and sliced addresses when some addresses don't have names:
 
@@ -7573,7 +7573,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { getNames } from '@coinbase/onchainkit/identity';
 
@@ -7582,7 +7582,7 @@ const addresses = [\
   '0x1234567890abcdef1234567890abcdef12345678'\
 ];
 const names = await getNames({ addresses });
-```
+\`\`\`
 
 ## Returns
 
@@ -7623,7 +7623,7 @@ The `IdentityCard` component provides a comprehensive way to display user identi
 
 ### Basic Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { IdentityCard } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -7633,7 +7633,7 @@ import { base } from 'viem/chains';
   chain={base}
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
 />
-```
+\`\`\`
 
 ![paul.base.eth](https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.base.eth/1722120524815/FWUzoZmJ_400x400-kWjr2gMvjNe9hHMs9Z9LxGVGIME3By.jpg)
 
@@ -7647,7 +7647,7 @@ paul.base.eth
 
 You can enable a tooltip for the attestation badge to provide context about what the badge represents:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { IdentityCard } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -7658,7 +7658,7 @@ import { base } from 'viem/chains';
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
   badgeTooltip={true}
 />
-```
+\`\`\`
 
 ![paul.base.eth](https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.base.eth/1722120524815/FWUzoZmJ_400x400-kWjr2gMvjNe9hHMs9Z9LxGVGIME3By.jpg)
 
@@ -7670,7 +7670,7 @@ paul.base.eth
 
 You can also provide custom tooltip text:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { IdentityCard } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -7681,7 +7681,7 @@ import { base } from 'viem/chains';
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
   badgeTooltip="Coinbase Verified"
 />
-```
+\`\`\`
 
 ![paul.base.eth](https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.base.eth/1722120524815/FWUzoZmJ_400x400-kWjr2gMvjNe9hHMs9Z9LxGVGIME3By.jpg)
 
@@ -7695,7 +7695,7 @@ paul.base.eth
 
 You can override styles using `className` or by setting a custom [OnchainKit theme](https://docs.base.org/builderkits/onchainkit/guides/themes#custom-theme). You can also set the `mainnet` chain for ENS name resolution:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { IdentityCard } from '@coinbase/onchainkit/identity';
 import { mainnet } from 'viem/chains';
@@ -7715,7 +7715,7 @@ import { mainnet } from 'viem/chains';
   chain={mainnet}
   schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
 />
-```
+\`\`\`
 
 ![paulcramer.eth](https://euc.li/paulcramer.eth)
 
@@ -7781,7 +7781,7 @@ Chevron Right
 
 Show user avatar, name with attestation and address:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
 
@@ -7795,7 +7795,7 @@ Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit
   </Name>
   <Address />
 </Identity>
-```
+\`\`\`
 
 ![nickprince.eth](https://euc.li/nickprince.eth)
 
@@ -7807,7 +7807,7 @@ nickprince.eth
 
 You can enable a tooltip for the attestation badge to provide context about what the badge represents:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
 
@@ -7823,7 +7823,7 @@ Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit
   </Name>
   <Address />
 </Identity>
-```
+\`\`\`
 
 ![nickprince.eth](https://euc.li/nickprince.eth)
 
@@ -7833,7 +7833,7 @@ nickprince.eth
 
 You can also provide custom tooltip text:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
 
@@ -7849,7 +7849,7 @@ Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit
   </Name>
   <Address />
 </Identity>
-```
+\`\`\`
 
 ![nickprince.eth](https://euc.li/nickprince.eth)
 
@@ -7859,7 +7859,7 @@ nickprince.eth
 
 Modify any styles with `className` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
 
@@ -7879,7 +7879,7 @@ Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit
     className="text-zinc-500 font-bold"
   />
 </Identity>
-```
+\`\`\`
 
 ![nickprince.eth](https://euc.li/nickprince.eth)
 
@@ -7889,7 +7889,7 @@ nickprince.eth
 
 Choose which identity components to render:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
 
@@ -7907,7 +7907,7 @@ Copyimport { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit
   <Address />
 </Identity>
 
-```
+\`\`\`
 
 ![nickprince.eth](https://euc.li/nickprince.eth)
 
@@ -7942,26 +7942,26 @@ The `Name` component is used to display ENS or [Basenames](https://www.base.org/
 
 Address with an ENS:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Name } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 <Name address={address} />
-```
+\`\`\`
 
 zizzamia.eth
 
 Address with a Basename:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Name } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 <Name address={address} chain={base} />
-```
+\`\`\`
 
 zizzamia.base.eth
 
@@ -7969,7 +7969,7 @@ zizzamia.base.eth
 
 You can override component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Name } from '@coinbase/onchainkit/identity';
 
@@ -7978,7 +7978,7 @@ const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
   address={address}
   className="bg-emerald-400 px-2 py-1 rounded"
 />
-```
+\`\`\`
 
 zizzamia.eth
 
@@ -7988,7 +7988,7 @@ Show attestation on ENV name with [`Badge`](https://docs.base.org/builderkits/on
 
 Use [`OnchainKitProvider`](https://docs.base.org/builderkits/onchainkit/config/onchainkit-provider) or [`Identity`](https://docs.base.org/builderkits/onchainkit/identity/identity) component with the `schemaId` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
 
@@ -8001,7 +8001,7 @@ const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
     <Badge />
   </Name>
 </Identity>
-```
+\`\`\`
 
 nickprince.eth
 
@@ -8038,7 +8038,7 @@ It automatically fetches and renders social links stored in text records.
 
 ### Basic Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   Address,
@@ -8062,7 +8062,7 @@ import { base } from 'viem/chains';
   <Address />
   <Socials />
 </Identity>
-```
+\`\`\`
 
 ![paul.base.eth](https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.base.eth/1722120524815/FWUzoZmJ_400x400-kWjr2gMvjNe9hHMs9Z9LxGVGIME3By.jpg)
 
@@ -8076,7 +8076,7 @@ paul.base.eth
 
 You can also use the `Socials` component independently by providing an address:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Socials } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -8089,7 +8089,7 @@ export default function StandaloneSocials() {
     />
   );
 }
-```
+\`\`\`
 
 [twitter](https://x.com/PaulCramer_) [github](https://github.com/cpcramer) [farcaster](https://warpcast.com/paulcramer) [website](https://onchainkit.xyz/)
 
@@ -8097,7 +8097,7 @@ export default function StandaloneSocials() {
 
 Specify a different chain for ENS resolution:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   Address,
@@ -8121,7 +8121,7 @@ import { mainnet } from 'viem/chains';
   <Address />
   <Socials />
 </Identity>
-```
+\`\`\`
 
 ![paulcramer.eth](https://euc.li/paulcramer.eth)
 
@@ -8168,7 +8168,7 @@ Chevron Right
 
 ## `AddressReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype AddressReact = {
   address?: Address | null; // The Ethereum address to render.
@@ -8176,11 +8176,11 @@ Copytype AddressReact = {
   isSliced?: boolean; // Determines if the displayed address should be sliced.
   hasCopyAddressOnClick?: boolean; // Defaults to true. Optional boolean to disable copy address on click functionality.
 };
-```
+\`\`\`
 
 ## `Attestation`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Attestation = {
   attester: Address; // the attester who created the attestation.
@@ -8193,11 +8193,11 @@ Copytype Attestation = {
   schemaId: EASSchemaUid; // The schema identifier associated with the attestation.
   time: number; // The Unix timestamp when the attestation was created.
 };
-```
+\`\`\`
 
 ## `AvatarReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype AvatarReact = {
   address?: Address | null; // The Ethereum address to fetch the avatar for.
@@ -8207,87 +8207,87 @@ Copytype AvatarReact = {
   defaultComponent?: JSX.Element; // Optional custom component to display when no ENS name or avatar is available.
   children?: ReactNode; // Optional attestation by passing Badge component as its children
 } & ImgHTMLAttributes<HTMLImageElement>; // Optional additional image attributes to apply to the avatar.
-```
+\`\`\`
 
 ## `BadgeReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BadgeReact = {
   className?: string; // Optional className override for top span element.
   tooltip?: boolean | string; // Controls whether the badge shows a tooltip on hover. When true, the tooltip displays the attestation's name. When a string is provided, that text overrides the default display. Defaults to false.
 };
-```
+\`\`\`
 
 ## `BaseMainnetName`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type BaseMainnetName = `${string}.base.eth`;
-```
+\`\`\`
 
 ## `Basename`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Basename = BaseMainnetName | BaseSepoliaName;
-```
+\`\`\`
 
 ## `BaseSepoliaName`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype BaseSepoliaName = `${string}.basetest.eth`;
-```
+\`\`\`
 
 ## `EASSchemaUid`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype EASSchemaUid = `0x${string}`;
-```
+\`\`\`
 
 ## `EASChainDefinition`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype EASChainDefinition = {
   easGraphqlAPI: string; // EAS GraphQL API endpoint
   id: number; // blockchain source id
   schemaUids: EASSchemaUid[]; // Array of EAS Schema UIDs
 };
-```
+\`\`\`
 
 ## `EthBalanceReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype EthBalanceReact = {
   address?: Address;
   className?: string;
 };
-```
+\`\`\`
 
 ## `GetAddress`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetAddress = {
   name: string | Basename; // Name to resolve
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 ## `GetAddressReturnType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetAddressReturnType = Address | null;
-```
+\`\`\`
 
 ## `GetAttestationsOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetAttestationsOptions = {
   schemas?: EASSchemaUid[];
@@ -8295,55 +8295,55 @@ Copytype GetAttestationsOptions = {
   expirationTime?: number;
   limit?: number;
 };
-```
+\`\`\`
 
 ## `GetAvatar`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetAvatar = {
   ensName: string; // The ENS name to fetch the avatar for.
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 ## `GetAvatarReturnType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetAvatarReturnType = string | null;
-```
+\`\`\`
 
 ## `GetName`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetName = {
   address: Address;
   chain?: Chain;
 };
-```
+\`\`\`
 
 ## `GetNameReturnType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetNameReturnType = string | null;
-```
+\`\`\`
 
 ## `GetNames`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype GetNames = {
   addresses: Address[]; // Array of Ethereum addresses to resolve names for
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 ## `IdentityCardReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype IdentityCardReact = {
   address?: Address;
@@ -8352,21 +8352,21 @@ Copytype IdentityCardReact = {
   schemaId?: Address | null;
   badgeTooltip?: boolean | string; // Controls whether the badge shows a tooltip on hover. When true, the tooltip displays the attestation's name. When a string is provided, that text overrides the default display. Defaults to false.
 };
-```
+\`\`\`
 
 ## `IdentityContextType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype IdentityContextType = {
   address: Address; // The Ethereum address to fetch the avatar and name for.
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
 };
-```
+\`\`\`
 
 ## `IdentityReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype IdentityReact = {
   address?: Address; // The Ethereum address to fetch the avatar and name for.
@@ -8376,11 +8376,11 @@ Copytype IdentityReact = {
   schemaId?: Address | null; // The Ethereum address of the schema to use for EAS attestation.
   hasCopyAddressOnClick?: boolean; // Optional boolean to disable copy address on click functionality.
 };
-```
+\`\`\`
 
 ## `NameReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype NameReact = {
   address?: Address | null; // Ethereum address to be displayed.
@@ -8388,57 +8388,57 @@ Copytype NameReact = {
   chain?: Chain; // Optional chain for domain resolution
   className?: string; // Optional className override for top span element.
 } & HTMLAttributes<HTMLSpanElement>; // Optional additional span attributes to apply to the name.
-```
+\`\`\`
 
 ## `UseAddressOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype UseAddressOptions = {
   name: string | Basename; // The ENS or Basename for which the Ethereum address is to be fetched
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 ## `UseAvatarOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype UseAvatarOptions = {
   ensName: string;
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 ## `UseAvatarsOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype UseAvatarsOptions = {
   ensNames: string[]; // Array of ENS names to resolve avatars for
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 ## `UseNameOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype UseNameOptions = {
   address: Address; // The address for which the ENS or Basename is to be fetched.
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 ## `UseNamesOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype UseNamesOptions = {
   addresses: Address[]; // Array of addresses to resolve ENS or Basenames for
   chain?: Chain; // Optional chain for domain resolution
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -8461,12 +8461,12 @@ It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framewo
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useAddress } from '@coinbase/onchainkit/identity';
 
 const { data: address, isLoading } = useAddress({ name: 'zizzamia.base.eth' });
-```
+\`\`\`
 
 ## Returns
 
@@ -8504,12 +8504,12 @@ It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framewo
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useAvatar } from '@coinbase/onchainkit/identity';
 
 const { data: avatar, isLoading } = useAvatar({ ensName: 'vitalik.eth' });
-```
+\`\`\`
 
 ## Returns
 
@@ -8553,13 +8553,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useAvatars } from '@coinbase/onchainkit/identity';
 
 const ensNames = ['vitalik.eth', 'paulcramer.eth'];
 const { data: avatars, isLoading } = useAvatars({ ensNames });
-```
+\`\`\`
 
 Get avatars for multiple Basenames:
 
@@ -8567,14 +8567,14 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useAvatars } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const ensNames = ['paul.base.eth', 'coinbase.base.eth'];
 const { data: avatars, isLoading } = useAvatars({ ensNames, chain: base });
-```
+\`\`\`
 
 ## Returns
 
@@ -8618,13 +8618,13 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useName } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const { data: name, isLoading } = await useName({ address });
-```
+\`\`\`
 
 Get Basename from an address:
 
@@ -8632,14 +8632,14 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const { data: name, isLoading } = await useName({ address, chain: base });
-```
+\`\`\`
 
 ## Returns
 
@@ -8683,7 +8683,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useNames } from '@coinbase/onchainkit/identity';
 
@@ -8692,7 +8692,7 @@ const addresses = [\
   '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9'\
 ];
 const { data: names, isLoading } = useNames({ addresses });
-```
+\`\`\`
 
 Get Basenames from multiple addresses:
 
@@ -8700,7 +8700,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useNames } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
@@ -8710,7 +8710,7 @@ const addresses = [\
   '0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF'\
 ];
 const { data: names, isLoading } = useNames({ addresses, chain: base });
-```
+\`\`\`
 
 ## Returns
 
@@ -8755,10 +8755,10 @@ To use the `NFTCard` component, you'll need to provide an API Key in `OnchainKit
 
 If you're starting a new project, we recommend using `create onchain` to scaffold your project.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create onchain@latest
-```
+\`\`\`
 
 ### Adding to an existing project
 
@@ -8770,10 +8770,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](https://docs.base.org/builderkits/onchainkit/getting-started#add-providers).
 
@@ -8781,7 +8781,7 @@ Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getti
 
 The `NFTCardDefault` component is a simplified version of the `NFTCard` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTTitle`, `NFTMedia`, `NFTOwner`, `NFTLastSoldPrice` and `NFTNetwork`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { NFTCardDefault } from '@coinbase/onchainkit/nft';
 
@@ -8789,13 +8789,13 @@ Copyimport { NFTCardDefault } from '@coinbase/onchainkit/nft';
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
   tokenId='1'
 />
-```
+\`\`\`
 
 If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
 
 ### Add the NFTCard
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { NFTCard } from '@coinbase/onchainkit/nft';
 
@@ -8804,11 +8804,11 @@ Copyimport { NFTCard } from '@coinbase/onchainkit/nft';
   tokenId='1'
 >
 </NFTCard>
-```
+\`\`\`
 
 ### Add the NFTCard components
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { NFTCard } from '@coinbase/onchainkit/nft';
 import {
@@ -8829,7 +8829,7 @@ import {
   <NFTLastSoldPrice />
   <NFTNetwork />
 </NFTCard>
-```
+\`\`\`
 
 Base Around The World 2024 Recap Video #1
 
@@ -8859,7 +8859,7 @@ That's it! You've now created an NFT card.
 
 If you prefer to have the title above the media, you can easily change the order of the subcomponents and they will render in the new order.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<NFTCard
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
@@ -8870,7 +8870,7 @@ Copy<NFTCard
   <NFTTitle />
 </NFTCard>
 
-```
+\`\`\`
 
 Job's Not Finished
 
@@ -8880,7 +8880,7 @@ Job's Not Finished
 
 By default, we display all media scaled to fit the card. If you would prefer to show the media at its original aspect ratio you can set `square={false}` on the `<NFTMedia />` component.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<NFTCard
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
@@ -8889,7 +8889,7 @@ Copy<NFTCard
   <NFTMedia square={false} />
 </NFTCard>
 
-```
+\`\`\`
 
 | Scaled to fit (default) | Original Aspect Ratio |
 | --- | --- |
@@ -8899,7 +8899,7 @@ Copy<NFTCard
 
 We recommend style customization by setting a custom [OnchainKit theme](https://docs.base.org/builderkits/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<NFTCard
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
@@ -8909,7 +8909,7 @@ Copy<NFTCard
   <NFTTitle className='text-[#EA580C]'/>
 </NFTCard>
 
-```
+\`\`\`
 
 ![](https://ipfs.io/ipfs/bafybeibozzie5uy6tc2adpklc5rygchjgw5uqrgnmspzzpoveibwpqnbwy)
 
@@ -8921,7 +8921,7 @@ Job's Not Finished
 
 The default `NFTCard` implementation uses Coinbase Developer Platform to provide the data and requires an API key. If you would like to use your own data, you can use the `useNFTData` prop to pass in a hook which fetches the NFT data from a source of your choice. As long as this hook returns an object with the same shape as the [`NFTData`](https://docs.base.org/builderkits/onchainkit/mint/types#nftdata) type, the NFTCard will render.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy
 function useNFTData() {
@@ -8943,7 +8943,7 @@ export default function NFTComponent() {
     </NFTCard>
   );
 }
-```
+\`\`\`
 
 ### Listening to the component lifecycle
 
@@ -8956,7 +8956,7 @@ NFTCard has 4 lifecycle states:
 - `mediaLoading` \- The media is loading
 - `success` \- The media has been loaded
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 
@@ -8980,7 +8980,7 @@ const statusHandler = (status: LifecycleStatus) => {
   <NFTMedia />
 </NFTCard>
 
-```
+\`\`\`
 
 ## Example use cases
 
@@ -9031,10 +9031,10 @@ To use the `NFTMintCard` component, you'll need to provide an API Key in `Onchai
 
 If you're starting a new project, we recommend using `create onchain` to scaffold your project.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm create onchain@latest
-```
+\`\`\`
 
 ### Adding to an existing project
 
@@ -9046,10 +9046,10 @@ Terminal
 
 npm
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copynpm install @coinbase/onchainkit
-```
+\`\`\`
 
 Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](https://docs.base.org/builderkits/onchainkit/getting-started#add-providers).
 
@@ -9057,20 +9057,20 @@ Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getti
 
 The `NFTMintCardDefault` component is a simplified version of the `NFTMintCard` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTCreator`, `NFTMedia`, `NFTCollectionTitle`, `NFTQuantitySelector`, `NFTAssetCost` and `NFTMintButton`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { NFTMintCardDefault } from '@coinbase/onchainkit/nft';
 
 <NFTMintCardDefault
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
 />
-```
+\`\`\`
 
 If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
 
 ### Add the NFTMintCard
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { NFTMintCard } from '@coinbase/onchainkit/nft';
 
@@ -9078,11 +9078,11 @@ Copyimport { NFTMintCard } from '@coinbase/onchainkit/nft';
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
 >
 </NFTMintCard>
-```
+\`\`\`
 
 ### Add the NFTMintCard components
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
@@ -9105,7 +9105,7 @@ import {
   <NFTAssetCost />
   <NFTMintButton />
 </NFTMintCard>
-```
+\`\`\`
 
 ![tina.base.eth](https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/tina.base.eth/1722951993777/GP32RcWWIAA9aLM-5cPMAGTX0jj0cEsag22nuu3swQBc2U.jpeg)
 
@@ -9137,7 +9137,7 @@ You can create your own NFT to mint at [Coinbase Wallets create a Mint flow](htt
 
 If you prefer to have the collection title above the media, you can easily change the order of the subcomponents and they will render in the new order.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<NFTMintCard
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
@@ -9147,7 +9147,7 @@ Copy<NFTMintCard
   <NFTCollectionTitle />
 </NFTMintCard>
 
-```
+\`\`\`
 
 Job's Not Finished
 
@@ -9157,7 +9157,7 @@ Job's Not Finished
 
 By default, we display all media scaled to fit the card. If you would prefer to show the media at its original aspect ratio you can set `square={false}` on the `<NFTMedia />` component.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<NFTMintCard
   contractAddress='0x877f0f3fef81c28a8c40fe060b17d254003377ad'
@@ -9165,7 +9165,7 @@ Copy<NFTMintCard
   <NFTMedia square={false} />
 </NFTMintCard>
 
-```
+\`\`\`
 
 | Scaled to fit (default) | Original Aspect Ratio |
 | --- | --- |
@@ -9175,7 +9175,7 @@ Copy<NFTMintCard
 
 We recommend style customization by setting a custom [OnchainKit theme](https://docs.base.org/builderkits/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<NFTMintCard
   contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
@@ -9184,7 +9184,7 @@ Copy<NFTMintCard
   <NFTCollectionTitle className='text-[#EA580C]'/>
 </NFTMintCard>
 
-```
+\`\`\`
 
 ![](https://ipfs.io/ipfs/bafybeibozzie5uy6tc2adpklc5rygchjgw5uqrgnmspzzpoveibwpqnbwy)
 
@@ -9202,7 +9202,7 @@ The default `NFTMintCard` implementation uses Coinbase Developer Platform to pro
 
 You can also use a custom `buildMintTransaction` function to create your own Mint transaction.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy
 function useNFTData() {
@@ -9230,7 +9230,7 @@ export default function NFTComponent() {
     </NFTMintCard>
   );
 }
-```
+\`\`\`
 
 ### Listening to the component lifecycle
 
@@ -9246,7 +9246,7 @@ NFTMintCard has 6 lifecycle states:
 - `transactionLegacyExecuted` \- The mint transaction has been executed
 - `success` \- The mint transaction has been successful
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport type { LifecycleStatus } from '@coinbase/onchainkit/nft';
 
@@ -9269,7 +9269,7 @@ const statusHandler = (status: LifecycleStatus) => {
   <NFTMedia />
 </NFTMintCard>
 
-```
+\`\`\`
 
 ## Example use cases
 
@@ -9310,7 +9310,7 @@ Chevron Right
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type LifecycleStatus =
   | {
@@ -9350,11 +9350,11 @@ Copyexport type LifecycleStatus =
         transactionReceipts?: TransactionReceipt[];
       };
     };
-```
+\`\`\`
 
 ## `NFTCardReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype NFTCardReact = {
   children: React.ReactNode;
@@ -9380,11 +9380,11 @@ Copytype NFTCardReact = {
   // card will not pass transactionReceipt
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
-```
+\`\`\`
 
 ## `NFTMintCardReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype NFTMintCardReact = {
   children: ReactNode;
@@ -9416,11 +9416,11 @@ Copytype NFTMintCardReact = {
   // MintCard will pass transactionReceipt
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
-```
+\`\`\`
 
 ## `NFTData`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype NFTData = {
   // card components
@@ -9449,7 +9449,7 @@ Copytype NFTData = {
   recentOwners?: Address[]; // required for NFTMinters
   network?: string; // required for default BuildMintTransaction implementation
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -9470,7 +9470,7 @@ The `SwapSettings` component enables customizable slippage configuration in the 
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 import {
@@ -9493,7 +9493,7 @@ import {
     <SwapSettingsSlippageInput />
   </SwapSettings>
 </Swap>
-```
+\`\`\`
 
 Connect Wallet
 
@@ -9501,7 +9501,7 @@ Connect Wallet
 
 You can override component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 <Swap>
@@ -9516,7 +9516,7 @@ Copy// omitted for brevity
     <SwapSettingsSlippageInput/>
   </SwapSettings>
 </Swap>
-```
+\`\`\`
 
 Connect Wallet
 
@@ -9524,12 +9524,12 @@ Connect Wallet
 
 You can override the icon using the icon prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 <SwapSettings icon={baseIcon}>
 
-```
+\`\`\`
 
 Connect Wallet
 
@@ -9537,12 +9537,12 @@ Connect Wallet
 
 You can add text next to the `SwapSettings` component using text.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 <SwapSettings text="Settings">
 
-```
+\`\`\`
 
 Connect Wallet
 
@@ -9550,7 +9550,7 @@ Connect Wallet
 
 You can override component text by providing children text.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
@@ -9561,7 +9561,7 @@ Copy// omitted for brevity
   Set a max slippage you are willing to accept.
 </SwapSettingsSlippageDescription>
 
-```
+\`\`\`
 
 Connect Wallet
 
@@ -9604,7 +9604,7 @@ The `SwapDefault` component is a simplified version of the `Swap` component, des
 
 If you'd like more customization, follow the implementation guide for our `Swap` component below.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { SwapDefault } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
@@ -9633,7 +9633,7 @@ const usdc: Token = {
   from={[eth]}
   to={[usdc]}
 />
-```
+\`\`\`
 
 ### Props
 
@@ -9643,7 +9643,7 @@ const usdc: Token = {
 
 Example using `@coinbase/onchainkit/swap` and `@coinbase/onchainkit/wallet`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Avatar, Name } from '@coinbase/onchainkit/identity';
 import {
@@ -9711,7 +9711,7 @@ export default function SwapComponents() {
     </Wallet>
   );
 }
-```
+\`\`\`
 
 ### Supported Swap Routers
 
@@ -9735,7 +9735,7 @@ The contract used in our Swap API is Uniswap's [Universal Router](https://basesc
 
 Note that gas sponsorship will only work for Smart Wallets.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
@@ -9744,13 +9744,13 @@ Copy// omitted for brevity
   ...
 </Swap>
 
-```
+\`\`\`
 
 ### Custom token pair
 
 You can adjust to only allow swap between a token pair.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
@@ -9771,13 +9771,13 @@ Copy// omitted for brevity
   <SwapToast /> // [!code focus]
 </Swap>
 
-```
+\`\`\`
 
 ### Remove toggle button
 
 You can remove `SwapToggleButton` to make swap unidirectional.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
@@ -9797,13 +9797,13 @@ Copy// omitted for brevity
   <SwapToast /> // [!code focus]
 </Swap>
 
-```
+\`\`\`
 
 ### Remove swap message
 
 You can remove `SwapMessage` component.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
@@ -9823,13 +9823,13 @@ Copy// omitted for brevity
   <SwapToast /> // [!code focus]
 </Swap>
 
-```
+\`\`\`
 
 ### Override styles
 
 You can override component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
@@ -9850,7 +9850,7 @@ Copy// omitted for brevity
   <SwapToast />
 </Swap>
 
-```
+\`\`\`
 
 ## Components
 
@@ -9884,29 +9884,29 @@ Chevron Right
 
 ## `Fee`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Fee = {
   amount: string; // The amount of the fee
   baseAsset: Token; // The base asset for the fee
   percentage: string; // The percentage of the fee
 };
-```
+\`\`\`
 
 ## `QuoteWarning`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype QuoteWarning = {
   description?: string; // The description of the warning
   message?: string; // The message of the warning
   type?: string; // The type of the warning
 };
-```
+\`\`\`
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype LifecycleStatusDataShared = {
   isMissingRequiredField: boolean;
@@ -9952,11 +9952,11 @@ type LifecycleStatus =
         transactionReceipt: TransactionReceipt;
       } & LifecycleStatusDataShared;
     };
-```
+\`\`\`
 
 ## `SwapAmountInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapAmountInputReact = {
   className?: string; // Optional className override for top div element.
@@ -9966,39 +9966,39 @@ Copytype SwapAmountInputReact = {
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
 };
-```
+\`\`\`
 
 ## `SwapButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapButtonReact = {
   className?: string; // Optional className override for top div element.
   disabled?: boolean; // Disables swap button
 };
-```
+\`\`\`
 
 ## `SwapError`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapError = {
   code: string; // The error code representing the type of swap error.
   error: string; // The error message providing details about the swap error.
   message: string; // The error message providing details about the swap error.
 };
-```
+\`\`\`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapMessageReact = {
   className?: string; // Optional className override for top div element.
 };
-```
+\`\`\`
 
 ## `SwapQuote`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapQuote = {
   amountReference: string; // The reference amount for the quote
@@ -10013,11 +10013,11 @@ Copytype SwapQuote = {
   toAmountUSD: string; // The USD value of the destination token
   warning?: QuoteWarning; // The warning associated with the quote
 };
-```
+\`\`\`
 
 ## `SwapReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapReact = {
   children: ReactNode;
@@ -10040,22 +10040,22 @@ Copytype SwapReact = {
   onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
   title?: string; // Title for the Swap component. (default: "Swap")
 };
-```
+\`\`\`
 
 ## `SwapDefaultReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type SwapDefaultReact = {
   to: Token[]; // Swappable tokens (first token in array will be initial token selected)
   from: Token[]; // Swappable tokens (first token in array will be initial token selected)
   disabled?: boolean; // Disables swap button
 } & Omit<SwapReact, 'children'>;
-```
+\`\`\`
 
 ## `SwapSettingsReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapSettingsReact = {
   children: ReactNode;
@@ -10063,60 +10063,60 @@ Copytype SwapSettingsReact = {
   icon?: ReactNode; // Optional icon override
   text?: string; // Optional text override
 };
-```
+\`\`\`
 
 ## `SwapSettingsSlippageDescriptionReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapSettingsSlippageDescriptionReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
 };
-```
+\`\`\`
 
 ## `SwapSettingsSlippageInputReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapSettingsSlippageInputReact = {
   className?: string; // Optional className override for top div element.
 };
-```
+\`\`\`
 
 ## `SwapSettingsSlippageTitleReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapSettingsSlippageTitleReact = {
   children: ReactNode;
   className?: string; // Optional className override for top div element.
 };
-```
+\`\`\`
 
 ## `SwapToastReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapToastReact = {
   className?: string; // An optional CSS class name for styling the toast component.
   durationMs?: number; // An optional value to customize time until toast disappears
   position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
 };
-```
+\`\`\`
 
 ## `SwapToggleButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype SwapToggleButtonReact = {
   className?: string; // Optional className override for top div element.
 };
-```
+\`\`\`
 
 ## `Transaction`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Transaction = {
   chainId: number; // The chain ID
@@ -10128,7 +10128,7 @@ Copytype Transaction = {
   to: Address; // The recipient address
   value: bigint; // The value of the transaction
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -10153,12 +10153,12 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { formatAmount } from '@coinbase/onchainkit/token';
 
 const amount = formatAmount('10000', { minimumFractionDigits: 2 });
-```
+\`\`\`
 
 ## Returns
 
@@ -10187,7 +10187,7 @@ The `TokenChip` component is a button that displays the token symbol.
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { TokenChip } from '@coinbase/onchainkit/token';
 import '@coinbase/onchainkit/styles.css';
@@ -10203,7 +10203,7 @@ const token = {
 };
 
 <TokenChip token={token} />;
-```
+\`\`\`
 
 ![token-image](https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png)ETH
 
@@ -10234,7 +10234,7 @@ With `token` props has no image, render partial token symbol and deterministic d
 
 `TokenImage` with an url
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<TokenImage
   token={{
@@ -10250,13 +10250,13 @@ Copy<TokenImage
   size={32}
 />
 
-```
+\`\`\`
 
 ![token-image](https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png)![token-image](https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png)
 
 `TokenImage` with null as src
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<TokenImage
   token={{
@@ -10282,7 +10282,7 @@ Copy<TokenImage
   size={32}
 />
 
-```
+\`\`\`
 
 ## Props
 
@@ -10290,12 +10290,12 @@ Copy<TokenImage
 
 ## CSS
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy.ock-tokenimage {
   @apply overflow-hidden rounded-[50%];
 }
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -10318,33 +10318,33 @@ The `TokenRow` component displays token information in a row format to be used i
 
 Token with an image url
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { TokenRow } from '@coinbase/onchainkit/token';
 
 const token = { ... };
 
 <TokenRow token={token} />;
-```
+\`\`\`
 
 ![token-image](https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png)EthereumETH
 
 Token without an image url
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { TokenRow } from '@coinbase/onchainkit/token';
 
 const token = { ... };
 
 <TokenRow token={token} />;
-```
+\`\`\`
 
 EthereumETH1,000.00
 
 Token with an amount
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { TokenRow } from '@coinbase/onchainkit/token';
 
@@ -10352,13 +10352,13 @@ const token = { ... };
 
 <TokenRow token={token} amount="1000" />;
 <TokenRow token={token} amount="0.00234567" />;
-```
+\`\`\`
 
 ![token-image](https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png)EthereumETH1,000.00![token-image](https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png)EthereumETH0.00235
 
 Variations with `hideImage` and `hideSymbol`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { TokenRow } from '@coinbase/onchainkit/token';
 
@@ -10367,7 +10367,7 @@ const token = { ... };
 <TokenRow token={token} hideSymbol />;
 <TokenRow token={token} hideImage />;
 <TokenRow token={token} hideSymbol hideImage />;
-```
+\`\`\`
 
 ![token-image](https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png)EthereumEthereumETHEthereum
 
@@ -10398,7 +10398,7 @@ If you want to handle debounce delay outside of this component, set `delayMs` to
 
 Use [`getTokens`](https://docs.base.org/builderkits/onchainkit/api/get-tokens) and `<TokenSearch />` combined to search the [`Token`](https://docs.base.org/builderkits/onchainkit/token/types#token).
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { OnchainKitProvider } from '@coinbase/onchainkit';
 import { getTokens } from '@coinbase/onchainkit/api';
@@ -10424,7 +10424,7 @@ const handleChange = useCallback((value: string) => {
 >
   <TokenSearch onChange={handleChange} delayMs={200} />
 </OnchainKitProvider>
-```
+\`\`\`
 
 ## Props
 
@@ -10449,7 +10449,7 @@ The `TokenSelectDropdown` component is a dropdown component that selects a token
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<TokenSelectDropdown
   token={token}
@@ -10483,7 +10483,7 @@ Copy<TokenSelectDropdown
     },\
   ]}
 />
-```
+\`\`\`
 
 Select token
 
@@ -10493,13 +10493,13 @@ Select token
 
 ## CSS
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy.ock-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #d1d5db #ffffff;
 }
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -10518,25 +10518,25 @@ Chevron Right
 
 ## `FormatAmountOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype FormatAmountOptions = {
   locale?: string; // User locale (default: browser locale)
   minimumFractionDigits?: number; // Minimum fraction digits for number decimals (default: 0)
   maximumFractionDigits?: number; // Maximum fraction digits for number decimals (default: 0)
 };
-```
+\`\`\`
 
 ## `FormatAmountResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype FormatAmountResponse = string; // See Number.prototype.toLocaleString for more info
-```
+\`\`\`
 
 ## `Token`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Token = {
   address: Address; // The address of the token contract
@@ -10546,11 +10546,11 @@ Copytype Token = {
   name: string;
   symbol: string; // A ticker symbol or shorthand, up to 11 characters
 };
-```
+\`\`\`
 
 ## `TokenChipReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TokenChipReact = {
   token: Token; // Rendered token
@@ -10558,22 +10558,22 @@ Copytype TokenChipReact = {
   className?: string;
   isPressable?: boolean; // Default: true
 };
-```
+\`\`\`
 
 ## `TokenImageReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TokenImageReact = {
   className?: string; // Optional additional CSS class to apply to the component
   size?: number; // size of the image in px (default: 24)
   token: Token;
 };
-```
+\`\`\`
 
 ## `TokenRowReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TokenRowReact = {
   amount?: string; // Token amount
@@ -10583,22 +10583,22 @@ Copytype TokenRowReact = {
   onClick?: (token: Token) => void; // Component on click handler
   token: Token; // Rendered token
 };
-```
+\`\`\`
 
 ## `TokenSearchReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TokenSearchReact = {
   className?: string;
   delayMs?: number; // Debounce delay in milliseconds
   onChange: (value: string) => void; // Search callback function
 };
-```
+\`\`\`
 
 ## `TokenSelectButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TokenSelectDropdownReact = {
   className?: string;
@@ -10606,29 +10606,29 @@ Copytype TokenSelectDropdownReact = {
   onClick: () => void; // Button on click handler
   token?: Token; // Selected token
 };
-```
+\`\`\`
 
 ## `TokenSelectDropdownReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TokenSelectDropdownReact = {
   options: Token[]; // List of tokens
   setToken: (token: Token) => void; // Token setter
   token?: Token; // Selected token
 };
-```
+\`\`\`
 
 ## `TokenSelectModalReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TokenSelectModalReact = {
   options: Token[]; // List of tokens
   setToken: (token: Token) => void; // Token setter
   token?: Token; // Selected token
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -10656,14 +10656,14 @@ The `Transaction` component now supports a simplified shorthand version to strea
 
 If you'd like more customization, follow the implementation guide for our `Transaction` components below.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Transaction } from "@coinbase/onchainkit/transaction"
 
 const calls = [...];
 
 <Transaction calls={calls} />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -10688,7 +10688,7 @@ File
 
 TransactionComponents.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
@@ -10735,7 +10735,7 @@ export default function TransactionComponents() {
     </Wallet>
   );
 };
-```
+\`\`\`
 
 Connect Wallet
 
@@ -10744,7 +10744,7 @@ Connect Wallet
 Take full control of your transactions data with the `LifecycleStatus` object via the `onStatus` prop.
 This TypeScript object provides `statusName` and `statusData` to keep you informed.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy
 import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
@@ -10770,11 +10770,11 @@ const handleOnStatus = useCallback((status: LifecycleStatus) => {
     <TransactionToastAction />
   </TransactionToast>
 </Transaction>
-```
+\`\`\`
 
 The Lifecycle Status features seven states for the transaction experience.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype LifecycleStatus =
   | {
@@ -10809,7 +10809,7 @@ Copytype LifecycleStatus =
         transactionReceipts: TransactionReceipt[];
       };
     };
-```
+\`\`\`
 
 ### Sponsor with Paymaster capabilities
 
@@ -10819,18 +10819,18 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
 
 ![OnchainKit Paymaster and Bundler endpoint](https://docs.base.org/images/onchainkit/onchainkit-components-paymaster-endpoint.png)
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   config={{
     paymaster: process.env.PAYMASTER_ENDPOINT,
   }}
 >
-```
+\`\`\`
 
 Next, pass `isSponsored={true}` to the `Transaction` component.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 <Transaction
@@ -10840,7 +10840,7 @@ Copy// omitted for brevity
   <TransactionButton />
   <TransactionSponsor />
 </Transaction>
-```
+\`\`\`
 
 ### Using `calls` with Promises
 
@@ -10850,7 +10850,7 @@ These functions must resolve to `Call[]` or `ContractFunctionParameters[]`.
 
 In the example the calls data will be fetched from api.transaction.com when the user clicks the Transaction Button.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy
 const callsCallback = async () => {
@@ -10871,7 +10871,7 @@ export default function TransactionWithCalls() {
     </Transaction>
   );
 }
-```
+\`\`\`
 
 ## Components
 
@@ -10922,31 +10922,31 @@ Chevron Right
 
 ## `Call`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Call = { to: Hex; data?: Hex; value?: bigint };
-```
+\`\`\`
 
 ## `Calls`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
-```
+\`\`\`
 
 ## `Contracts`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype Contracts =
   | ContractFunctionParameters[]
   | Promise<ContractFunctionParameters[]>
   | (() => Promise<ContractFunctionParameters[]>);
-```
+\`\`\`
 
 ## `LifecycleStatus`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype LifecycleStatus =
   | {
@@ -10981,33 +10981,33 @@ Copytype LifecycleStatus =
         transactionReceipts: TransactionReceipt[];
       };
     };
-```
+\`\`\`
 
 ## `TransactionButtonReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionButtonReact = {
   className?: string; // An optional CSS class name for styling the button component.
   disabled?: boolean; // A optional prop to disable the submit button
   text?: string; // An optional text to be displayed in the button component.
 };
-```
+\`\`\`
 
 ## `TransactionError`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionError = {
   code: string; // The error code representing the type of transaction error.
   error: string; // The error message providing details about the transaction error.
   message: string; // The error message providing details about the transaction error.
 };
-```
+\`\`\`
 
 ## `TransactionReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionReact = {
   calls?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
@@ -11032,66 +11032,66 @@ Copytype TransactionReact = {
       disabled?: boolean;
     }
 );
-```
+\`\`\`
 
 ## `TransactionDefaultReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type TransactionDefaultReact = {
   disabled?: boolean;
 } & Omit<TransactionReact, 'children'>;
-```
+\`\`\`
 
 ## `TransactionResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionResponse = {
   transactionReceipts: TransactionReceipt[]; // An array containing the transaction receipts
 };
-```
+\`\`\`
 
 ## `TransactionSponsorReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionSponsorReact = {
   className?: string; // An optional CSS class name for styling the sponsor component.
 };
-```
+\`\`\`
 
 ## `TransactionStatusReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionStatusReact = {
   children?: ReactNode; // The child components to be rendered within the status component.
   className?: string; // An optional CSS class name for styling the status component.
 };
-```
+\`\`\`
 
 ## `TransactionStatusActionReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionStatusActionReact = {
   className?: string; // An optional CSS class name for styling.
 };
-```
+\`\`\`
 
 ## `TransactionStatusLabelReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionStatusLabelReact = {
   className?: string; // An optional CSS class name for styling.
 };
-```
+\`\`\`
 
 ## `TransactionToastReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionToastReact = {
   children?: ReactNode; // The child components to be rendered within the toast component.
@@ -11099,43 +11099,43 @@ Copytype TransactionToastReact = {
   durationMs?: number; // An optional value to customize time until toast disappears
   position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
 };
-```
+\`\`\`
 
 ## `TransactionToastActionReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionToastActionReact = {
   className?: string; // An optional CSS class name for styling.
 };
-```
+\`\`\`
 
 ## `TransactionToastIconReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionToastIconReact = {
   className?: string; // An optional CSS class name for styling.
 };
-```
+\`\`\`
 
 ## `TransactionToastLabelReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype TransactionToastLabelReact = {
   className?: string; // An optional CSS class name for styling.
 };
-```
+\`\`\`
 
 ## `WalletCapabilities`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype WalletCapabilities = {
   paymasterService?: PaymasterService;
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -11160,7 +11160,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { isValidAAEntrypoint } from '@coinbase/onchainkit/wallet';
 
@@ -11172,7 +11172,7 @@ if (isValid) {
 } else {
   console.log('Invalid entrypoint.');
 }
-```
+\`\`\`
 
 ## Returns
 
@@ -11205,7 +11205,7 @@ codereturn value
 
 code
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { isWalletACoinbaseSmartWallet } from '@coinbase/onchainkit/wallet';
 import { http } from 'viem';
@@ -11225,7 +11225,7 @@ if (isWalletACoinbaseSmartWallet({ client: publicClient, userOp: userOperation }
 } else {
   console.log('The sender address is not a valid smart wallet proxy.');
 }
-```
+\`\`\`
 
 ## Returns
 
@@ -11252,7 +11252,7 @@ Chevron Right
 
 ## `ConnectWalletReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype ConnectWalletReact = {
   children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
@@ -11260,39 +11260,39 @@ Copytype ConnectWalletReact = {
   text?: string; // Optional text override for button. Note: Prefer using `ConnectWalletText` component instead as this will be deprecated in a future version.
   onConnect?: () => void; // Optional callback function that is called when the wallet is connected. Can be used to trigger SIWE prompts or other actions.
 };
-```
+\`\`\`
 
 ## `IsValidAAEntrypointOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type IsValidAAEntrypointOptions = {
   entrypoint: string;
 };
-```
+\`\`\`
 
 ## `IsWalletACoinbaseSmartWalletOptions`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type IsWalletACoinbaseSmartWalletOptions = {
   client: PublicClient;
   userOp: UserOperation<'v0.6'>;
 };
-```
+\`\`\`
 
 ## `IsWalletACoinbaseSmartWalletResponse`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type IsWalletACoinbaseSmartWalletResponse =
   | { isCoinbaseSmartWallet: true }
   | { isCoinbaseSmartWallet: false; error: string; code: string };
-```
+\`\`\`
 
 ## `WalletContextType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype WalletContextType = {
   address?: Address | null; // The Ethereum address to fetch the avatar and name for.
@@ -11308,11 +11308,11 @@ Copytype WalletContextType = {
   showSubComponentAbove: boolean;
   alignSubComponentRight: boolean;
 };
-```
+\`\`\`
 
 ## `WalletReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype WalletReact = {
   children: React.ReactNode;
@@ -11321,40 +11321,40 @@ Copytype WalletReact = {
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
   | { draggable?: false; draggableStartingPosition?: never }
 ); // discriminated union to allow for optional draggable and draggableStartingPosition
-```
+\`\`\`
 
 ## `WalletDropdownBasenameReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype WalletDropdownBasenameReact = {
   className?: string; // Optional className override for the element
 };
-```
+\`\`\`
 
 ## `WalletDropdownReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copytype WalletDropdownReact = {
   children: React.ReactNode;
   className?: string; // Optional className override for top div element
 };
-```
+\`\`\`
 
 ## `WalletDropdownDisconnectReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WalletDropdownDisconnectReact = {
   className?: string; // Optional className override for the element
   text?: string; // Optional text override for the button
 };
-```
+\`\`\`
 
 ## `WalletDropdownFundLinkReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WalletDropdownFundLinkReact = {
   className?: string; // Optional className override for the element
@@ -11365,11 +11365,11 @@ Copyexport type WalletDropdownFundLinkReact = {
   target?: string; // Where to open the target if `openIn` is set to tab
   text?: string; // Optional text override
 };
-```
+\`\`\`
 
 ## `WalletDropdownLinkReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WalletDropdownLinkReact = {
   children: string;
@@ -11379,21 +11379,21 @@ Copyexport type WalletDropdownLinkReact = {
   rel?: string;
   target?: string;
 };
-```
+\`\`\`
 
 ## `WalletAdvancedReact`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WalletAdvancedReact = {
   children: React.ReactNode;
   swappableTokens?: Token[];
 };
-```
+\`\`\`
 
 ## `WalletAdvancedContextType`
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyexport type WalletAdvancedContextType = {
   showSwap: boolean;
@@ -11416,7 +11416,7 @@ Copyexport type WalletAdvancedContextType = {
     content: string;
   };
 };
-```
+\`\`\`
 
 We use cookies and similar technologies on our websites to enhance and tailor your experience, analyze our traffic, and for security and marketing. You can choose not to allow some type of cookies by clicking Manage Settings. For more information see our [Cookie Policy](https://docs.base.org/cookie-policy).
 
@@ -11442,7 +11442,7 @@ This component enhances the wallet interface by providing easy access to Basenam
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   Address,
@@ -11482,7 +11482,7 @@ export function WalletComponents() {
     </div>
   );
 }
-```
+\`\`\`
 
 Log In
 
@@ -11490,12 +11490,12 @@ Log In
 
 You can override component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
 <WalletDropdownBasename className="hover:bg-red-500" />
-```
+\`\`\`
 
 Log In
 
@@ -11522,7 +11522,7 @@ The `WalletDropdownDisconnect` component is used to disconnect the wallet from t
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   Address,
@@ -11560,7 +11560,7 @@ export function WalletComponents() {
     </div>
   );
 }
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11568,12 +11568,12 @@ Connect Wallet
 
 You can override component styles using `className`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
 <WalletDropdownDisconnect className="hover:bg-red-500" />
-```
+\`\`\`
 
 Log In
 
@@ -11581,12 +11581,12 @@ Log In
 
 You can override component text using `text`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
 <WalletDropdownDisconnect text="Log out" />
-```
+\`\`\`
 
 Log In
 
@@ -11622,7 +11622,7 @@ Coinbase account.
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   ConnectWallet,
@@ -11662,7 +11662,7 @@ export function WalletComponents() {
     </div>
   );
 }
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11670,10 +11670,10 @@ Connect Wallet
 
 You can override component text using the `text` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<WalletDropdownFundLink text="Add crypto" />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11681,10 +11681,10 @@ Connect Wallet
 
 You can override the icon using the `icon` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<WalletDropdownFundLink icon={<walletDropdownLinkCustomBaseIconSvg />} />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11692,10 +11692,10 @@ Connect Wallet
 
 You're able to customize the size of the popup window using the `popupSize` prop. Valid values are `sm`, `md`, and `lg`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<WalletDropdownFundLink popupSize="sm" />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11703,10 +11703,10 @@ Connect Wallet
 
 You can override default link behavior by using the `openIn` prop. Valid values are `popup` and `tab`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<WalletDropdownFundLink openIn="tab" target="_blank" />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11714,10 +11714,10 @@ Connect Wallet
 
 You can override the default URL by using the `fundingUrl` prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<WalletDropdownFundLink fundingUrl={"https://base.org"} openIn="tab" target="_blank" />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11744,7 +11744,7 @@ The `WalletDropdownLink` component creates customizable, interactive links withi
 
 ## Usage
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   Address,
@@ -11786,7 +11786,7 @@ export function WalletComponents() {
     </div>
   );
 }
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11794,7 +11794,7 @@ Connect Wallet
 
 Add a custom link to the wallet dropdown menu, allowing users to navigate to external resources directly from the wallet interface.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 <WalletDropdownLink
@@ -11804,7 +11804,7 @@ Copy// omitted for brevity
 >
   Base.org
 </WalletDropdownLink>
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11813,14 +11813,14 @@ Connect Wallet
 Accepts React children, enabling the use of custom elements, styled text, icons, and complex components.
 This allows for diverse customizations, including complex layouts and conditional rendering based on your app's state.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
   <span className="font-bold italic">Profile</span>
   <span> 🔵 </span>
 </WalletDropdownLink>
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11828,13 +11828,13 @@ Connect Wallet
 
 You can override component styles using className.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 <WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com" >
   Wallet
 </WalletDropdownLink>
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11889,7 +11889,7 @@ the user to drag the component around the window.
 
 If you'd like more customization, follow the implementation guide below.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { WalletAdvancedDefault } from '@coinbase/onchainkit/wallet';
 import { WalletIsland } from '@coinbase/onchainkit/wallet';
@@ -11897,7 +11897,7 @@ import { WalletIsland } from '@coinbase/onchainkit/wallet';
   <WalletAdvancedDefault />
   <WalletIsland />
 </>
-```
+\`\`\`
 
 You will see two Wallet buttons below. Right below is `WalletAdvancedDefault`.
 This version will stay anchored to its current position.
@@ -11931,7 +11931,7 @@ We've introduces several advanced wallet components, including
 `<WalletAdvancedAddressDetails>`, `<WalletAdvancedTokenHoldings>`, and
 `<WalletAdvancedTransactionActions>`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   ConnectWallet,
@@ -11963,7 +11963,7 @@ export function YourWalletAdvanced() {
     </div>
   );
 }
-```
+\`\`\`
 
 Connect Wallet
 
@@ -11972,7 +11972,7 @@ When customizing your advanced `Wallet` implementation, use the `draggable` prop
 when `draggable` is set to `true`, you can also set a `draggableStartingPosition` prop to
 specify the initial position of your `WalletIsland`.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   ConnectWallet,
@@ -12010,7 +12010,7 @@ export function DraggableWalletAdvanced() {
     </div>
   );
 }
-```
+\`\`\`
 
 ## Customize Connect button text and style
 
@@ -12104,7 +12104,7 @@ File
 
 providers.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   apiKey={process.env.ONCHAINKIT_API_KEY}
@@ -12125,7 +12125,7 @@ Copy<OnchainKitProvider
 >
   {children}
 </OnchainKitProvider>
-```
+\`\`\`
 
 ### Use the `ConnectWallet` component in your UI:
 
@@ -12133,7 +12133,7 @@ File
 
 App.tsx
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<Wallet>
   <ConnectWallet>
@@ -12150,7 +12150,7 @@ Copy<Wallet>
     <WalletDropdownDisconnect />
   </WalletDropdown>
 </Wallet>
-```
+\`\`\`
 
 ## Components
 
@@ -12178,7 +12178,7 @@ The modal automatically handles:
 
 By default, the wallet modal includes Coinbase Wallet, MetaMask, and Phantom as connection options. You can enable additional wallet support by configuring the `supportedWallets` object in the `OnchainKitProvider`:
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy<OnchainKitProvider
   apiKey={process.env.ONCHAINKIT_API_KEY}
@@ -12204,7 +12204,7 @@ Copy<OnchainKitProvider
 >
   {children}
 </OnchainKitProvider>
-```
+\`\`\`
 
 Each wallet can be individually enabled or disabled as needed. If no `supportedWallets` configuration is provided, the additional wallets will be disabled by default.
 ::::
@@ -12232,12 +12232,12 @@ To streamline the integration process and integrate a simplified version of the 
 
 If you'd like more customization, follow the implementation guide for our `Wallet` component below where you can manually define each subcomponent and prop.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { Wallet } from '@coinbase/onchainkit/wallet';
 
 <Wallet />
-```
+\`\`\`
 
 Connect Wallet
 
@@ -12250,7 +12250,7 @@ Kick off your wallet connection setup by configuring the `wagmi` provider.
 And make sure to update the `appName` as that will be displayed to
 the user when they connect their wallet.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { ReactNode } from 'react';
 import { WagmiProvider, createConfig, http } from 'wagmi';
@@ -12273,7 +12273,7 @@ const wagmiConfig = createConfig({
 function App({ children }: { children: ReactNode }) {
   return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
 }
-```
+\`\`\`
 
 ### Drop in the `<Wallet />` components
 
@@ -12285,7 +12285,7 @@ like [`<Avatar>`](https://docs.base.org/builderkits/onchainkit/identity/avatar),
 and [`<Address>`](https://docs.base.org/builderkits/onchainkit/identity/address) are used in a composable way.
 Explore their documentation pages to discover various customization options.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   ConnectWallet,
@@ -12321,7 +12321,7 @@ export function WalletComponents() {
     </div>
   );
 }
-```
+\`\`\`
 
 Connect Wallet
 
@@ -12335,7 +12335,7 @@ or `<EthBalance>`, to help you build a seamless wallet experience for your users
 The `<WalletDropdownLink>` is highly versatile and will likely be your go-to choice
 for adding more links to the dropdown, connecting your users to various pages of your onchain app.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport {
   ConnectWallet,
@@ -12382,7 +12382,7 @@ import {
     <WalletDropdownDisconnect />
   </WalletDropdown>
 </Wallet>
-```
+\`\`\`
 
 Connect Wallet
 
@@ -12393,7 +12393,7 @@ and adjust the style of the React components it represents.
 
 Customize the connect wallet text by using directly the `<ConnectWalletText>` component.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copy// omitted for brevity
 
@@ -12423,7 +12423,7 @@ Copy// omitted for brevity
     <WalletDropdownDisconnect className='hover:bg-blue-200' />
   </WalletDropdown>
 </Wallet>
-```
+\`\`\`
 
 Log In
 
@@ -12433,7 +12433,7 @@ Log In
 
 To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit, you can use the `onConnect` prop in the `<ConnectWallet />` component. This will trigger the SIWE prompt when the user connects their wallet.
 
-```vocs_Code
+\`\`\`vocs_Code
 
 Copyimport { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { base } from 'wagmi/chains';
@@ -12456,7 +12456,7 @@ export function WalletComponents() {
     <ConnectWallet onConnect={() => {signMessage({ message })}} />
   );
 }
-```
+\`\`\`
 
 ## Components
 

@@ -103,7 +103,7 @@ It will
 3. generate strongly-typed bindings from Xano’s Swagger spec  
 4. scaffold `src/lib/xano.ts` with the ready-to-use Axios instance  
 
-```bash
+\`\`\`bash
 # === OmniSphere ↔ Xano bootstrap =========================================
 export VITE_XANO_BASE_URL="https://x8ki-letl-twmt.n7.xano.io"
 export VITE_XANO_API_TOKEN="a538f02f-8cd3-4716-8897-cda1d72304b7"
@@ -145,7 +145,7 @@ EOF
 
 echo "✅  Xano client ready — import with  import xano from 'src/lib/xano';"
 # ========================================================================
-```
+\`\`\`
 
 Run it once; thereafter your React code can call  
 `xano.get("/auth/me")`, `xano.post("/pool/stake", …)` etc. without further setup.

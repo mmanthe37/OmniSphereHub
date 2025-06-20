@@ -10,17 +10,17 @@ To enable real market data fetching in OmniSphere, configure your Xano External_
 - **Authentication**: Bearer token required
 
 ### Request Structure
-```json
+\`\`\`json
 {
   "url": "string",      // External API URL to call
   "method": "string",   // HTTP method (GET, POST, etc.)
   "headers": "object",  // Optional headers object
   "params": "object"    // Optional parameters object
 }
-```
+\`\`\`
 
 ### Response Structure
-```json
+\`\`\`json
 {
   "request": {
     "url": "string",
@@ -35,7 +35,7 @@ To enable real market data fetching in OmniSphere, configure your Xano External_
     "error": "object"   // Error details if request failed
   }
 }
-```
+\`\`\`
 
 ### Required Xano Function Configuration
 
@@ -47,7 +47,7 @@ To enable real market data fetching in OmniSphere, configure your Xano External_
    - `params` (json, optional)
 
 3. **Function Logic**:
-```javascript
+\`\`\`javascript
 // Add this to your Xano function
 const axios = require('axios');
 
@@ -94,7 +94,7 @@ try {
     }
   };
 }
-```
+\`\`\`
 
 ### External APIs Used by OmniSphere
 
@@ -111,7 +111,7 @@ try {
 ### Testing Your Configuration
 
 Use this curl command to test:
-```bash
+\`\`\`bash
 curl -X POST "https://x8ki-letl-twmt.n7.xano.io/api:JIterA9P/External_API_Request" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_TOKEN" \
@@ -119,10 +119,10 @@ curl -X POST "https://x8ki-letl-twmt.n7.xano.io/api:JIterA9P/External_API_Reques
     "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd",
     "method": "GET"
   }'
-```
+\`\`\`
 
 Expected successful response:
-```json
+\`\`\`json
 {
   "response": {
     "result": {
@@ -133,7 +133,7 @@ Expected successful response:
     "status": 200
   }
 }
-```
+\`\`\`
 
 ## Authentication Credentials
 
