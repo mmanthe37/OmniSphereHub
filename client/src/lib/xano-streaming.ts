@@ -1,6 +1,6 @@
 // Real-time streaming data from Xano MCP server
 export class XanoStreamingService {
-  private baseUrl = 'https://x8ki-letl-twmt.n7.xano.io/x2/mcp/XLRQ8o0R/mcp';
+  private baseUrl = import.meta.env.VITE_XANO_STREAMING_BASE_URL;
   private sessionId: string | null = null;
   private eventSource: EventSource | null = null;
   private reconnectAttempts = 0;
