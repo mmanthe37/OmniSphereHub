@@ -116,6 +116,8 @@
     "react-hook-form": "latest",
     "react-icons": "latest",
     "react-resizable-panels": "latest",
+    "react-router": "^6.23.1",
+    "react-router-dom": "^6.23.1",
     "recharts": "latest",
     "sass": "latest",
     "sass-embedded": "latest",
