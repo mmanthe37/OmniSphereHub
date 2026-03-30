@@ -1786,12 +1786,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json([]);
   });
 
-  app.get("/api/ai/trades", (req, res) => {
-    res.json([]);
+  app.get("/api/ai/trades", async (req, res) => {
+    try {
+      const userId = (req.query.userId as string) ? parseInt(req.query.userId as string) : 1;
+      const trades = await storage.getAITrades(userId);
+      res.json(trades);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
   });
 
-  app.get("/api/ai/status", (req, res) => {
-    res.json({ status: "inactive", trades: 0 });
+  app.get("/api/ai/status", async (req, res) => {
+    try {
+      const userId = (req.query.userId as string) ? parseInt(req.query.userId as string) : 1;
+      const status = await storage.getAITradingStatus(userId);
+      res.json(status);
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
   });
 
   app.get("/api/nft/collections", (req, res) => {
@@ -1886,6 +1898,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false, 
         message: "Failed to create Apple wallet: " + error.message 
       });
+    }
+  });
+
+  // AI Analytics — full portfolio analytics from the trading engine
+  app.get("/api/ai/analytics", async (req, res) => {
+    try {
+      const analytics = await aiTradingEngine.getPortfolioAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch AI analytics" });
+    }
+  });
+
+  // AI Portfolio Optimization
+  app.post("/api/ai/optimize", async (req, res) => {
+    try {
+      const result = await aiTradingEngine.optimizePortfolio();
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ message: "Portfolio optimization failed" });
     }
   });
 
